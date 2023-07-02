@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import styles from "./index.module.css";
 import Logo from "./../../../assets/imgs/LOGO.jpeg";
-import CHECKED from "./../../../assets/imgs/checked.png";
+// import CHECKED from "./../../../assets/imgs/checked.png";
 import Sample1 from "./../../../assets/imgs/sample1.avif";
 import moment from "moment";
-import { useParams } from "react-router-dom";
 import ApiService from "../../../utils/middleware/ApiService";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -24,7 +24,7 @@ const productList = [
     enddate: new Date(),
   },
 ];
-const Delivery = (props) => {
+const Pickup = (props) => {
   let history = useHistory();
   const [errorMessages, setErrorMessages] = useState({});
   const [showLoader, setShowLoader] = useState(false);
@@ -34,17 +34,19 @@ const Delivery = (props) => {
   const [startTime, setStartTime] = useState(
     moment().format("YYYY-MM-DDTHH:mm:ss")
   );
-  
+
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
-  
   const { productId } = useParams() || null;
 
-  useEffect(() => {});
+  useEffect(() => {
+    // console.log("hiii", productId);
+  });
 
   const startDatHandler = (date, e) => {
     setStartDate(date);
   };
-  
+
+ 
 
   const handleSchedule = () => {
     //Prevent page reload
@@ -78,9 +80,9 @@ const Delivery = (props) => {
   };
 
   // Generate JSX code for error message
-//   const renderErrorMessage = () => (
-//     <label className={styles.error}>{errorMessages.message}</label>
-//   );
+  // const renderErrorMessage = () => (
+  //   <label className={styles.error}>{errorMessages.message}</label>
+  // );
 
   return (
     <>
@@ -99,13 +101,13 @@ const Delivery = (props) => {
               </div>
               <div className="d-flex align-items-center mt-3">
                 <div>
-                  <img
+                  {/* <img
                     src={CHECKED}
                     alt="logo"
                     className={styles.checkedStyle}
-                  />
+                  /> */}
                 </div>
-                <div style={{ marginLeft: "-6%" }}>
+                <div>
                   <span>Order #116</span>
                   <br />
                   <h2
@@ -115,12 +117,12 @@ const Delivery = (props) => {
                       fontWeight: "normal",
                     }}
                   >
-                    Thank You, Reem !
+                    Hey Kelly,
                   </h2>
                 </div>
               </div>
               <div className={styles.box1style}>
-                <h4>Your order is confirmed</h4>
+                <h4>Your have received new order</h4>
                 <span>You'll receive an email when your order is ready.</span>
               </div>
 
@@ -128,43 +130,30 @@ const Delivery = (props) => {
                 <h4>Order details</h4>
                 <div className="col-md-12 d-flex">
                   <div className="col-md-6">
-                    <span className="bold-600">Contact information</span>
+                    <span className="bold-600">Item Name</span>
                     <br />
-                    <span>reemismail00@gmail.com</span>
+                    <span>Freya Dress</span>
                     <br /> <br />
-                    <span className="bold-600">Shipping address</span>
+                    <span className="bold-600">Item Color</span>
                     <br />
-                    <span>
-                      Reem Reem <br />
-                      Rigga Road <br />
-                      509 <br />
-                      Dubai DU <br />
-                      United Arab Emirates <br />
-                      +971503532322 <br />
-                    </span>
+                    <span>Black</span>
+                    <br /> <br />
+                    <span className="bold-600">Item Size</span>
                     <br />
-                    <span className="bold-600">Shipping method</span>
-                    <br />
-                    <span>Standard</span>
+                    <span>S/M</span>
                   </div>
                   <div className="col-md-6">
-                    <span className="bold-600">Payment method</span>
+                    <span className="bold-600">Item Rental Duration</span>
                     <br />
-                    <span>- AED299.00</span>
+                    <span>4 days</span>
                     <br /> <br />
-                    <span className="bold-600">Billing address</span>
+                    <span className="bold-600">Item Rental Start Date</span>
                     <br />
-                    <span>
-                      Reem Ismail <br />
-                      Rigga Road
-                      <br />
-                      Golden Home Building
-                      <br />
-                      Dxb DU
-                      <br />
-                      United Arab Emirates
-                      <br />
-                    </span>
+                    <span>{moment().format("MMM DD, YYYY")}</span>
+                    <br /> <br />
+                    <span className="bold-600">Item Rental End Date</span>
+                    <br />
+                    <span>{moment().format("MMM DD, YYYY")}</span>
                   </div>
                 </div>
               </div>
@@ -209,13 +198,13 @@ const Delivery = (props) => {
                           {moment(itm.enddate).format("MMM DD, YYYY")}
                         </span>
                       </div>
-                      <div className="bold-600 col-md-3">AED299.00 </div>
+                      <div className="bold-600 col-md-3"></div>
                     </div>
                   </li>
                 ))}
               </ul>
               <hr style={{ width: "90%", display: "flex", margin: "auto" }} />
-              <div className={styles.pricingBlock}>
+              {/* <div className={styles.pricingBlock}>
                 <span className={styles.productListingText}>Subtotal</span>
                 <span className="bold-600">AED299.00</span>
               </div>
@@ -231,15 +220,31 @@ const Delivery = (props) => {
                 </span>
               </div>
 
-              <hr style={{ width: "90%", display: "flex", margin: "auto" }} />
+              <hr style={{ width: "90%", display: "flex", margin: "auto" }} /> */}
               <div className={styles.scheduleBlock}>
-                <h4 className="bold-500">Schedule Delivery</h4>
+                <h4 className="bold-500">Pickup Delivery Details</h4>
+                <h6>
+                  <i>
+                    {" "}
+                    ** We would like to schedule pickup for the above item
+                    before Rental start date. Please select your preffred pickup
+                    details
+                  </i>
+                </h6>
+                {/* <div>
+                  <span> Select Date</span>
+                </div>
+                <div>
+                  <span> Select Time</span>
+                </div> */}
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div className={styles.dateTimePickerContainer}>
-                      <span style={{ marginRight: 20 }}>Select Date:</span>
+                      <span style={{ marginRight: 20 }}>
+                        Select Pickup Date:
+                      </span>
                       <DatePicker
-                        label="Start Date *"
+                        label="Select Pickup Date *"
                         onChange={startDatHandler}
                         value={startDate !== "" && dayjs(startDate)}
                       />
@@ -265,11 +270,19 @@ const Delivery = (props) => {
                     )}
                   </LocalizationProvider>
                 </div>
+                <h6 className="mt-3">
+                  <i>
+                    {" "}
+                    ** Please share your Whatsapp location on the same number
+                    where you received the order details
+                  </i>
+                </h6>
+
                 <button
                   className={styles.Savebutton}
                   onClick={() => handleSchedule()}
                 >
-                  Schedule Delivery
+                  Schedule Pickup
                 </button>
               </div>
             </div>
@@ -280,4 +293,4 @@ const Delivery = (props) => {
   );
 };
 
-export default Delivery;
+export default Pickup;
