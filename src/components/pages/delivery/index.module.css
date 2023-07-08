@@ -90,7 +90,7 @@ label {
 
 /* new */
 .box1style {
-    margin-top: 10%;
+    margin-top: 4%;
     padding: 20px;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     border-radius: 5px;
@@ -150,14 +150,14 @@ label {
 }
 
 .block1Outer {
-    border-right: ridge;
-    padding-right: 4em !important;
+    /* border-right: ridge; */
+    /* padding-right: 4em !important; */
 }
 
 .scheduleBlock {
     display: flex;
     justify-content: space-between;
-    padding: 15px 27px;
+    /* padding: 15px 27px; */
     flex-direction: column;
 
 }

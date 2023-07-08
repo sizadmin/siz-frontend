@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import styles from "./index.module.css";
 import Logo from "./../../../assets/imgs/LOGO.jpeg";
-import CHECKED from "./../../../assets/imgs/checked.png";
+// import CHECKED from "./../../../assets/imgs/checked.png";
 import Sample1 from "./../../../assets/imgs/sample1.avif";
 import moment from "moment";
-import { useParams } from "react-router-dom";
 import ApiService from "../../../utils/middleware/ApiService";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -26,7 +26,7 @@ const productList = [
 ];
 const Delivery = (props) => {
   let history = useHistory();
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorMessages, setErrorMessages] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [startDate, setStartDate] = useState(
     moment().format("YYYY-MM-DDTHH:mm:ss")
@@ -34,58 +34,59 @@ const Delivery = (props) => {
   const [startTime, setStartTime] = useState(
     moment().format("YYYY-MM-DDTHH:mm:ss")
   );
-  
+  const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
-  
   const { productId } = useParams() || null;
-
-  useEffect(() => {});
-
+  const [timeSlot, setTimeSlot] = useState("");
+  useEffect(() => {
+    async function data() {
+      getOrderDetails();
+    }
+    data();
+  }, []);
   const startDatHandler = (date, e) => {
     setStartDate(date);
   };
-  
-
-  const handleSchedule = () => {
-    //Prevent page reload
-    setShowLoader(true);
-    // let { uname, pass } = document.forms[0];
-
-    // let payload = {
-    //   email: uname.value,
-    //   password: pass.value,
-    // };
-    // ApiService.post("/v1/login", payload, null, (res, err) => {
-    //   if (res !== null) {
-    //     props.setUser({
-    //       userInfo: res,
-    //     });
-    //     setShowLoader(false);
-    //     if (res.loggedUser.isActive !== true) {
-    //       setErrorMessages({
-    //         message: "You do not have permission Please contact administrator",
-    //       });
-    //       history.push("/");
-    //     } else {
-    //       history.push("/dashboard");
-    //     }
-    //   } else {
-    //     console.log(err);
-    //     setErrorMessages({ message: err.message });
-    //     setShowLoader(false);
-    //   }
-    // });
+  const getOrderDetails = () => {
+    ApiService.get("/v1/order/" + productId, {}, {}, (res, err) => {
+      if (res !== null) {
+        console.log(res, "res");
+        setOrderDetails(res.data[0]);
+      } else {
+        console.log(err);
+        setErrorMessages(true);
+        setShowLoader(false);
+      }
+    });
   };
 
-  // Generate JSX code for error message
-//   const renderErrorMessage = () => (
-//     <label className={styles.error}>{errorMessages.message}</label>
-//   );
+  const handleSchedule = () => {
+    setShowLoader(true);
+
+    let payload = {
+      date: moment(startDate).toISOString(),
+      timeSlot: timeSlot,
+    };
+    ApiService.post(
+      "/v1/schedule/" + productId,
+      payload,
+      null,
+      (res, err) => {
+        if (res !== null) {
+          showLoader(false);
+        } else {
+          console.log(err);
+          setErrorMessages({ message: err.message });
+          setShowLoader(false);
+        }
+      }
+    );
+  };
 
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
-      <div className="container p-5">
+      <div className="container cont-padd">
         <div className="d-flex">
           <div className="w-100">
             <div
@@ -98,15 +99,9 @@ const Delivery = (props) => {
                 <img src={Logo} alt="logo" className={styles.logoStyle} />
               </div>
               <div className="d-flex align-items-center mt-3">
+                <div></div>
                 <div>
-                  <img
-                    src={CHECKED}
-                    alt="logo"
-                    className={styles.checkedStyle}
-                  />
-                </div>
-                <div style={{ marginLeft: "-6%" }}>
-                  <span>Order #116</span>
+                  <span>Order {orderDetails.order_details?.name}</span>
                   <br />
                   <h2
                     style={{
@@ -115,62 +110,112 @@ const Delivery = (props) => {
                       fontWeight: "normal",
                     }}
                   >
-                    Thank You, Reem !
+                    Hey{" "}
+                    {orderDetails.order_details?.shipping_address?.first_name}{" "}
+                    {/* {orderDetails.order_details.shipping_address?.last_name}, */}
                   </h2>
                 </div>
               </div>
               <div className={styles.box1style}>
-                <h4>Your order is confirmed</h4>
+                <h4>Your have received new order</h4>
                 <span>You'll receive an email when your order is ready.</span>
               </div>
 
               <div className={styles.box1style}>
                 <h4>Order details</h4>
-                <div className="col-md-12 d-flex">
-                  <div className="col-md-6">
-                    <span className="bold-600">Contact information</span>
-                    <br />
-                    <span>reemismail00@gmail.com</span>
-                    <br /> <br />
-                    <span className="bold-600">Shipping address</span>
+                <div className="col-md-12 col-sm-12 d-flex">
+                  <div className="col-md-6 col-sm-12">
+                    <span className="bold-600">Item Name</span>
                     <br />
                     <span>
-                      Reem Reem <br />
-                      Rigga Road <br />
-                      509 <br />
-                      Dubai DU <br />
-                      United Arab Emirates <br />
-                      +971503532322 <br />
+                      {orderDetails.order_details?.line_items[0]?.title}
                     </span>
+                    <br /> <br />
+                    <span className="bold-600">Item Rental Start Date</span>
                     <br />
-                    <span className="bold-600">Shipping method</span>
-                    <br />
-                    <span>Standard</span>
+                    <span>
+                      {
+                        orderDetails.order_details?.line_items[0]?.properties[0]
+                          ?.value
+                      }
+                    </span>
                   </div>
-                  <div className="col-md-6">
-                    <span className="bold-600">Payment method</span>
-                    <br />
-                    <span>- AED299.00</span>
-                    <br /> <br />
-                    <span className="bold-600">Billing address</span>
+                  <div className="col-md-6 col-sm-12">
+                    <span className="bold-600">Order Details</span>
                     <br />
                     <span>
-                      Reem Ismail <br />
-                      Rigga Road
-                      <br />
-                      Golden Home Building
-                      <br />
-                      Dxb DU
-                      <br />
-                      United Arab Emirates
-                      <br />
+                      {orderDetails.order_details?.line_items[0]?.variant_title}
                     </span>
+                    <br /> <br />
                   </div>
                 </div>
               </div>
+              <div className={styles.box1style}>
+                <div className={styles.scheduleBlock}>
+                  <h4 className="bold-500">Schedule Delivery Details</h4>
+                  <div>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <div className={styles.dateTimePickerContainer}>
+                        <span style={{ marginRight: 20 }}>
+                          Select Date:
+                        </span>
+                        <DatePicker
+                          label="Select Pickup Date *"
+                          onChange={startDatHandler}
+                          value={startDate !== "" && dayjs(startDate)}
+                        />
+                      </div>
+                      <div className={styles.timePickerContainer}>
+                        <span style={{ marginRight: 20 }}>
+                          Select Time Slots
+                        </span>{" "}
+                        <select
+                          className={styles.dropdownStyle}
+                          value={timeSlot}
+                          onChange={(e) => setTimeSlot(e.target.value)}
+                        >
+                          <option> 9AM - 11AM </option>
+                          <option> 11AM - 1PM</option>
+                          <option> 1PM - 3PM</option>
+                          <option> 3PM - 5PM</option>
+                          <option> 5PM - 7PM</option>
+                          <option> 7PM - 9PM</option>
+                        </select>
+                      </div>
+                      {startDateTimeErr !== "" && (
+                        <span
+                          style={{ textAlign: "left", width: "100%" }}
+                          className={styles.errorStyle}
+                        >
+                          {startDateTimeErr !== "" && startDateTimeErr}
+                        </span>
+                      )}
+                    </LocalizationProvider>
+                  </div>
+                  <h6 className="mt-3">
+                    <i>
+                      {" "}
+                      ** Please share your Whatsapp location on the same number
+                      where you received the order details
+                    </i>
+                  </h6>
+
+                  <button
+                    className={styles.Savebutton}
+                    onClick={() => handleSchedule()}
+                  >
+                    Schedule Delivery
+                  </button>
+                </div>
+                {errorMessages && (
+                  <span className="mt-2 pt-2" style={{ color: "red" }}>
+                    <i>**Something went wrong Please try later.</i>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          <div className="" style={{ width: "70%" }}>
+          {/* <div className="" style={{ width: "70%" }}>
             <div className={styles.productListing}>
               <ul style={{ listStyleType: "none" }}>
                 {productList.map((itm, i) => (
@@ -209,13 +254,13 @@ const Delivery = (props) => {
                           {moment(itm.enddate).format("MMM DD, YYYY")}
                         </span>
                       </div>
-                      <div className="bold-600 col-md-3">AED299.00 </div>
+                      <div className="bold-600 col-md-3"></div>
                     </div>
                   </li>
                 ))}
               </ul>
               <hr style={{ width: "90%", display: "flex", margin: "auto" }} />
-              <div className={styles.pricingBlock}>
+              {/* <div className={styles.pricingBlock}>
                 <span className={styles.productListingText}>Subtotal</span>
                 <span className="bold-600">AED299.00</span>
               </div>
@@ -231,15 +276,24 @@ const Delivery = (props) => {
                 </span>
               </div>
 
-              <hr style={{ width: "90%", display: "flex", margin: "auto" }} />
               <div className={styles.scheduleBlock}>
-                <h4 className="bold-500">Schedule Delivery</h4>
+                <h4 className="bold-500">Pickup Delivery Details</h4>
+                <h6>
+                  <i>
+                    {" "}
+                    ** We would like to schedule pickup for the above item
+                    before Rental start date. Please select your preffred pickup
+                    details
+                  </i>
+                </h6>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div className={styles.dateTimePickerContainer}>
-                      <span style={{ marginRight: 20 }}>Select Date:</span>
+                      <span style={{ marginRight: 20 }}>
+                        Select Pickup Date:
+                      </span>
                       <DatePicker
-                        label="Start Date *"
+                        label="Select Pickup Date *"
                         onChange={startDatHandler}
                         value={startDate !== "" && dayjs(startDate)}
                       />
@@ -265,15 +319,23 @@ const Delivery = (props) => {
                     )}
                   </LocalizationProvider>
                 </div>
+                <h6 className="mt-3">
+                  <i>
+                    {" "}
+                    ** Please share your Whatsapp location on the same number
+                    where you received the order details
+                  </i>
+                </h6>
+
                 <button
                   className={styles.Savebutton}
                   onClick={() => handleSchedule()}
                 >
-                  Schedule Delivery
+                  Schedule Pickup
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

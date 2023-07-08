@@ -26,7 +26,7 @@ const productList = [
 ];
 const Pickup = (props) => {
   let history = useHistory();
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorMessages, setErrorMessages] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [startDate, setStartDate] = useState(
     moment().format("YYYY-MM-DDTHH:mm:ss")
@@ -34,60 +34,59 @@ const Pickup = (props) => {
   const [startTime, setStartTime] = useState(
     moment().format("YYYY-MM-DDTHH:mm:ss")
   );
-
+  const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-
+  const [timeSlot, setTimeSlot] = useState("");
   useEffect(() => {
-    // console.log("hiii", productId);
-  });
-
+    async function data() {
+      getOrderDetails();
+    }
+    data();
+  }, []);
   const startDatHandler = (date, e) => {
     setStartDate(date);
   };
-
- 
-
-  const handleSchedule = () => {
-    //Prevent page reload
-    setShowLoader(true);
-    // let { uname, pass } = document.forms[0];
-
-    // let payload = {
-    //   email: uname.value,
-    //   password: pass.value,
-    // };
-    // ApiService.post("/v1/login", payload, null, (res, err) => {
-    //   if (res !== null) {
-    //     props.setUser({
-    //       userInfo: res,
-    //     });
-    //     setShowLoader(false);
-    //     if (res.loggedUser.isActive !== true) {
-    //       setErrorMessages({
-    //         message: "You do not have permission Please contact administrator",
-    //       });
-    //       history.push("/");
-    //     } else {
-    //       history.push("/dashboard");
-    //     }
-    //   } else {
-    //     console.log(err);
-    //     setErrorMessages({ message: err.message });
-    //     setShowLoader(false);
-    //   }
-    // });
+  const getOrderDetails = () => {
+    ApiService.get("/v1/order/" + productId, {}, {}, (res, err) => {
+      if (res !== null) {
+        console.log(res, "res");
+        setOrderDetails(res.data[0]);
+      } else {
+        console.log(err);
+        setErrorMessages(true);
+        setShowLoader(false);
+      }
+    });
   };
 
-  // Generate JSX code for error message
-  // const renderErrorMessage = () => (
-  //   <label className={styles.error}>{errorMessages.message}</label>
-  // );
+  const handleSchedule = () => {
+    setShowLoader(true);
+
+    let payload = {
+      date: moment(startDate).toISOString(),
+      timeSlot: timeSlot,
+    };
+    ApiService.post(
+      "/v1/schedulePickup/" + productId,
+      payload,
+      null,
+      (res, err) => {
+        if (res !== null) {
+          showLoader(false);
+        } else {
+          console.log(err);
+          setErrorMessages({ message: err.message });
+          setShowLoader(false);
+        }
+      }
+    );
+  };
 
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
-      <div className="container p-5">
+      <div className="container cont-padd">
         <div className="d-flex">
           <div className="w-100">
             <div
@@ -100,15 +99,9 @@ const Pickup = (props) => {
                 <img src={Logo} alt="logo" className={styles.logoStyle} />
               </div>
               <div className="d-flex align-items-center mt-3">
+                <div></div>
                 <div>
-                  {/* <img
-                    src={CHECKED}
-                    alt="logo"
-                    className={styles.checkedStyle}
-                  /> */}
-                </div>
-                <div>
-                  <span>Order #116</span>
+                  <span>Order {orderDetails.order_details?.name}</span>
                   <br />
                   <h2
                     style={{
@@ -117,7 +110,9 @@ const Pickup = (props) => {
                       fontWeight: "normal",
                     }}
                   >
-                    Hey Kelly,
+                    Hey{" "}
+                    {orderDetails.order_details?.shipping_address?.first_name}{" "}
+                    {/* {orderDetails.order_details.shipping_address?.last_name}, */}
                   </h2>
                 </div>
               </div>
@@ -128,38 +123,107 @@ const Pickup = (props) => {
 
               <div className={styles.box1style}>
                 <h4>Order details</h4>
-                <div className="col-md-12 d-flex">
-                  <div className="col-md-6">
+                <div className="col-md-12 col-sm-12 d-flex">
+                  <div className="col-md-6 col-sm-12">
                     <span className="bold-600">Item Name</span>
                     <br />
-                    <span>Freya Dress</span>
-                    <br /> <br />
-                    <span className="bold-600">Item Color</span>
-                    <br />
-                    <span>Black</span>
-                    <br /> <br />
-                    <span className="bold-600">Item Size</span>
-                    <br />
-                    <span>S/M</span>
-                  </div>
-                  <div className="col-md-6">
-                    <span className="bold-600">Item Rental Duration</span>
-                    <br />
-                    <span>4 days</span>
+                    <span>
+                      {orderDetails.order_details?.line_items[0]?.title}
+                    </span>
                     <br /> <br />
                     <span className="bold-600">Item Rental Start Date</span>
                     <br />
-                    <span>{moment().format("MMM DD, YYYY")}</span>
-                    <br /> <br />
-                    <span className="bold-600">Item Rental End Date</span>
+                    <span>
+                      {
+                        orderDetails.order_details?.line_items[0]?.properties[0]
+                          ?.value
+                      }
+                    </span>
+                  </div>
+                  <div className="col-md-6 col-sm-12">
+                    <span className="bold-600">Order Details</span>
                     <br />
-                    <span>{moment().format("MMM DD, YYYY")}</span>
+                    <span>
+                      {orderDetails.order_details?.line_items[0]?.variant_title}
+                    </span>
+                    <br /> <br />
                   </div>
                 </div>
               </div>
+              <div className={styles.box1style}>
+                <div className={styles.scheduleBlock}>
+                  <h4 className="bold-500">Pickup Delivery Details</h4>
+                  <h6>
+                    <i>
+                      {" "}
+                      ** We would like to schedule pickup for the above item
+                      before Rental start date. Please select your preffred
+                      pickup details
+                    </i>
+                  </h6>
+                  <div>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <div className={styles.dateTimePickerContainer}>
+                        <span style={{ marginRight: 20 }}>
+                          Select Pickup Date:
+                        </span>
+                        <DatePicker
+                          label="Select Pickup Date *"
+                          onChange={startDatHandler}
+                          value={startDate !== "" && dayjs(startDate)}
+                        />
+                      </div>
+                      <div className={styles.timePickerContainer}>
+                        <span style={{ marginRight: 20 }}>
+                          Select Time Slots
+                        </span>{" "}
+                        <select
+                          className={styles.dropdownStyle}
+                          value={timeSlot}
+                          onChange={(e) => setTimeSlot(e.target.value)}
+                        >
+                          <option> 9AM - 11AM </option>
+                          <option> 11AM - 1PM</option>
+                          <option> 1PM - 3PM</option>
+                          <option> 3PM - 5PM</option>
+                          <option> 5PM - 7PM</option>
+                          <option> 7PM - 9PM</option>
+                        </select>
+                      </div>
+                      {startDateTimeErr !== "" && (
+                        <span
+                          style={{ textAlign: "left", width: "100%" }}
+                          className={styles.errorStyle}
+                        >
+                          {startDateTimeErr !== "" && startDateTimeErr}
+                        </span>
+                      )}
+                    </LocalizationProvider>
+                  </div>
+                  <h6 className="mt-3">
+                    <i>
+                      {" "}
+                      ** Please share your Whatsapp location on the same number
+                      where you received the order details
+                    </i>
+                  </h6>
+
+                  <button
+                    className={styles.Savebutton}
+                    onClick={() => handleSchedule()}
+                  >
+                    Schedule Pickup
+                  </button>
+                </div>
+                {errorMessages && (
+                  <span className="mt-2 pt-2" style={{ color: "red" }}>
+                    <i>**Something went wrong Please try later.</i>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          <div className="" style={{ width: "70%" }}>
+          {/* <div className="" style={{ width: "70%" }}>
             <div className={styles.productListing}>
               <ul style={{ listStyleType: "none" }}>
                 {productList.map((itm, i) => (
@@ -220,7 +284,6 @@ const Pickup = (props) => {
                 </span>
               </div>
 
-              <hr style={{ width: "90%", display: "flex", margin: "auto" }} /> */}
               <div className={styles.scheduleBlock}>
                 <h4 className="bold-500">Pickup Delivery Details</h4>
                 <h6>
@@ -231,12 +294,6 @@ const Pickup = (props) => {
                     details
                   </i>
                 </h6>
-                {/* <div>
-                  <span> Select Date</span>
-                </div>
-                <div>
-                  <span> Select Time</span>
-                </div> */}
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div className={styles.dateTimePickerContainer}>
@@ -286,7 +343,7 @@ const Pickup = (props) => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
