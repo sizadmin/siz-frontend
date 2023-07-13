@@ -103,7 +103,7 @@ const App = () => {
                       component={ResetPassword}
                     />
                     <Route exact path="/error" component={ServerError} />
-                    <Route  exact path="/schedule/:productId" component={Delivery} />
+                    <Route  exact path="/delivery/:productId" component={Delivery} />
                     <Route  exact path="/pickup/:productId" component={Pickup} />
                     <Route  exact path="/dashboard" component={Dashboard} />
 

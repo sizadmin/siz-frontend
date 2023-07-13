@@ -52,7 +52,11 @@ const Delivery = (props) => {
       if (res !== null) {
         console.log(res, "res");
         setOrderDetails(res.data[0]);
-      } else {
+        let startDateFromData=res.data[0].order_details.line_items[0]?.properties[0]
+                          ?.value.split("to")[0].trim()
+        console.log(startDateFromData+"startDate")
+        startDatHandler(startDateFromData)
+                        } else {
         console.log(err);
         setErrorMessages(true);
         setShowLoader(false);
@@ -117,8 +121,8 @@ const Delivery = (props) => {
                 </div>
               </div>
               <div className={styles.box1style}>
-                <h4>Your have received new order</h4>
-                <span>You'll receive an email when your order is ready.</span>
+                <h4>Thank you for renting with siz.ae</h4>
+                <span>You'll receive an update when your order is ready. Please schedule your delivery below</span>
               </div>
 
               <div className={styles.box1style}>
