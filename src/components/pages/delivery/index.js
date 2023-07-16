@@ -37,7 +37,7 @@ const Delivery = (props) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-  const [timeSlot, setTimeSlot] = useState("");
+  const [timeSlot, setTimeSlot] = useState("9AM - 11AM");
   const [orderDetailsStatus, setorderDetailsStatus] = useState({});
 
   useEffect(() => {
@@ -76,6 +76,9 @@ const Delivery = (props) => {
               "YYYY-MM-DDTHH:mm:ss"
             )
           );
+          if (res.data[0]?.product_delivery_timeslot !== "") {
+            setTimeSlot(res.data[0]?.product_delivery_timeslot);
+          }
         }
       } else {
         console.log(err);
@@ -91,9 +94,11 @@ const Delivery = (props) => {
     let payload = {
       product_pickup_date: orderDetailsStatus?.product_pickup_date || "",
       product_delivery_date: `${dayjs(startDate).format("YYYY-MM-DD")}`,
+      product_pickup_timeslot:orderDetailsStatus?.product_pickup_timeslot || null,
       notes: "",
       orderID: productId,
       _id: orderDetailsStatus?._id || "",
+      product_delivery_timeslot: timeSlot || "",
     };
     ApiService.post(
       "/v1/order-status/" + productId,
@@ -152,8 +157,8 @@ const Delivery = (props) => {
                   </div>
                 </div>
                 <div className={styles.box1style}>
-                  <h4>Your have received new order</h4>
-                  <span>You'll receive an email when your order is ready.</span>
+                  <h4>Thank you for your order</h4>
+                  <span>You'll receive an update when your order is ready.Meanwhile please help us scheduling your order below</span>
                 </div>
 
                 <div className={styles.box1style}>
@@ -207,7 +212,7 @@ const Delivery = (props) => {
                           </span>{" "}
                           <select
                             className={styles.dropdownStyle}
-                            value={timeSlot}
+                            defaultValue={timeSlot}
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
                             <option> 9AM - 11AM </option>

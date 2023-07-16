@@ -37,7 +37,7 @@ const Pickup = (props) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-  const [timeSlot, setTimeSlot] = useState("");
+  const [timeSlot, setTimeSlot] = useState("9AM - 11AM");
   const [orderDetailsStatus, setorderDetailsStatus] = useState({});
 
   useEffect(() => {
@@ -90,9 +90,11 @@ const Pickup = (props) => {
     let payload = {
       product_pickup_date: `${dayjs(startDate).format("YYYY-MM-DD")}`,
       product_delivery_date: orderDetailsStatus?.product_delivery_date || "",
+      product_delivery_timeslot: orderDetailsStatus?.product_delivery_timeslot || null,
       notes: "",
       orderID: productId,
-      _id:orderDetailsStatus._id
+      _id:orderDetailsStatus._id,
+      product_pickup_timeslot: timeSlot || null,
     };
     ApiService.post(
       "/v1/order-status/" + productId,
@@ -215,10 +217,10 @@ const Pickup = (props) => {
                           </span>{" "}
                           <select
                             className={styles.dropdownStyle}
-                            value={timeSlot}
+                            defaultValue={timeSlot}
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
-                            <option selected> 9AM - 11AM </option>
+                            <option> 9AM - 11AM </option>
                             <option> 11AM - 1PM</option>
                             <option> 1PM - 3PM</option>
                             <option> 3PM - 5PM</option>
