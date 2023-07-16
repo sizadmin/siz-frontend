@@ -60,7 +60,7 @@ input[type="submit"] {
 }
 
 .logoStyle {
-    width: 100px;
+    width: 25vw;
     min-width: 2vw;
     max-width: 4vw;
 }

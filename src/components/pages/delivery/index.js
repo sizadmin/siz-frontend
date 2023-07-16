@@ -38,9 +38,14 @@ const Delivery = (props) => {
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
   const [timeSlot, setTimeSlot] = useState("");
+  const [orderDetailsStatus, setorderDetailsStatus] = useState({});
+
   useEffect(() => {
     async function data() {
+      setShowLoader(true);
       getOrderDetails();
+      getOrderDetailsStatus();
+      setShowLoader(false);
     }
     data();
   }, []);
@@ -52,11 +57,27 @@ const Delivery = (props) => {
       if (res !== null) {
         console.log(res, "res");
         setOrderDetails(res.data[0]);
-        let startDateFromData=res.data[0].order_details.line_items[0]?.properties[0]
-                          ?.value.split("to")[0].trim()
-        console.log(startDateFromData+"startDate")
-        startDatHandler(startDateFromData)
-                        } else {
+      } else {
+        console.log(err);
+        setErrorMessages(true);
+        setShowLoader(false);
+        setOrderDetails({});
+      }
+    });
+  };
+
+  const getOrderDetailsStatus = () => {
+    ApiService.get("/v1/order-status/" + productId, {}, {}, (res, err) => {
+      if (res !== null) {
+        setorderDetailsStatus(res.data[0]);
+        if (res.data[0]?.product_delivery_date !== "") {
+          setStartDate(
+            moment(res.data[0]?.product_delivery_date).format(
+              "YYYY-MM-DDTHH:mm:ss"
+            )
+          );
+        }
+      } else {
         console.log(err);
         setErrorMessages(true);
         setShowLoader(false);
@@ -66,21 +87,25 @@ const Delivery = (props) => {
 
   const handleSchedule = () => {
     setShowLoader(true);
-
+    console.log(`${dayjs(startDate).format("YYYY-MM-DD")}T`, "startDate");
     let payload = {
-      date: moment(startDate).toISOString(),
-      timeSlot: timeSlot,
+      product_pickup_date: orderDetailsStatus?.product_pickup_date || "",
+      product_delivery_date: `${dayjs(startDate).format("YYYY-MM-DD")}`,
+      notes: "",
+      orderID: productId,
+      _id: orderDetailsStatus?._id || "",
     };
     ApiService.post(
-      "/v1/schedule/" + productId,
+      "/v1/order-status/" + productId,
       payload,
       null,
       (res, err) => {
+        console.log(res, "res");
         if (res !== null) {
           showLoader(false);
         } else {
           console.log(err);
-          setErrorMessages({ message: err.message });
+          // setErrorMessages({ message: err.error });
           setShowLoader(false);
         }
       }
@@ -93,131 +118,139 @@ const Delivery = (props) => {
       <div className="container cont-padd">
         <div className="d-flex">
           <div className="w-100">
-            <div
-              className={[
-                "d-flex w-100 flex-column p-3",
-                styles.block1Outer,
-              ].join(" ")}
-            >
-              <div>
-                <img src={Logo} alt="logo" className={styles.logoStyle} />
-              </div>
-              <div className="d-flex align-items-center mt-3">
-                <div></div>
+            {orderDetails === undefined ? (
+              <span>No Order details found.</span>
+            ) : (
+              <div
+                className={[
+                  "d-flex w-100 flex-column p-3",
+                  styles.block1Outer,
+                ].join(" ")}
+              >
                 <div>
-                  <span>Order {orderDetails.order_details?.name}</span>
-                  <br />
-                  <h2
-                    style={{
-                      color: "#333333",
-                      fontSize: "1.5714285714em",
-                      fontWeight: "normal",
-                    }}
-                  >
-                    Hey{" "}
-                    {orderDetails.order_details?.shipping_address?.first_name}{" "}
-                    {/* {orderDetails.order_details.shipping_address?.last_name}, */}
-                  </h2>
+                  <img src={Logo} alt="logo" className={styles.logoStyle} />
                 </div>
-              </div>
-              <div className={styles.box1style}>
-                <h4>Thank you for renting with siz.ae</h4>
-                <span>You'll receive an update when your order is ready. Please schedule your delivery below</span>
-              </div>
-
-              <div className={styles.box1style}>
-                <h4>Order details</h4>
-                <div className="col-md-12 col-sm-12 d-flex">
-                  <div className="col-md-6 col-sm-12">
-                    <span className="bold-600">Item Name</span>
-                    <br />
-                    <span>
-                      {orderDetails.order_details?.line_items[0]?.title}
-                    </span>
-                    <br /> <br />
-                    <span className="bold-600">Item Rental Start Date</span>
-                    <br />
-                    <span>
-                      {
-                        orderDetails.order_details?.line_items[0]?.properties[0]
-                          ?.value
-                      }
-                    </span>
-                  </div>
-                  <div className="col-md-6 col-sm-12">
-                    <span className="bold-600">Order Details</span>
-                    <br />
-                    <span>
-                      {orderDetails.order_details?.line_items[0]?.variant_title}
-                    </span>
-                    <br /> <br />
-                  </div>
-                </div>
-              </div>
-              <div className={styles.box1style}>
-                <div className={styles.scheduleBlock}>
-                  <h4 className="bold-500">Schedule Delivery Details</h4>
+                <div className="d-flex align-items-center mt-3">
+                  <div></div>
                   <div>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <div className={styles.dateTimePickerContainer}>
-                        <span style={{ marginRight: 20 }}>
-                          Select Date:
-                        </span>
-                        <DatePicker
-                          label="Select Pickup Date *"
-                          onChange={startDatHandler}
-                          value={startDate !== "" && dayjs(startDate)}
-                        />
-                      </div>
-                      <div className={styles.timePickerContainer}>
-                        <span style={{ marginRight: 20 }}>
-                          Select Time Slots
-                        </span>{" "}
-                        <select
-                          className={styles.dropdownStyle}
-                          value={timeSlot}
-                          onChange={(e) => setTimeSlot(e.target.value)}
-                        >
-                          <option> 9AM - 11AM </option>
-                          <option> 11AM - 1PM</option>
-                          <option> 1PM - 3PM</option>
-                          <option> 3PM - 5PM</option>
-                          <option> 5PM - 7PM</option>
-                          <option> 7PM - 9PM</option>
-                        </select>
-                      </div>
-                      {startDateTimeErr !== "" && (
-                        <span
-                          style={{ textAlign: "left", width: "100%" }}
-                          className={styles.errorStyle}
-                        >
-                          {startDateTimeErr !== "" && startDateTimeErr}
-                        </span>
-                      )}
-                    </LocalizationProvider>
+                    <span>Order {orderDetails?.order_details?.name}</span>
+                    <br />
+                    <h2
+                      style={{
+                        color: "#333333",
+                        fontSize: "1.5714285714em",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Hey{" "}
+                      {
+                        orderDetails?.order_details?.shipping_address
+                          ?.first_name
+                      }{" "}
+                      {/* {orderDetails.order_details.shipping_address?.last_name}, */}
+                    </h2>
                   </div>
-                  <h6 className="mt-3">
-                    <i>
-                      {" "}
-                      ** Please share your Whatsapp location on the same number
-                      where you received the order details
-                    </i>
-                  </h6>
-
-                  <button
-                    className={styles.Savebutton}
-                    onClick={() => handleSchedule()}
-                  >
-                    Schedule Delivery
-                  </button>
                 </div>
-                {errorMessages && (
-                  <span className="mt-2 pt-2" style={{ color: "red" }}>
-                    <i>**Something went wrong Please try later.</i>
-                  </span>
-                )}
+                <div className={styles.box1style}>
+                  <h4>Your have received new order</h4>
+                  <span>You'll receive an email when your order is ready.</span>
+                </div>
+
+                <div className={styles.box1style}>
+                  <h4>Order details</h4>
+                  <div className="col-md-12 col-sm-12 d-flex">
+                    <div className="col-md-6 col-sm-12">
+                      <span className="bold-600">Item Name</span>
+                      <br />
+                      <span>
+                        {orderDetails?.order_details?.line_items[0]?.title}
+                      </span>
+                      <br /> <br />
+                      <span className="bold-600">Item Rental Start Date</span>
+                      <br />
+                      <span>
+                        {
+                          orderDetails?.order_details?.line_items[0]
+                            ?.properties[0]?.value
+                        }
+                      </span>
+                    </div>
+                    <div className="col-md-6 col-sm-12">
+                      <span className="bold-600">Order Details</span>
+                      <br />
+                      <span>
+                        {
+                          orderDetails?.order_details?.line_items[0]
+                            ?.variant_title
+                        }
+                      </span>
+                      <br /> <br />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.box1style}>
+                  <div className={styles.scheduleBlock}>
+                    <h4 className="bold-500">Schedule Delivery Details</h4>
+                    <div>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <div className={styles.dateTimePickerContainer}>
+                          <span style={{ marginRight: 20 }}>Select Date:</span>
+                          <DatePicker
+                            label="Select Pickup Date *"
+                            onChange={startDatHandler}
+                            value={startDate !== "" && dayjs(startDate)}
+                          />
+                        </div>
+                        <div className={styles.timePickerContainer}>
+                          <span style={{ marginRight: 20 }}>
+                            Select Time Slots
+                          </span>{" "}
+                          <select
+                            className={styles.dropdownStyle}
+                            value={timeSlot}
+                            onChange={(e) => setTimeSlot(e.target.value)}
+                          >
+                            <option> 9AM - 11AM </option>
+                            <option> 11AM - 1PM</option>
+                            <option> 1PM - 3PM</option>
+                            <option> 3PM - 5PM</option>
+                            <option> 5PM - 7PM</option>
+                            <option> 7PM - 9PM</option>
+                          </select>
+                        </div>
+                        {startDateTimeErr !== "" && (
+                          <span
+                            style={{ textAlign: "left", width: "100%" }}
+                            className={styles.errorStyle}
+                          >
+                            {startDateTimeErr !== "" && startDateTimeErr}
+                          </span>
+                        )}
+                      </LocalizationProvider>
+                    </div>
+                    <h6 className="mt-3">
+                      <i>
+                        {" "}
+                        ** Please share your Whatsapp location on the same
+                        number where you received the order details
+                      </i>
+                    </h6>
+
+                    <button
+                      className={styles.Savebutton}
+                      onClick={() => handleSchedule()}
+                    >
+                      Schedule Delivery
+                    </button>
+                  </div>
+                  {errorMessages && (
+                    <span className="mt-2 pt-2" style={{ color: "red" }}>
+                      <i>**Something went wrong Please try later.</i>
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           {/* <div className="" style={{ width: "70%" }}>
             <div className={styles.productListing}>
