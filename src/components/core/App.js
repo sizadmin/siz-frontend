@@ -11,6 +11,8 @@ import {
   useHistory,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+
 import MyErrorBoundary from "./MyErrorBoundary";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -103,7 +105,7 @@ const App = () => {
                       component={ResetPassword}
                     />
                     <Route exact path="/error" component={ServerError} />
-                    <Route  exact path="/delivery/:productId" component={Delivery} />
+                    <Route  exact path="/schedule/:productId" component={Delivery} />
                     <Route  exact path="/pickup/:productId" component={Pickup} />
                     <Route  exact path="/dashboard" component={Dashboard} />
 

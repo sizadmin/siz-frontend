@@ -92,8 +92,7 @@ const Pickup = (props) => {
       product_delivery_date: orderDetailsStatus?.product_delivery_date || "",
       notes: "",
       orderID: productId,
-      _id:orderDetailsStatus._id,
-      product_pickup_timeslot: timeSlot || "",
+      _id:orderDetailsStatus._id
     };
     ApiService.post(
       "/v1/order-status/" + productId,

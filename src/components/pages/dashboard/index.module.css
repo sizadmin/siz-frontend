@@ -4,6 +4,7 @@ input[type="password"] {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
+
 /* 
 input[type="submit"] {
     cursor: pointer;
@@ -167,7 +168,7 @@ label {
     /* width: 100% !important;
     justify-content: flex-start !important; */
     margin: 20px 0;
-    height: 20px !important; 
+    height: 20px !important;
     flex-direction: row;
     align-items: center;
     margin-top: 40px;
@@ -197,4 +198,19 @@ label {
     background: #fff;
     padding: 10px 10px;
     border-radius: 5px;
+}
+
+td {
+    padding: 8px;
+}
+
+.second_titile {
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
+.third_titile {
+    font-weight: 600;
+    margin-bottom: 10px;
 }
