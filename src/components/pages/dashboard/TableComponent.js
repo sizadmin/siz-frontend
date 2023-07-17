@@ -61,41 +61,40 @@ const OrderTable = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {getOrdersdata.length === 0 ? (
-            <span>No Orders Found</span>
-          ) : (
-            <>
-              {getOrdersdata.length > 0 &&
-                getOrdersdata.map((order, i) => (
-                  <>
-                    <Tr style={{ borderBottom: "1px solid #e7d9d9" }}>
-                      <Td>{i + 1}</Td>
-                      <Td onClick={() => handleShowDetails(order)}>
-                        {order.order_id}
-                      </Td>
-                      <Td>
-                        <a
-                          href={order?.order_details?.order_status_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {order.order_number}
-                        </a>
-                      </Td>
-                      <Td>
-                        {order.order_details?.customer?.first_name}{" "}
-                        {order.order_details?.customer?.last_name}
-                      </Td>
-                      <Td> {order?.order_details?.line_items?.[0]?.name}</Td>
-                      <Td>{order?.email}</Td>
-                      <Td>{order?.order_details?.phone}</Td>
-                      <Td>{order?.total_price}</Td>
-                    </Tr>
-                  </>
-                ))}
-            </>
-          )}
-        </Tbody>
+  {getOrdersdata.length === 0 ? (
+    <span>No Orders Found</span>
+  ) : (
+    <>
+      {(() => {
+        const sortedOrders = getOrdersdata.sort((order1, order2) => order2.order_number - order1.order_number);
+        
+        return sortedOrders.map((order, i) => (
+          <Tr style={{ borderBottom: "1px solid #e7d9d9" }}>
+            <Td>{i + 1}</Td>
+            <Td onClick={() => handleShowDetails(order)}>{order.order_id}</Td>
+            <Td>
+              <a
+                href={order?.order_details?.order_status_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {order.order_number}
+              </a>
+            </Td>
+            <Td>
+              {order.order_details?.customer?.first_name} {order.order_details?.customer?.last_name}
+            </Td>
+            <Td>{order?.order_details?.line_items?.[0]?.name}</Td>
+            <Td>{order?.email}</Td>
+            <Td>{order?.order_details?.phone}</Td>
+            <Td>{order?.total_price}</Td>
+          </Tr>
+        ));
+      })()}
+    </>
+  )}
+</Tbody>
+
       </Table>
     </>
   );
