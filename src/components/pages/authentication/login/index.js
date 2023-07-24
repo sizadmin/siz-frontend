@@ -74,9 +74,9 @@ const Login = (props) => {
         </div>
       </form>
       <div className="text-center mt-4">
-        <a className={styles.link} href="/forgetPassword">
-          Forget Password?
-        </a>
+       {/*  <a className={styles.link} href="/forgetPassword">
+          Forgot Password?
+        </a> */}
       </div>
     </div>
   );
