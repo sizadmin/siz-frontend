@@ -23,7 +23,7 @@ const Header = (props) => {
         </a>
         {/* <h4 className="title mb-0 d-none d-lg-block">SIZ</h4> */}
 
-        <h5 className={["mb-0",Styles.headerText].join(" ")} >Dashboard</h5>
+        <h5 className={["mb-0",Styles.headerText].join(" ")} >Order Management Dashboard</h5>
 
 
         {/* <!-- Toggler/collapsibe Button --> */}
