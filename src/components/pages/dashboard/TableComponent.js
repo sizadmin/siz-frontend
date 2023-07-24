@@ -136,7 +136,7 @@ const OrderTable = (props) => {
                             .country_name}{" "}
                       </Td>
                       
-                      <Td>{order?.lender_name}</Td>
+                      <Td>{order?.lender_name } <br/> {order?.lender_phone_call} <br/> {order?.lender_phone_whatsapp }</Td>
                       <Td>
                         {order?.order_status?.length > 0 && (
                           <>
