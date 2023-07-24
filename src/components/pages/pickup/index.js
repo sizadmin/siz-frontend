@@ -75,6 +75,9 @@ const Pickup = (props) => {
               "YYYY-MM-DDTHH:mm:ss"
             )
           );
+          if (res.data[0]?.product_pickup_timeslot !== "") {
+            setTimeSlot(res.data[0]?.product_pickup_timeslot);
+          }
         }
       } else {
         console.log(err);
@@ -92,7 +95,10 @@ const Pickup = (props) => {
       notes: "",
       orderID: productId,
       _id: orderDetailsStatus._id,
+      product_delivery_timeslot: orderDetailsStatus?.product_delivery_timeslot || null,
+      product_pickup_timeslot: timeSlot || null,
     };
+    
     ApiService.post(
       "/v1/order-status/" + productId,
       payload,

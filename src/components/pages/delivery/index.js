@@ -48,6 +48,7 @@ const Delivery = (props) => {
       setShowLoader(false);
     }
     data();
+    
   }, []);
   const startDatHandler = (date, e) => {
     setStartDate(date);
@@ -76,6 +77,9 @@ const Delivery = (props) => {
               "YYYY-MM-DDTHH:mm:ss"
             )
           );
+          if (res.data[0]?.product_delivery_timeslot !== "") {
+            setTimeSlot(res.data[0]?.product_delivery_timeslot);
+          }
         }
       } else {
         console.log(err);
@@ -94,6 +98,8 @@ const Delivery = (props) => {
       notes: "",
       orderID: productId,
       _id: orderDetailsStatus?._id || "",
+      product_pickup_timeslot:orderDetailsStatus?.product_pickup_timeslot || null,
+      product_delivery_timeslot: timeSlot || "",
     };
     ApiService.post(
       "/v1/order-status/" + productId,
