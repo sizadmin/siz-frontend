@@ -101,7 +101,10 @@ const Pickup = (props) => {
         console.log(res, "res");
         if (res !== null) {
           setShowLoader(false);
-          alert("Thank you! for scheduling the pickup.");
+          if (window.confirm("Thank you! for scheduling the pickup.")) {
+            let url = "https://siz.ae"; // pass your url here
+            window.open(url, "_blank");
+          }
         } else {
           console.log(err);
           // setErrorMessages({ message: err.error });
