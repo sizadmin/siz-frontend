@@ -37,7 +37,7 @@ const Delivery = (props) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-  const [timeSlot, setTimeSlot] = useState("");
+  const [timeSlot, setTimeSlot] = useState("9AM - 11AM");
   const [orderDetailsStatus, setorderDetailsStatus] = useState({});
 
   useEffect(() => {
@@ -213,7 +213,7 @@ const Delivery = (props) => {
                           </span>{" "}
                           <select
                             className={styles.dropdownStyle}
-                            value={timeSlot}
+                            defaultValue={timeSlot}
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
                             <option> 9AM - 11AM </option>
