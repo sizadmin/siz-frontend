@@ -37,7 +37,7 @@ const Delivery = (props) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-  const [timeSlot, setTimeSlot] = useState("9AM - 11AM");
+  const [timeSlot, setTimeSlot] = useState("");
   const [orderDetailsStatus, setorderDetailsStatus] = useState({});
 
   useEffect(() => {
@@ -222,6 +222,7 @@ const Delivery = (props) => {
                             defaultValue={timeSlot}
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
+                            <option selected> Select Timeslot </option>
                             <option> 9AM - 11AM </option>
                             <option> 11AM - 1PM</option>
                             <option> 1PM - 3PM</option>
