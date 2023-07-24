@@ -143,7 +143,7 @@ const Pickup = (props) => {
                       }}
                     >
                       Hey{" "}
-                      {orderDetails.order_details?.shipping_address?.first_name}{" "}
+                      {orderDetails.lender_name}{" "}
                       {/* {orderDetails.order_details.shipping_address?.last_name}, */}
                     </h2>
                   </div>
