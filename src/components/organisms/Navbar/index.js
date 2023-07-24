@@ -44,9 +44,9 @@ const Header = (props) => {
             <li className="nav-item dropdown  d-none d-lg-block">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
 
-              <button
+              <a href="/"><button
                 className="dropdown-item"
-                href="/"
+                
                 style={{
                   background: "lightgrey",
                   padding: 9,
@@ -61,7 +61,7 @@ const Header = (props) => {
               >
                 Logout
               </button>
-
+              </a>
               {/* <a
                 className="nav-link dropdown-toggle"
                 href="#"
