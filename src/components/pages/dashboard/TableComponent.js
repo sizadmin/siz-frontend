@@ -3,16 +3,11 @@ import React, { useEffect, useState } from "react";
 import ApiService from "../../../utils/middleware/ApiService";
 import ModalPopup from "./modalPopup";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
-
-const OrderTable = () => {
-  const [getOrdersdata, setOrdersdata] = useState([]);
-  const [showLoader, setShowLoader] = useState(false);
+import moment from "moment";
+import styles from "./index.module.css";
+const OrderTable = (props) => {
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [propsData, setPropsData] = useState();
-
-  useEffect(() => {
-    getOrders();
-  }, []);
 
   const handleShowDetails = (order) => {
     setPropsData({
@@ -22,23 +17,13 @@ const OrderTable = () => {
     setShowDetailsPopup(true);
   };
 
-  const getOrders = () => {
-    setShowLoader(true);
-    ApiService.get("/v1/dashboard/getorders", {}, {}, (res, err) => {
-      if (res !== null) {
-        setOrdersdata(res.data);
-        console.log(res.data);
-        setShowLoader(false);
-      } else {
-        console.log(err);
-        setShowLoader(false);
-      }
-    });
+  const renderStatus = (order) => {
+    // return <div className={styles.Completed}></div>
   };
 
   return (
     <>
-      {showLoader && <ActivityLoader show={showLoader} />}
+      {/* {showLoader && <ActivityLoader show={showLoader} />} */}
 
       {showDetailsPopup && (
         <ModalPopup
@@ -47,54 +32,146 @@ const OrderTable = () => {
           propsData={propsData}
         />
       )}
-      <Table>
+      <h6>Showing {props.data.length} Records</h6>
+      <Table className={styles.tableShadow}>
         <Thead>
           <Tr style={{ background: "#af1010", color: "white" }}>
             <Th style={{ width: 40 }}>#</Th>
-            <Th>OrderID</Th>
-            <Th>Shopify Order Number</Th>
+            <Th>Delivery Details</Th>
+            <Th
+            className="cursor"
+              onClick={() =>
+                props.changeSort(
+                  props.sortOrderByOrder === "-order_number"
+                    ? "order_number"
+                    : "-order_number"
+                )
+              }
+            >
+              Order Number
+              <br />
+              {props.sortOrderByOrder === "-order_number" ? (
+                <i style={{ fontSize: 24 }} className="fa fa-sort-down"></i>
+              ) : (
+                <i style={{ fontSize: 24 }} className="fa fa-sort-up"></i>
+              )}
+            </Th>
             <Th>Renter Name</Th>
             <Th>Product Details</Th>
-            <Th>Renter Email</Th>
-            <Th>Renter Phone No.</Th>
-            <Th>Price</Th>
+            <Th>Renter Address.</Th>
+            <Th>Rental Period</Th>
+            <Th>Lendar Name</Th>
+            <Th>Pickup Details</Th>
           </Tr>
         </Thead>
         <Tbody>
-  {getOrdersdata.length === 0 ? (
-    <span>No Orders Found</span>
-  ) : (
-    <>
-      {(() => {
-        const sortedOrders = getOrdersdata.sort((order1, order2) => order2.order_number - order1.order_number);
-        
-        return sortedOrders.map((order, i) => (
-          <Tr style={{ borderBottom: "1px solid #e7d9d9" }}>
-            <Td>{i + 1}</Td>
-            <Td onClick={() => handleShowDetails(order)}>{order.order_id}</Td>
-            <Td>
-              <a
-                href={order?.order_details?.order_status_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {order.order_number}
-              </a>
-            </Td>
-            <Td>
-              {order.order_details?.customer?.first_name} {order.order_details?.customer?.last_name}
-            </Td>
-            <Td>{order?.order_details?.line_items?.[0]?.name}</Td>
-            <Td>{order?.email}</Td>
-            <Td>{order?.order_details?.phone}</Td>
-            <Td>{order?.total_price}</Td>
-          </Tr>
-        ));
-      })()}
-    </>
-  )}
-</Tbody>
-
+          {props.data.length === 0 ? (
+            <>
+              <Tr>
+                <Td colSpan="10">
+                  <div className="w-100 text-center">No Orders Found</div>
+                </Td>
+              </Tr>
+            </>
+          ) : (
+            <>
+              {props.data.length > 0 &&
+                props.data.map((order, i) => (
+                  <React.Fragment key={i}>
+                    <Tr style={{ borderBottom: "1px solid #e7d9d9" }}>
+                      <Td>
+                        {i + 1}
+                        <br />
+                        {renderStatus(order)}
+                      </Td>
+                      <Td>
+                        {order?.order_status?.length > 0 && (
+                          <>
+                            <span>
+                              {order?.order_status?.[0]
+                                ?.product_delivery_date !== null
+                                ? moment(
+                                    order?.order_status?.[0]
+                                      ?.product_delivery_date
+                                  ).format("MM/DD/YYYY")
+                                : "-"}
+                            </span>
+                            <br />
+                            <span>
+                              {
+                                order?.order_status?.[0]
+                                  ?.product_delivery_timeslot
+                              }
+                            </span>
+                          </>
+                        )}
+                      </Td>
+                      <Td>
+                        <a
+                          href={order?.order_details?.order_status_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {order.order_number}
+                        </a>
+                      </Td>
+                      <Td>
+                        {order.order_details?.customer?.first_name}{" "}
+                        {order.order_details?.customer?.last_name}
+                        <br />
+                        <i>{order?.order_details?.phone}</i>
+                      </Td>
+                      <Td> {order?.order_details?.line_items?.[0]?.name}</Td>
+                      <Td>
+                        {order?.order_details?.customer?.default_address &&
+                          order?.order_details?.customer?.default_address
+                            .address1}{" "}
+                        {order?.order_details?.customer?.default_address &&
+                          order?.order_details?.customer?.default_address
+                            .address2}{" "}
+                        {order?.order_details?.customer?.default_address &&
+                          order?.order_details?.customer?.default_address
+                            .city}{" "}
+                        {order?.order_details?.customer?.default_address &&
+                          order?.order_details?.customer?.default_address
+                            .country_name}{" "}
+                      </Td>
+                      <Td>
+                        {
+                          order?.order_details?.line_items[0]?.name.split(
+                            "/"
+                          )[3]
+                        }
+                      </Td>
+                      <Td>{order?.lender_name}</Td>
+                      <Td>
+                        {order?.order_status?.length > 0 && (
+                          <>
+                            <span>
+                              {order?.order_status?.[0]?.product_pickup_date !==
+                              null
+                                ? moment(
+                                    order?.order_status?.[0]
+                                      ?.product_pickup_date
+                                  ).format("MM/DD/YYYY")
+                                : "-"}
+                            </span>
+                            <br />
+                            <span>
+                              {
+                                order?.order_status?.[0]
+                                  ?.product_pickup_timeslot
+                              }
+                            </span>
+                          </>
+                        )}
+                      </Td>
+                    </Tr>
+                  </React.Fragment>
+                ))}
+            </>
+          )}
+        </Tbody>
       </Table>
     </>
   );

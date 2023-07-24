@@ -37,7 +37,7 @@ const Pickup = (props) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-  const [timeSlot, setTimeSlot] = useState("9AM - 11AM");
+  const [timeSlot, setTimeSlot] = useState("");
   const [orderDetailsStatus, setorderDetailsStatus] = useState({});
 
   useEffect(() => {
@@ -86,25 +86,22 @@ const Pickup = (props) => {
 
   const handleSchedule = () => {
     setShowLoader(true);
-    console.log(`${dayjs(startDate).format("YYYY-MM-DD")}T`, "startDate");
     let payload = {
       product_pickup_date: `${dayjs(startDate).format("YYYY-MM-DD")}`,
       product_delivery_date: orderDetailsStatus?.product_delivery_date || "",
-      product_delivery_timeslot: orderDetailsStatus?.product_delivery_timeslot || null,
       notes: "",
       orderID: productId,
-      _id:orderDetailsStatus._id,
-      product_pickup_timeslot: timeSlot || null,
+      _id: orderDetailsStatus._id,
     };
     ApiService.post(
       "/v1/order-status/" + productId,
       payload,
       null,
       (res, err) => {
-        console.log(res,"res")
+        console.log(res, "res");
         if (res !== null) {
           showLoader(false);
-
+          alert("Thank you! for scheduling the pickup.");
         } else {
           console.log(err);
           // setErrorMessages({ message: err.error });
@@ -152,8 +149,12 @@ const Pickup = (props) => {
                   </div>
                 </div>
                 <div className={styles.box1style}>
-                  <h4>Your have received new order</h4>
-                  <span>You'll receive an email when your order is ready.</span>
+                  <h4>
+                    We got new rental request on your listed item with us.
+                  </h4>
+                  <span>
+                    Please help us by selecting your preferred pickup details.
+                  </span>
                 </div>
 
                 <div className={styles.box1style}>
@@ -166,7 +167,7 @@ const Pickup = (props) => {
                         {orderDetails.order_details?.line_items[0]?.title}
                       </span>
                       <br /> <br />
-                      <span className="bold-600">Item Rental Start Date</span>
+                      <span className="bold-600">Item Rental Period</span>
                       <br />
                       <span>
                         {
@@ -195,7 +196,7 @@ const Pickup = (props) => {
                       <i>
                         {" "}
                         ** We would like to schedule pickup for the above item
-                        before Rental start date. Please select your preffred
+                        before Rental start date. Please select your preferred
                         pickup details
                       </i>
                     </h6>
@@ -213,14 +214,14 @@ const Pickup = (props) => {
                         </div>
                         <div className={styles.timePickerContainer}>
                           <span style={{ marginRight: 20 }}>
-                            Select Time Slots
+                            Select Time Slot:
                           </span>{" "}
                           <select
                             className={styles.dropdownStyle}
-                            defaultValue={timeSlot}
+                            value={timeSlot}
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
-                            <option> 9AM - 11AM </option>
+                            <option selected> 9AM - 11AM </option>
                             <option> 11AM - 1PM</option>
                             <option> 1PM - 3PM</option>
                             <option> 3PM - 5PM</option>
@@ -241,8 +242,15 @@ const Pickup = (props) => {
                     <h6 className="mt-3">
                       <i>
                         {" "}
-                        ** Please share your Whatsapp location on the same
-                        number where you received the order details
+                        ** Please send the Whatsapp location pin{" "}
+                        <a
+                          href="https://wa.me/971553674923?text=Please%20share%20your%20location%20for%20smooth%20delivery%20experience"
+                          rel="noopener"
+                          target="_blank"
+                        >
+                          here
+                        </a>{" "}
+                        so our driver can easily find your address.
                       </i>
                     </h6>
 
@@ -329,7 +337,7 @@ const Pickup = (props) => {
                   <i>
                     {" "}
                     ** We would like to schedule pickup for the above item
-                    before Rental start date. Please select your preffred pickup
+                    before Rental start date. Please select your preferred pickup
                     details
                   </i>
                 </h6>

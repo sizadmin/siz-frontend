@@ -200,7 +200,7 @@ label {
     border-radius: 5px;
 }
 
-td {
+td, th {
     padding: 8px;
 }
 
@@ -214,3 +214,45 @@ td {
     font-weight: 600;
     margin-bottom: 10px;
 }
+.tableShadow{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+/* .Completed{
+    background: green !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+.delivered_renter{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+.confirmed{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+.pickuped_lender{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+
+.pickuped_renter{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+
+
+.delivered_lender{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+} */

@@ -37,7 +37,7 @@ const Delivery = (props) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [startDateTimeErr, setStartDateTimeErr] = useState("");
   const { productId } = useParams() || null;
-  const [timeSlot, setTimeSlot] = useState("9AM - 11AM");
+  const [timeSlot, setTimeSlot] = useState("");
   const [orderDetailsStatus, setorderDetailsStatus] = useState({});
 
   useEffect(() => {
@@ -76,9 +76,6 @@ const Delivery = (props) => {
               "YYYY-MM-DDTHH:mm:ss"
             )
           );
-          if (res.data[0]?.product_delivery_timeslot !== "") {
-            setTimeSlot(res.data[0]?.product_delivery_timeslot);
-          }
         }
       } else {
         console.log(err);
@@ -94,20 +91,21 @@ const Delivery = (props) => {
     let payload = {
       product_pickup_date: orderDetailsStatus?.product_pickup_date || "",
       product_delivery_date: `${dayjs(startDate).format("YYYY-MM-DD")}`,
-      product_pickup_timeslot:orderDetailsStatus?.product_pickup_timeslot || null,
       notes: "",
       orderID: productId,
       _id: orderDetailsStatus?._id || "",
-      product_delivery_timeslot: timeSlot || "",
     };
     ApiService.post(
       "/v1/order-status/" + productId,
       payload,
       null,
       (res, err) => {
-        console.log(res, "res");
         if (res !== null) {
-          showLoader(false);
+          setShowLoader(false);
+          if (window.confirm("Thank you! for scheduling your delivery.")) {
+            let url = "https://siz.ae"; // pass your url here
+            window.open(url, "_blank");
+          }
         } else {
           console.log(err);
           // setErrorMessages({ message: err.error });
@@ -158,7 +156,10 @@ const Delivery = (props) => {
                 </div>
                 <div className={styles.box1style}>
                   <h4>Thank you for your order</h4>
-                  <span>You'll receive an update when your order is ready.Meanwhile please help us scheduling your order below</span>
+                  <span>
+                    You'll receive an update when your order is ready. Kindly
+                    help us by selecting your preferred delivery details.
+                  </span>
                 </div>
 
                 <div className={styles.box1style}>
@@ -171,7 +172,7 @@ const Delivery = (props) => {
                         {orderDetails?.order_details?.line_items[0]?.title}
                       </span>
                       <br /> <br />
-                      <span className="bold-600">Item Rental Start Date</span>
+                      <span className="bold-600">Item Rental Period</span>
                       <br />
                       <span>
                         {
@@ -208,11 +209,11 @@ const Delivery = (props) => {
                         </div>
                         <div className={styles.timePickerContainer}>
                           <span style={{ marginRight: 20 }}>
-                            Select Time Slots
+                            Select Time Slot:
                           </span>{" "}
                           <select
                             className={styles.dropdownStyle}
-                            defaultValue={timeSlot}
+                            value={timeSlot}
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
                             <option> 9AM - 11AM </option>
@@ -236,8 +237,14 @@ const Delivery = (props) => {
                     <h6 className="mt-3">
                       <i>
                         {" "}
-                        ** Please share your Whatsapp location on the same
-                        number where you received the order details
+                        ** Please send the Whatsapp location pin{" "}
+                        <a
+                          href="https://wa.me/971553674923?text=Please%20share%20your%20location%20for%20smooth%20delivery%20experience"
+                          target="_blank"
+                        >
+                          here
+                        </a>{" "}
+                        so our driver can easily find your address.
                       </i>
                     </h6>
 
@@ -324,7 +331,7 @@ const Delivery = (props) => {
                   <i>
                     {" "}
                     ** We would like to schedule pickup for the above item
-                    before Rental start date. Please select your preffred pickup
+                    before Rental start date. Please select your preferred pickup
                     details
                   </i>
                 </h6>

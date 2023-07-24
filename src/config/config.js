@@ -3,7 +3,7 @@ const hostname = window && window.location && window.location.hostname;
 let backendHost = {
   getAPIUrl: () => {
     if (hostname === "localhost") {
-      return `https://backend.siz.ae/api`;
+      return `http://localhost:8086/api`;
     } else if (hostname === "siz-front-end.web.app") {
       return `https://backend.siz.ae/api`;
     } else return "https://backend.siz.ae/api";
