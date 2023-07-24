@@ -100,7 +100,7 @@ const Pickup = (props) => {
       (res, err) => {
         console.log(res, "res");
         if (res !== null) {
-          showLoader(false);
+          setShowLoader(false);
           alert("Thank you! for scheduling the pickup.");
         } else {
           console.log(err);
