@@ -59,7 +59,6 @@ const OrderTable = (props) => {
             <Th>Renter Name</Th>
             <Th>Product Details</Th>
             <Th>Renter Address.</Th>
-            <Th>Rental Period</Th>
             <Th>Lendar Name</Th>
             <Th>Pickup Details</Th>
           </Tr>
@@ -136,13 +135,7 @@ const OrderTable = (props) => {
                           order?.order_details?.customer?.default_address
                             .country_name}{" "}
                       </Td>
-                      <Td>
-                        {
-                          order?.order_details?.line_items[0]?.name.split(
-                            "/"
-                          )[3]
-                        }
-                      </Td>
+                      
                       <Td>{order?.lender_name}</Td>
                       <Td>
                         {order?.order_status?.length > 0 && (
