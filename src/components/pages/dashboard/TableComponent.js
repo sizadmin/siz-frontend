@@ -56,10 +56,11 @@ const OrderTable = (props) => {
                 <i style={{ fontSize: 24 }} className="fa fa-sort-up"></i>
               )}
             </Th>
-            <Th>Renter Name</Th>
-            <Th>Product Details</Th>
+            <Th>Renter Details</Th>
             <Th>Renter Address.</Th>
-            <Th>Lendar Name</Th>
+            <Th>Product Details</Th>
+            <Th>Lendar Details</Th>
+            <Th>Lendar Address</Th>
             <Th>Pickup Details</Th>
           </Tr>
         </Thead>
@@ -120,7 +121,7 @@ const OrderTable = (props) => {
                         <br />
                         <i>{order?.order_details?.phone}</i>
                       </Td>
-                      <Td> {order?.order_details?.line_items?.[0]?.name}</Td>
+                      
                       <Td>
                         {order?.order_details?.customer?.default_address &&
                           order?.order_details?.customer?.default_address
@@ -135,8 +136,9 @@ const OrderTable = (props) => {
                           order?.order_details?.customer?.default_address
                             .country_name}{" "}
                       </Td>
-                      
+                      <Td> {order?.order_details?.line_items?.[0]?.name}</Td>
                       <Td>{order?.lender_name } <br/> {order?.lender_phone_call} <br/> {order?.lender_phone_whatsapp }</Td>
+                      <Td>{order?.lender_address }</Td>
                       <Td>
                         {order?.order_status?.length > 0 && (
                           <>
