@@ -5,9 +5,16 @@ import ModalPopup from "./modalPopup";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
 import moment from "moment";
 import styles from "./index.module.css";
+import dayjs from "dayjs";
 const OrderTable = (props) => {
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [propsData, setPropsData] = useState();
+  const [orderDetailsStatus, setorderDetailsStatus] = useState({});
+  const [startDate, setStartDate] = useState(
+    moment().format("YYYY-MM-DD")
+  );
+
+  
 
   const handleShowDetails = (order) => {
     setPropsData({
@@ -16,6 +23,67 @@ const OrderTable = (props) => {
     });
     setShowDetailsPopup(true);
   };
+
+  const handleCheckboxChange = (orderid) => {
+    ApiService.get(
+      "/v1/updateToLenderAboutPayment/" + orderid,
+      {},
+      null
+    );
+  }
+
+  const getOrderDetailsStatus =  (productId) => {
+    console.log("Get order id : ",productId)
+    ApiService.get("/v1/order-status/" + productId, {}, {}, (res, err) => {
+      console.log(res);
+      if (res !== null) {
+        setorderDetailsStatus(res.data[0]);
+        let payload = {
+          orderID: res.data[0]?.orderID,
+          return_picked_up : "true" ,
+          product_pickup_date: res.data[0]?.product_pickup_date || "",
+          product_delivery_date: res.data[0]?.product_delivery_date || "",
+          notes: "",
+          _id: res.data[0]?._id || "",
+          product_pickup_timeslot:res.data[0]?.product_pickup_timeslot || null,
+          product_delivery_timeslot: res.data[0]?.product_delivery_timeslot || null,
+          product_pickup_date_from_renter :res.data[0]?.product_pickup_date_from_renter || null, 
+          product_pickup_timeslot_from_renter : res.data[0]?.product_pickup_timeslot_from_renter || null,
+        };
+        console.log("Payload ",payload);
+    ApiService.post(
+      "/v1/order-status/" + productId,
+      payload,
+      null,
+    );
+        return res;
+      } else {
+        console.log(err);
+      }
+    });
+   
+  };
+    const updateStatus = async (orderid) => {
+    let payload = {
+      orderID: orderid,
+      return_picked_up : "true" ,
+      product_pickup_date: orderDetailsStatus?.product_pickup_date || "",
+      product_delivery_date: orderDetailsStatus?.product_delivery_date || "",
+      notes: "",
+      _id: orderDetailsStatus?._id || "",
+      product_pickup_timeslot:orderDetailsStatus?.product_pickup_timeslot || null,
+      product_delivery_timeslot: orderDetailsStatus?.product_delivery_timeslot || null,
+      product_pickup_date_from_renter :orderDetailsStatus?.product_pickup_date_from_renter || null, 
+      product_pickup_timeslot_from_renter : orderDetailsStatus?.product_pickup_timeslot_from_renter || null,
+    };
+    console.log("Payload ",payload);
+    ApiService.post(
+      "/v1/order-status/" + orderid,
+      payload,
+      null,
+    );
+  };
+
 
   const renderStatus = (order) => {
     // return <div className={styles.Completed}></div>
@@ -37,7 +105,8 @@ const OrderTable = (props) => {
         <Thead>
           <Tr style={{ background: "#af1010", color: "white" }}>
             <Th style={{ width: 40 }}>#</Th>
-            <Th>Delivery Details</Th>
+            <Th>Delivery To Renter</Th>
+            <Th>Pickup From Renter</Th>
             <Th
             className="cursor"
               onClick={() =>
@@ -61,7 +130,8 @@ const OrderTable = (props) => {
             <Th>Product Details</Th>
             <Th>Lendar Details</Th>
             <Th>Lendar Address</Th>
-            <Th>Pickup Details</Th>
+            <Th>Pickup From Lender</Th>
+            <Th>Delivery To Lender</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -103,6 +173,30 @@ const OrderTable = (props) => {
                                   ?.product_delivery_timeslot
                               }
                             </span>
+                          </>
+                        )}
+                      </Td>
+                      <Td>
+                        {order?.order_status?.length > 0 && (
+                          <>
+                            <span>
+                              {order?.order_status?.[0]
+                                ?.product_pickup_date_from_renter
+                                ? moment(
+                                    order?.order_status?.[0]
+                                      ?.product_pickup_date_from_renter
+                                  ).format("MM/DD/YYYY")
+                                : "-"}
+                            </span>
+                            <br />
+                            <span>
+                              {
+                                order?.order_status?.[0]
+                                  ?.product_pickup_timeslot_from_renter
+                              }
+                            </span>
+                            <br />
+                           
                           </>
                         )}
                       </Td>
@@ -158,6 +252,49 @@ const OrderTable = (props) => {
                                   ?.product_pickup_timeslot
                               }
                             </span>
+                          </>
+                        )}
+                      </Td>
+                      <Td>
+                        {order?.order_status?.length > 0 && (
+                          <>
+                            <span>
+                              {order?.order_status?.[0]
+                                ?.product_delivery_date_to_lender
+                                ? moment(
+                                    order?.order_status?.[0]
+                                      ?.product_delivery_date_to_lender
+                                  ).format("MM/DD/YYYY")
+                                : "-"}
+                            </span>
+                            <br />
+                            <span>
+                              {
+                                order?.order_status?.[0]
+                                  ?.product_delivery_timeslot_to_lender
+                              }
+                            </span>
+                            <span>
+            
+                                 <input type="checkbox" 
+                                 disabled={order?.order_status?.[0]
+                                  ?.return_picked_up === "true" ? true : false}
+                                  checked={order?.order_status?.[0]
+                                    ?.return_picked_up === "true" ? true : false}
+                                 onChange={async (e) => 
+                                 {
+                                  console.log(order.order_id);
+                                  handleCheckboxChange(order.order_id) ;
+                                  getOrderDetailsStatus(order.order_id);
+                                  //updateStatus(order.order_id);
+                                 e.target.disabled=true ;
+                                  e.target.checked=true; 
+                                
+                                 } }
+                                 />
+                                <label htmlFor="return_picked_up">Dry Cleaning Complete</label>
+                            </span> 
+                               
                           </>
                         )}
                       </Td>

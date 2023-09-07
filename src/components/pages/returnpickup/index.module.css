@@ -4,7 +4,6 @@ input[type="password"] {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
-
 /* 
 input[type="submit"] {
     cursor: pointer;
@@ -168,7 +167,7 @@ label {
     /* width: 100% !important;
     justify-content: flex-start !important; */
     margin: 20px 0;
-    height: 20px !important;
+    height: 20px !important; 
     flex-direction: row;
     align-items: center;
     margin-top: 40px;
@@ -200,67 +199,14 @@ label {
     border-radius: 5px;
 }
 
-td, th {
-    padding: 8px;
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
-    border : 1px solid rgba(0, 0, 0, 0.2); 
+@media (max-width:500px) {
+    .logoStyle {
+        width: 25vw;
+        min-width: 14vw;
+        max-width: 14vw;
+    }
+    .box1style {
+        padding: 15px;
+       
+    }
 }
-
-Td {
-    border : 1px solid rgba(0, 0, 0, 0.2);
-
-}
-
-.second_titile {
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-decoration: underline;
-}
-
-.third_titile {
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-.tableShadow{
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-/* .Completed{
-    background: green !important;
-    height: 10px !important;
-    width: 10px !important;
-    border-radius: 50%;
-}
-.delivered_renter{
-    background: yellow !important;
-    height: 10px !important;
-    width: 10px !important;
-    border-radius: 50%;
-}
-.confirmed{
-    background: yellow !important;
-    height: 10px !important;
-    width: 10px !important;
-    border-radius: 50%;
-}
-.pickuped_lender{
-    background: yellow !important;
-    height: 10px !important;
-    width: 10px !important;
-    border-radius: 50%;
-}
-
-.pickuped_renter{
-    background: yellow !important;
-    height: 10px !important;
-    width: 10px !important;
-    border-radius: 50%;
-}
-
-
-.delivered_lender{
-    background: yellow !important;
-    height: 10px !important;
-    width: 10px !important;
-    border-radius: 50%;
-} */

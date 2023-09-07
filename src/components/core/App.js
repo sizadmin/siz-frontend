@@ -30,6 +30,7 @@ global.navigate = null;
 const Login = lazy(() => import("../pages/authentication/login"));
 const Delivery = lazy(() => import("../pages/delivery"));
 const Pickup = lazy(() => import("../pages/pickup"));
+const ReturnPickup = lazy(() => import("../pages/returnpickup"));
 const Dashboard = lazy(() => import("../pages/dashboard"));
 
 
@@ -108,6 +109,8 @@ const App = () => {
                     <Route  exact path="/delivery/:productId" component={Delivery} />
                     <Route  exact path="/pickup/:productId" component={Pickup} />
                     <Route  exact path="/dashboard" component={Dashboard} />
+                    <Route  exact path="/returnpickup/:productId" component={ReturnPickup} />
+
 
                     <Route component={NoMatchPage} />
 

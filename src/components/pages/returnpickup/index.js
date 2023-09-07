@@ -24,12 +24,12 @@ const productList = [
     enddate: new Date(),
   },
 ];
-const Delivery = (props) => {
+const ReturnPickup = (props) => {
   let history = useHistory();
   const [errorMessages, setErrorMessages] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-  const [startDate, setStartDate] = useState(
-    moment().format("YYYY-MM-DD")
+  const [endDate, setEndDate] = useState(
+    moment().format("YYYY-MM-DDTHH:mm:ss")
   );
   const [startTime, setStartTime] = useState(
     moment().format("YYYY-MM-DDTHH:mm:ss")
@@ -48,14 +48,9 @@ const Delivery = (props) => {
       setShowLoader(false);
     }
     data();
-    
   }, []);
   const startDatHandler = (date, e) => {
-    setStartDate(date);
-  };
-  const TimeSlotHandler = (date, e) => {
-    console.log(date)
-    setTimeSlot(date);
+    setEndDate(date);
   };
   const getOrderDetails = () => {
     ApiService.get("/v1/order/" + productId, {}, {}, (res, err) => {
@@ -66,7 +61,6 @@ const Delivery = (props) => {
         console.log(err);
         setErrorMessages(true);
         setShowLoader(false);
-        setOrderDetails({});
       }
     });
   };
@@ -75,14 +69,14 @@ const Delivery = (props) => {
     ApiService.get("/v1/order-status/" + productId, {}, {}, (res, err) => {
       if (res !== null) {
         setorderDetailsStatus(res.data[0]);
-        if (res.data[0]?.product_delivery_date !== "") {
-          setStartDate(
-            moment(res.data[0]?.product_delivery_date).format(
-              "YYYY-MM-DD"
+        if (res.data[0]?.product_pickup_date_from_renter !== "") {
+          setEndDate(
+            moment(res.data[0]?.product_pickup_date_from_renter).format(
+              "YYYY-MM-DDTHH:mm:ss"
             )
           );
-          if (res.data[0]?.product_delivery_timeslot !== "") {
-            setTimeSlot(res.data[0]?.product_delivery_timeslot);
+          if (res.data[0]?.product_pickup_timeslot_from_renter !== "") {
+            setTimeSlot(res.data[0]?.product_pickup_timeslot_from_renter);
           }
         }
       } else {
@@ -93,32 +87,29 @@ const Delivery = (props) => {
     });
   };
 
-
   const handleSchedule = () => {
     setShowLoader(true);
-    console.log(`${dayjs(startDate).format("YYYY-MM-DD")}T`, "startDate");
-    console.log(timeSlot);
-    const currentDate = new Date();
     let payload = {
       product_pickup_date: orderDetailsStatus?.product_pickup_date || "",
-      product_delivery_date: `${dayjs(startDate).format("YYYY-MM-DD")}`,
+      product_delivery_date: orderDetailsStatus?.product_delivery_date || "",
       notes: "",
       orderID: productId,
-      _id: orderDetailsStatus?._id || "",
-      product_pickup_timeslot:orderDetailsStatus?.product_pickup_timeslot || null,
-      product_delivery_timeslot: timeSlot,
-      product_pickup_date_from_renter :orderDetailsStatus?.product_pickup_date_from_renter || null, 
-      product_pickup_timeslot_from_renter : orderDetailsStatus?.product_pickup_timeslot_from_renter || null,
+      _id: orderDetailsStatus._id,
+      product_delivery_timeslot: orderDetailsStatus?.product_delivery_timeslot || null,
+      product_pickup_timeslot: orderDetailsStatus?.product_pickup_timeslot || null,
+      product_pickup_date_from_renter :`${dayjs(endDate).format("YYYY-MM-DD")}`, 
+      product_pickup_timeslot_from_renter : timeSlot || null,
     };
-    console.log(payload);
+    
     ApiService.post(
       "/v1/order-status/" + productId,
       payload,
       null,
       (res, err) => {
+        console.log(res, "res");
         if (res !== null) {
           setShowLoader(false);
-          if (window.confirm("Thank you! for scheduling your delivery.")) {
+          if (window.confirm("Thank you! for scheduling the pickup.")) {
             let url = "https://siz.ae"; // pass your url here
             window.open(url, "_blank");
           }
@@ -137,6 +128,7 @@ const Delivery = (props) => {
       <div className="container cont-padd">
         <div className="d-flex">
           <div className="w-100">
+            {console.log(orderDetailsStatus, "ppp")}
             {orderDetails === undefined ? (
               <span>No Order details found.</span>
             ) : (
@@ -152,7 +144,7 @@ const Delivery = (props) => {
                 <div className="d-flex align-items-center mt-3">
                   <div></div>
                   <div>
-                    <span>Order {orderDetails?.order_details?.name}</span>
+                    <span>Order {orderDetails.order_details?.name}</span>
                     <br />
                     <h2
                       style={{
@@ -162,19 +154,18 @@ const Delivery = (props) => {
                       }}
                     >
                       Hey{" "}
-                      {
-                        orderDetails?.order_details?.shipping_address
-                          ?.first_name
-                      }{" "}
+                      {orderDetails?.order_details?.shipping_address
+                          ?.first_name}{" "}
                       {/* {orderDetails.order_details.shipping_address?.last_name}, */}
                     </h2>
                   </div>
                 </div>
                 <div className={styles.box1style}>
-                  <h4>Thank you for your order</h4>
+                  <h4>
+                    Your rental period is ending tommorrow.
+                  </h4>
                   <span>
-                    You'll receive an update when your order is ready. Kindly
-                    help us by selecting your preferred delivery details.
+                    Please help us by selecting your preferred pickup details for return.
                   </span>
                 </div>
 
@@ -185,14 +176,14 @@ const Delivery = (props) => {
                       <span className="bold-600">Item Name</span>
                       <br />
                       <span>
-                        {orderDetails?.order_details?.line_items[0]?.title}
+                        {orderDetails.order_details?.line_items[0]?.title}
                       </span>
                       <br /> <br />
                       <span className="bold-600">Item Rental Period</span>
                       <br />
                       <span>
                         {
-                          orderDetails?.order_details?.line_items[0]
+                          orderDetails.order_details?.line_items[0]
                             ?.properties[0]?.value
                         }
                       </span>
@@ -202,7 +193,7 @@ const Delivery = (props) => {
                       <br />
                       <span>
                         {
-                          orderDetails?.order_details?.line_items[0]
+                          orderDetails.order_details?.line_items[0]
                             ?.variant_title
                         }
                       </span>
@@ -212,17 +203,25 @@ const Delivery = (props) => {
                 </div>
                 <div className={styles.box1style}>
                   <div className={styles.scheduleBlock}>
-                    <h4 className="bold-500">Schedule Delivery Details</h4>
+                    <h4 className="bold-500">Pickup  Details</h4>
+                    <h6>
+                      <i>
+                        {" "}
+                        ** We would like to schedule pickup for the above item
+                      . Please select your preferred
+                        pickup details
+                      </i>
+                    </h6>
                     <div>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className={styles.dateTimePickerContainer}>
-                          <span style={{ marginRight: 20 }}>Select Date:</span>
+                          <span style={{ marginRight: 20 }}>
+                            Select Pickup Date:
+                          </span>
                           <DatePicker
                             label="Select Pickup Date *"
                             onChange={startDatHandler}
-                            value={startDate !== "" && dayjs(startDate)}
-                            minDate={startDate !== "" && dayjs(startDate)}
-                            maxDate={orderDetails.rental_end_date != "" && dayjs(orderDetails.rental_end_date)}
+                            value={endDate !== "" && dayjs(endDate)}
                           />
                         </div>
                         <div className={styles.timePickerContainer}>
@@ -232,10 +231,9 @@ const Delivery = (props) => {
                           <select
                             className={styles.dropdownStyle}
                             defaultValue={timeSlot}
-                            value={timeSlot}
-                            onChange={(e) => TimeSlotHandler(e.target.value)}
+                            onChange={(e) => setTimeSlot(e.target.value)}
                           >
-                            <option selected> Select Timeslot </option>
+                            <option selected> Select Timeslot</option>
                             <option>9AM-12PM</option>
                             <option>12PM-3PM</option>
                             <option>3PM-6PM</option>
@@ -258,6 +256,7 @@ const Delivery = (props) => {
                         ** Please send the Whatsapp location pin{" "}
                         <a
                           href="https://wa.me/971553674923?text=Please%20share%20your%20location%20for%20smooth%20delivery%20experience"
+                          rel="noopener"
                           target="_blank"
                         >
                           here
@@ -270,7 +269,7 @@ const Delivery = (props) => {
                       className={styles.Savebutton}
                       onClick={() => handleSchedule()}
                     >
-                      Schedule Delivery
+                      Schedule Pickup
                     </button>
                   </div>
                   {errorMessages && (
@@ -409,4 +408,4 @@ const Delivery = (props) => {
   );
 };
 
-export default Delivery;
+export default ReturnPickup;

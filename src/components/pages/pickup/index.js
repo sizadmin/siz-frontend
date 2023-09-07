@@ -97,6 +97,8 @@ const Pickup = (props) => {
       _id: orderDetailsStatus._id,
       product_delivery_timeslot: orderDetailsStatus?.product_delivery_timeslot || null,
       product_pickup_timeslot: timeSlot || null,
+      product_pickup_date_from_renter :orderDetailsStatus?.product_pickup_date_from_renter || null, 
+      product_pickup_timeslot_from_renter : orderDetailsStatus?.product_pickup_timeslot_from_renter || null,
     };
     
     ApiService.post(
@@ -219,6 +221,8 @@ const Pickup = (props) => {
                             label="Select Pickup Date *"
                             onChange={startDatHandler}
                             value={startDate !== "" && dayjs(startDate)}
+                            minDate={orderDetails.order_date != null && dayjs(orderDetails.order_date)}
+                            maxDate={orderDetails.rental_start_date != null && dayjs(orderDetails.rental_start_date)}
                           />
                         </div>
                         <div className={styles.timePickerContainer}>
@@ -231,12 +235,10 @@ const Pickup = (props) => {
                             onChange={(e) => setTimeSlot(e.target.value)}
                           >
                             <option selected> Select Timeslot</option>
-                            <option > 9AM - 11AM </option>
-                            <option> 11AM - 1PM</option>
-                            <option> 1PM - 3PM</option>
-                            <option> 3PM - 5PM</option>
-                            <option> 5PM - 7PM</option>
-                            <option> 7PM - 9PM</option>
+                            <option>9AM-12PM</option>
+                            <option>12PM-3PM</option>
+                            <option>3PM-6PM</option>
+                            <option>6PM-9PM</option>
                           </select>
                         </div>
                         {startDateTimeErr !== "" && (
