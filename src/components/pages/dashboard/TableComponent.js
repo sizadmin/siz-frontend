@@ -84,7 +84,36 @@ const OrderTable = (props) => {
     );
   };
 
+const renderDeliveryDate = (order) => {
+  if(order.order_status != null){
+    if(order.order_status.product_delivery_date != null){
+     return  moment(
+        order?.order_status?.[0]
+          ?.product_delivery_date
+      ).format("DD-MMM-YYYY")
+    }else if(order.rental_start_date != null){
+      return moment(order?.rental_start_date).format("DD-MMM-YYYY")
+    }else{
+      return "-" ;
+    }
+  }
+}
+  const renderProductPickupDateFromRenter = (order) => {
 
+    if(order.order_status != null){
+      if(order.order_status.product_pickup_date_from_renter != null){
+       return  moment(
+          order?.order_status?.[0]
+            ?.product_pickup_date_from_renter
+        ).format("DD-MMM-YYYY")
+      }else if(order.rental_end_date != null){
+        return moment(
+          order?.rental_end_date).format("DD-MMM-YYYY")
+      }else{
+        return "-" ;
+      }
+    }
+  }                                
   const renderStatus = (order) => {
     // return <div className={styles.Completed}></div>
   };
@@ -154,17 +183,19 @@ const OrderTable = (props) => {
                         <br />
                         {renderStatus(order)}
                       </Td>
-                      <Td>
-                        {order?.order_status?.length > 0 && (
+                      <Td style={{ whiteSpace: "nowrap" ,fontSize : "small" }}>
+                        { (
                           <>
                             <span>
-                              {order?.order_status?.[0]
-                                ?.product_delivery_date !== null
+                              {renderDeliveryDate(order)}
+                              {/* {order?.order_status?.[0]
+                                ?.product_delivery_date
                                 ? moment(
                                     order?.order_status?.[0]
                                       ?.product_delivery_date
-                                  ).format("MM/DD/YYYY")
-                                : "-"}
+                                  ).format("DD-MMM-YYYY")
+                                : order?.rental_start_date ? moment(order?.rental_start_date).format("DD-MMM-YYYY") : "-"
+                                } */}
                             </span>
                             <br />
                             <span>
@@ -176,17 +207,20 @@ const OrderTable = (props) => {
                           </>
                         )}
                       </Td>
-                      <Td>
-                        {order?.order_status?.length > 0 && (
+                      <Td style={{ whiteSpace: "nowrap", fontSize : "small" }}>
+                        {(
                           <>
                             <span>
-                              {order?.order_status?.[0]
+
+                              {renderProductPickupDateFromRenter(order)}
+                              {/* {order?.order_status?.[0]
                                 ?.product_pickup_date_from_renter
                                 ? moment(
                                     order?.order_status?.[0]
                                       ?.product_pickup_date_from_renter
-                                  ).format("MM/DD/YYYY")
-                                : "-"}
+                                  ).format("DD-MMM-YYYY")
+                                : moment(
+                                  order?.rental_end_date).format("DD-MMM-YYYY")} */}
                             </span>
                             <br />
                             <span>
@@ -200,7 +234,7 @@ const OrderTable = (props) => {
                           </>
                         )}
                       </Td>
-                      <Td>
+                      <Td style={{ fontSize : "small" }}>
                         <a
                           href={order?.order_details?.order_status_url}
                           target="_blank"
@@ -209,14 +243,14 @@ const OrderTable = (props) => {
                           {order.order_number}
                         </a>
                       </Td>
-                      <Td>
+                      <Td style={{ fontSize : "small" }}>
                         {order.order_details?.customer?.first_name}{" "}
                         {order.order_details?.customer?.last_name}
                         <br />
                         <i>{order?.order_details?.phone}</i>
                       </Td>
                       
-                      <Td>
+                      <Td style={{ fontSize : "small" }}>
                         {order?.order_details?.customer?.default_address &&
                           order?.order_details?.customer?.default_address
                             .address1}{" "}
@@ -230,10 +264,10 @@ const OrderTable = (props) => {
                           order?.order_details?.customer?.default_address
                             .country_name}{" "}
                       </Td>
-                      <Td> {order?.order_details?.line_items?.[0]?.name}</Td>
-                      <Td>{order?.lender_name } <br/> {order?.lender_phone_call} <br/> {order?.lender_phone_whatsapp }</Td>
-                      <Td>{order?.lender_address }</Td>
-                      <Td>
+                      <Td style={{ fontSize : "small" }}> {order?.order_details?.line_items?.[0]?.name}</Td>
+                      <Td style={{ fontSize : "small" }}>{order?.lender_name } <br/> {order?.lender_phone_call} <br/> {order?.lender_phone_whatsapp }</Td>
+                      <Td style={{ fontSize : "small" }}>{order?.lender_address }</Td>
+                      <Td style={{ fontSize : "small" }}>
                         {order?.order_status?.length > 0 && (
                           <>
                             <span>
@@ -242,7 +276,7 @@ const OrderTable = (props) => {
                                 ? moment(
                                     order?.order_status?.[0]
                                       ?.product_pickup_date
-                                  ).format("MM/DD/YYYY")
+                                  ).format("DD-MMM-YYYY")
                                 : "-"}
                             </span>
                             <br />
@@ -255,7 +289,7 @@ const OrderTable = (props) => {
                           </>
                         )}
                       </Td>
-                      <Td>
+                      <Td style={{ fontSize : "small" }}>
                         {order?.order_status?.length > 0 && (
                           <>
                             <span>
