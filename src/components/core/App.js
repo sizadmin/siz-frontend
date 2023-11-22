@@ -32,6 +32,7 @@ const Delivery = lazy(() => import("../pages/delivery"));
 const Pickup = lazy(() => import("../pages/pickup"));
 const ReturnPickup = lazy(() => import("../pages/returnpickup"));
 const Dashboard = lazy(() => import("../pages/dashboard"));
+const LenderSignup = lazy(() => import("../pages/lendersignup"));
 
 
 
@@ -110,6 +111,7 @@ const App = () => {
                     <Route  exact path="/pickup/:productId" component={Pickup} />
                     <Route  exact path="/dashboard" component={Dashboard} />
                     <Route  exact path="/returnpickup/:productId" component={ReturnPickup} />
+                    <Route  exact path="/lendersignup" component={LenderSignup} />
 
 
                     <Route component={NoMatchPage} />
