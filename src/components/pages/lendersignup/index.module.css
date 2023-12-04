@@ -1,9 +1,10 @@
-input[type="text"],
+/* input[type="text"],
 input[type="password"] {
-    height: 20px;
+    height: 40px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-}
+} */
+
 /* 
 input[type="submit"] {
     cursor: pointer;
@@ -167,7 +168,7 @@ label {
     /* width: 100% !important;
     justify-content: flex-start !important; */
     margin: 20px 0;
-    height: 20px !important; 
+    height: 20px !important;
     flex-direction: row;
     align-items: center;
     margin-top: 40px;
@@ -196,17 +197,152 @@ label {
     height: 40px;
     background: #fff;
     padding: 10px 10px;
+    width: 100%;
     border-radius: 5px;
 }
 
-@media (max-width:500px) {
-    .logoStyle {
-        width: 25vw;
-        min-width: 14vw;
-        max-width: 14vw;
-    }
-    .box1style {
-        padding: 15px;
-       
-    }
+td,
+th {
+    padding: 8px;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+Td {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+}
+
+.second_titile {
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
+.third_titile {
+    font-weight: 600;
+    margin-bottom: 0px;
+    max-width: 200px;
+}
+
+.tableShadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+/* .Completed{
+    background: green !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+.delivered_renter{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+.confirmed{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+.pickuped_lender{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+
+.pickuped_renter{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+}
+
+
+.delivered_lender{
+    background: yellow !important;
+    height: 10px !important;
+    width: 10px !important;
+    border-radius: 50%;
+} */
+td {
+    font-size: small;
+}
+
+th {
+    font-size: small;
+}
+
+.lenderInfoBlock {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    /* height: 150px; */
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 8px;
+}
+
+.customModal .modal-content {
+    max-width: 90vw !important;
+
+}
+
+.my-modal {
+    max-width: 90vw !important;
+}
+
+.dropdownStyle {
+    height: 40px;
+    background: #fff;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+.modalElementStyle {
+    padding: 18px 30px;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.modalElementDivStyle {
+    width: 47%;
+}
+
+.customInputStyle {
+    width: 100%;
+    height: 40px;
+    border : 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+.applyBtn {
+    background: rgb(175, 16, 16);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 6px;
+}
+
+.customTextareaStyle {
+    width: 100%;
+    border : 1px solid rgba(0, 0, 0, 0.2) !important;
+
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

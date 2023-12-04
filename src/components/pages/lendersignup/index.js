@@ -1,87 +1,189 @@
 import React, { useState, useEffect } from "react";
 
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
 import styles from "./index.module.css";
-import logo from "./../../../assets/imgs/LOGO.jpeg";
-// import CHECKED from "./../../../assets/imgs/checked.png";
-import Sample1 from "./../../../assets/imgs/sample1.avif";
-import moment from "moment";
 import ApiService from "../../../utils/middleware/ApiService";
+
+import Header from "./../../organisms/Navbar";
+import { useSelector } from "react-redux";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-const productList = [
-  {
-    title: "Freya Dress",
-    sizes: "S/M",
-    color: "Black",
-    bookingdays: "4 Days",
-    startdate: new Date(),
-    enddate: new Date(),
-  },
-];
+import { UsersTable } from "./UsersTable";
+import UserPopup from "./UserPopup";
+import Notification from "../../organisms/Notification/notification";
 
-
-const LenderSignup = (props) => {
+const LenderSignup = () => {
+  const [getOrdersdata, setOrdersdata] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
+  const [propsData, setPropsData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    role: null,
+    isActive: false,
+    password: "",
+    address: "",
+    lender_info: null,
+    lender_id: "",
+    shopify_id: "",
+    phone_number_whatsapp: "",
+    username:''
   });
+  const [startDate, setStartDate] = useState(null);
+  // const [endDate, setEndDate] = useState(null);
+  // const [lenderName, setLenderName] = useState("");
+  // const [renterName, setRenterName] = useState("");
+  // const [renterLName, setRenterLName] = useState("");
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // You can add validation logic here before sending data to the server
-  
-    // Assuming you have a function to send registration data to the server
-    // registerUser(formData);
-  
-    // Reset the form after submission
-    setFormData({
-      username: '',
-      email: '',
-      password: '',
+  // const [lenderLName, setLenderLName] = useState("");
+  // const [paymentStatus, setPaymentStatus] = useState(null);
+  const [showCreateUserPopup, setshowCreateUserPopup] = useState(false);
+  const [orderType, setOrderType] = useState(null);
+
+  const [sortOrderByOrder, setSortOrderByOrder] = useState("-order_number");
+  const { userInfo } = useSelector((state) => state.user);
+  // const [userRole, setUserRole] = useState(
+  //   userInfo?.loggedUser?.role?.role_name
+  // );
+  const [rolesData, setRolesData] = useState([]);
+  const [lendersData, setLendersData] = useState([]);
+
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [SuccessMsg, setSuccessMsg] = useState("");
+
+  useEffect(() => {
+    async function data() {
+      getUsers();
+      ApiService.get("/v1/roles", {}, {}, (res, err) => {
+        if (res !== null) {
+          //   setOrdersdata(res.results);
+          //   setShowLoader(false);
+          setRolesData(
+            res.results.map((e) => {
+              return { label: e.role_name, value: e._id };
+            })
+          );
+        } else {
+          console.log(err);
+          setShowLoader(false);
+        }
+      });
+
+      ApiService.get("/v1/lenders", {}, {}, (res, err) => {
+        if (res !== null) {
+          //   setOrdersdata(res.results);
+          //   setShowLoader(false);
+          setLendersData(
+            res.length > 0
+              ? res[0].data.map((e) => {
+                  return { label: e.name, value: e._id };
+                })
+              : []
+          );
+        } else {
+          console.log(err);
+          setShowLoader(false);
+        }
+      });
+    }
+    data();
+  }, [sortOrderByOrder]);
+
+  const deleteUser = (formData) => {
+    ApiService.del("/v1/user/" + formData._id, {}, {}, (res, err) => {
+      if (res !== null) {
+        setShowLoader(false);
+        setSuccessMsg("User Deleted successfully");
+        setShowSuccessMsg(true);
+        setshowCreateUserPopup(false);
+        getUsers();
+      } else {
+        console.log(err);
+        setShowLoader(false);
+      }
     });
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+  
+  const getUsers = () => {
+    setShowLoader(true);
+
+    let url = `/v1/users?`;
+
+    if (startDate !== null) url += `&start_date=${startDate}T00:00:00.000Z`;
+
+    if (orderType !== "" && orderType !== null)
+      url += `&order_type=${orderType}`;
+
+    // if (sortOrderByOrder !== "") url += `&sortByOrder=${sortOrderByOrder}`;
+    let header = {
+      Token: userInfo.token,
+    };
+
+    ApiService.get(url, {}, header, (res, err) => {
+      if (res !== null) {
+        setOrdersdata(res.results);
+        setShowLoader(false);
+      } else {
+        console.log(err);
+        setShowLoader(false);
+      }
     });
+  };
+  const updateSorting = async (e) => {
+    setSortOrderByOrder(e);
+
+    getUsers();
+  };
+
+  const handleUserPopup = () => {
+    setshowCreateUserPopup(true);
   };
 
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
-      <div className="container cont-padd">
-        <div className="d-flex">
-          <div className="w-100">
-            <a
-              className="navbar-brand d-md-flex align-items-end"
-               href="/dashboard"
-            >
-              <img src={logo} className={styles.Icon} alt="brandLogo" />
-            </a>
-
-            <h5 className={["mb-0",styles.headerText].join(" ")} >Lender Registration</h5>
+      {showSuccessMsg && (
+        <Notification show={showSuccessMsg} msg={SuccessMsg} type="success" />
+      )}
+      <Header />
+      <div className="container-fluid cont-padd">
+        <div className="d-flex row justify-content-between p-3">
+          <h6>User management</h6>
+          <div>
+            <button className={styles.applyBtn} onClick={handleUserPopup}>
+              Create User
+            </button>
           </div>
-          <div className={styles.box1style}>
-            
-              <form onSubmit={handleFormSubmit}>
-                
-              </form>
+        </div>
+        {showCreateUserPopup && (
+          <UserPopup
+            show={showCreateUserPopup}
+            hide={() => setshowCreateUserPopup(false)}
+            propsData={propsData}
+            getUsers={getUsers}
+            rolesData={rolesData}
+            lendersData={lendersData}
+            isNew={true}
+            setSuccessMsg={setSuccessMsg}
+            setShowSuccessMsg={setShowSuccessMsg}
+            deleteUser={(e) => deleteUser(e)}
+          />
+        )}
 
-          </div>
+        <div>
+          <UsersTable
+            data={getOrdersdata}
+            sortOrderByOrder={sortOrderByOrder}
+            changeSort={(e) => updateSorting(e)}
+            getUsers={getUsers}
+            rolesData={rolesData}
+            lendersData={lendersData}
+            deleteUser={(e) => deleteUser(e)}
+          />
         </div>
       </div>
     </>
   );
 };
+
 export default LenderSignup;

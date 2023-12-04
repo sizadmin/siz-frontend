@@ -26,7 +26,7 @@ const Login = (props) => {
     var { uname, pass } = document.forms[0];
 
     let payload = {
-      email: uname.value,
+      username: uname.value,
       password: pass.value,
     };
     ApiService.post("/v1/login", payload, null, (res, err) => {

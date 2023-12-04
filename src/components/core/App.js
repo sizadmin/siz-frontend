@@ -10,7 +10,7 @@ import {
   Route,
   useHistory,
 } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 import MyErrorBoundary from "./MyErrorBoundary";

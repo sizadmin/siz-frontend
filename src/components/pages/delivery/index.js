@@ -54,13 +54,13 @@ const Delivery = (props) => {
     setStartDate(date);
   };
   const TimeSlotHandler = (date, e) => {
-    console.log(date)
+    // console.log(date)
     setTimeSlot(date);
   };
   const getOrderDetails = () => {
     ApiService.get("/v1/order/" + productId, {}, {}, (res, err) => {
       if (res !== null) {
-        console.log(res, "res");
+        // console.log(res, "res");
         setOrderDetails(res.data[0]);
       } else {
         console.log(err);
@@ -96,8 +96,8 @@ const Delivery = (props) => {
 
   const handleSchedule = () => {
     setShowLoader(true);
-    console.log(`${dayjs(startDate).format("YYYY-MM-DD")}T`, "startDate");
-    console.log(timeSlot);
+    // console.log(`${dayjs(startDate).format("YYYY-MM-DD")}T`, "startDate");
+    // console.log(timeSlot);
     const currentDate = new Date();
     let payload = {
       product_pickup_date: orderDetailsStatus?.product_pickup_date || "",
@@ -110,7 +110,7 @@ const Delivery = (props) => {
       product_pickup_date_from_renter :orderDetailsStatus?.product_pickup_date_from_renter || null, 
       product_pickup_timeslot_from_renter : orderDetailsStatus?.product_pickup_timeslot_from_renter || null,
     };
-    console.log(payload);
+    // console.log(payload);
     ApiService.post(
       "/v1/order-status/" + productId,
       payload,

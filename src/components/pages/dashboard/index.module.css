@@ -1,9 +1,9 @@
-input[type="text"],
+/* input[type="text"],
 input[type="password"] {
-    height: 20px;
+    height: 40px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-}
+} */
 
 /* 
 input[type="submit"] {
@@ -197,18 +197,20 @@ label {
     height: 40px;
     background: #fff;
     padding: 10px 10px;
+    width: 100%;
     border-radius: 5px;
 }
 
-td, th {
+td,
+th {
     padding: 8px;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
-    border : 1px solid rgba(0, 0, 0, 0.2); 
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 Td {
-    border : 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
 
 }
 
@@ -220,11 +222,14 @@ Td {
 
 .third_titile {
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+    max-width: 200px;
 }
-.tableShadow{
+
+.tableShadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
 /* .Completed{
     background: green !important;
     height: 10px !important;
@@ -264,3 +269,52 @@ Td {
     width: 10px !important;
     border-radius: 50%;
 } */
+td {
+    font-size: small;
+}
+
+th {
+    font-size: small;
+}
+
+.lenderInfoBlock {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    /* height: 150px; */
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    margin-left: 1px;
+    margin-right: 1px;
+    border-radius: 8px;
+}
+
+.customModal .modal-content {
+    max-width: 90vw !important;
+
+}
+
+.my-modal {
+    max-width: 90vw !important;
+}
+
+.dropdownStyle {
+    height: 40px;
+    background: #fff;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+.modalElementStyle {
+    padding: 18px 30px;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.modalElementDivStyle {
+   width: 47%;
+}
+.customInputStyle{
+    width: 100%;
+}

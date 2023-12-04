@@ -55,7 +55,7 @@ const Pickup = (props) => {
   const getOrderDetails = () => {
     ApiService.get("/v1/order/" + productId, {}, {}, (res, err) => {
       if (res !== null) {
-        console.log(res, "res");
+        // console.log(res, "res");
         setOrderDetails(res.data[0]);
       } else {
         console.log(err);
@@ -106,7 +106,7 @@ const Pickup = (props) => {
       payload,
       null,
       (res, err) => {
-        console.log(res, "res");
+        // console.log(res, "res");
         if (res !== null) {
           setShowLoader(false);
           if (window.confirm("Thank you! for scheduling the pickup.")) {
@@ -128,7 +128,7 @@ const Pickup = (props) => {
       <div className="container cont-padd">
         <div className="d-flex">
           <div className="w-100">
-            {console.log(orderDetailsStatus, "ppp")}
+            {/* {console.log(orderDetailsStatus, "ppp")} */}
             {orderDetails === undefined ? (
               <span>No Order details found.</span>
             ) : (

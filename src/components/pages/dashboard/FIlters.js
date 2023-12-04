@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import moment from "moment";
+import { CustomSelect } from "../../atom/CustomSelect/CustomSelect";
 const Filters = ({
   renterName,
   renterLName,
@@ -21,6 +22,11 @@ const Filters = ({
   updateEndDate,
   applyFilter,
   clearFilter,
+  userRole,
+  paymentStatus,
+  setPaymentStatus,
+  orderType,
+  setOrderType
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -67,7 +73,7 @@ const Filters = ({
             </div>
 
             <div className="col-md-4">
-              <span>Renter First Name</span>
+              <span>Renter Name</span>
               <br />
               <div className="mt-2">
                 <input
@@ -78,7 +84,7 @@ const Filters = ({
               </div>
             </div>
 
-            <div className="col-md-4 mt-3">
+            {/* <div className="col-md-4 mt-3">
               <span>Renter Last Name</span>
               <br />
               <div className="mt-2">
@@ -88,16 +94,53 @@ const Filters = ({
                   onChange={(e) => updateRenterLName(e.target.value)}
                 />
               </div>
-            </div>
+            </div> */}
+            {userRole === "Admin" && (
+              <div className="col-md-4 mt-3">
+                <span>Lender Name</span>
+                <br />
+                <div className="mt-2">
+                  <input
+                    style={{ height: 40, width: "93%" }}
+                    value={lenderName}
+                    onChange={(e) => updateLenderName(e.target.value)}
+                  />
+                </div>
+              </div>
+            )}
+            {userRole === "Lender" && (
+              <div className="col-md-4 mt-3">
+                <span>Order Type</span>
+                <br />
+                <div className="mt-2">
+                <CustomSelect
+                  options={[
+                    { value: "Confirmed Order", label: "Confirmed Order" },
+                    { value: "Fitting", label: "Fitting" },
+                  ]}
+                  value={orderType}
+                  onChange={(e) => setOrderType(e.value)}
+                />
+                </div>
+              </div>
+            )}
 
             <div className="col-md-4 mt-3">
-              <span>Lender Name</span>
+              <span>Payment Status</span>
               <br />
               <div className="mt-2">
-                <input
-                  style={{ height: 40, width: "93%" }}
-                  value={lenderName}
-                  onChange={(e) => updateLenderName(e.target.value)}
+                {/* <input
+                    style={{ height: 40, width: "93%" }}
+                    value={lenderName}
+                    onChange={(e) => updateLenderName(e.target.value)}
+                  /> */}
+                <CustomSelect
+                  options={[
+                    { value: true, label: "Paid" },
+                    { value: false, label: "Un-paid" },
+                  ]}
+                  value={paymentStatus}
+                  onChange={(e) => setPaymentStatus(e.value)}
                 />
               </div>
             </div>

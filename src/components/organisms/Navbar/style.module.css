@@ -8,9 +8,9 @@
         color: #544F5A;
         padding: 1em 1em 0.5em 1em !important;
     }
-    .headerText{
+    /* .headerText{
         padding-left: 6%;
-    }
+    } */
 }
 
 @media (max-width:768px) {
@@ -18,25 +18,28 @@
         color: #544F5A;
         padding: 1em 1em 0.5em 1em !important;
     }
-    .headerText{
+    /* .headerText{
         padding-left:10%;
-    }
+    } */
 }
 @media (min-width:1024px) {
     .supportText {
         color: #544F5A;
         padding: 1em 1em 0.5em 1em !important;
     }
-    .headerText{
+    /* .headerText{
         padding-left:3%;
-    }
+    } */
 }
 @media (min-width:1300px) {
     .supportText {
         color: #544F5A;
         padding: 1em 1em 0.5em 1em !important;
     }
-    .headerText{
+    /* .headerText{
         padding-left:10%;
-    }
+    } */
+}
+li{
+    margin: 0px 10px;
 }
