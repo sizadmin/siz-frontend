@@ -112,6 +112,8 @@ function UserPopup(props) {
         return;
       }
       setShowLoader(true);
+      formData.first_name.trim();
+      formData.last_name.trim();
       ApiService.post("/v1/user", formData, {}, (res, err) => {
         if (res !== null) {
           setSuccessMsg("User created successfully");
