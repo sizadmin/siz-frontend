@@ -74,6 +74,8 @@ const Dashboard = () => {
     let url = `/v1/dashboard/getorders?`;
 
     if (startDate !== null) url += `&start_date=${startDate}T00:00:00.000Z`;
+    if (startDate == null && userRole !== "Admin") url += `&start_date=2023-10-01T00:00:00.000Z`;
+
 
     if (userInfo.loggedUser?.role?.role_name !== "Admin") {
       // console.log(userInfo.loggedUser, "userInfo.loggedUser");

@@ -65,7 +65,7 @@ const Filters = ({
                   <div className={"mt-2"}>
                     <DatePicker
                       label="Select Order Start Date *"
-                      value={startDate !== "" && dayjs(startDate)}
+                      value={startDate !== "" ? dayjs(startDate):tomorrow}
                       onChange={(e) => updateStartDate(e)}
                       minDate={tomorrow}
                     />
