@@ -13,6 +13,7 @@ import Header from "./../../organisms/Navbar";
 import { useSelector } from "react-redux";
 import { LendarTableComponent } from "./LendarTableComponent";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
+import CardComponent from "../../organisms/CardsComponent/CardComponent";
 const Dashboard = () => {
   const [getOrdersdata, setOrdersdata] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -32,14 +33,41 @@ const Dashboard = () => {
   const [userRole, setUserRole] = useState(
     userInfo?.loggedUser?.role?.role_name
   );
+  const [lendersList, setLendersList] = useState([]);
+  const [metadata, setMetadata] = useState({});
 
+  
   useEffect(() => {
     async function data() {
       getOrders();
+      getLendersList();
     }
     data();
   }, [sortOrderByOrder]);
 
+  const getLendersList = () => {
+    // setShowLoader(true);
+
+    let url = `/v1/lenders`;
+    let header = {
+      Token: userInfo.token,
+    };
+
+    ApiService.get(url, {}, header, (res, err) => {
+      if (res !== null) {
+        console.log(res,"res.data[0].data")
+        setLendersList(
+          res[0].data.map((e) => {
+            return { label: e.name, value: e._id };
+          })
+        );
+        // setShowLoader(false);
+      } else {
+        console.log(err);
+        // setShowLoader(false);
+      }
+    });
+  };
   const getOrders = () => {
     setShowLoader(true);
 
@@ -50,8 +78,8 @@ const Dashboard = () => {
     if (userInfo.loggedUser?.role?.role_name !== "Admin") {
       // console.log(userInfo.loggedUser, "userInfo.loggedUser");
       // setLenderName(userInfo?.loggedUser?.first_name);
-      url += `&lender_name=${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`;
-      // url += `&lender_name=Diana Ganeeva`;
+      // url += `&lender_name=${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`;
+      url += `&lender_name=Diana Ganeeva`;
     } else if (lenderName !== "") url += `&lender_name=${lenderName}`;
 
     if (endDate !== null) url += `&end_date=${endDate}T23:59:59.000Z`;
@@ -63,7 +91,7 @@ const Dashboard = () => {
     if (renterLName !== "") url += `&renter_Lname=${renterLName}`;
 
     if (orderType !== "" && orderType !== null)
-    url += `&order_type=${orderType}`;
+      url += `&order_type=${orderType}`;
 
     if (sortOrderByOrder !== "") url += `&sortByOrder=${sortOrderByOrder}`;
     let header = {
@@ -73,6 +101,8 @@ const Dashboard = () => {
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
         setOrdersdata(res.data);
+        setMetadata(res.metadata);
+
         setShowLoader(false);
       } else {
         console.log(err);
@@ -157,7 +187,10 @@ const Dashboard = () => {
           setPaymentStatus={(e) => setPaymentStatus(e)}
           orderType={orderType}
           setOrderType={(e) => setOrderType(e)}
+          lendersList={lendersList}
         />
+
+        <CardComponent data={metadata}/>
         {userRole === "Lender" && (
           <div style={{ overflow: "auto" }}>
             <LendarTableComponent
@@ -168,12 +201,14 @@ const Dashboard = () => {
           </div>
         )}
         {userRole === "Admin" && (
-          <OrderTable
-            data={getOrdersdata}
-            sortOrderByOrder={sortOrderByOrder}
-            changeSort={(e) => updateSorting(e)}
-            getOrders={getOrders}
-          />
+          <div style={{ overflow: "auto" }}>
+            <OrderTable
+              data={getOrdersdata}
+              sortOrderByOrder={sortOrderByOrder}
+              changeSort={(e) => updateSorting(e)}
+              getOrders={getOrders}
+            />
+          </div>
         )}
       </div>
     </>

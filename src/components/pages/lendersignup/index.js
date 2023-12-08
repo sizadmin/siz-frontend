@@ -26,7 +26,13 @@ const LenderSignup = () => {
     lender_id: "",
     shopify_id: "",
     phone_number_whatsapp: "",
-    username:''
+    username:'',
+    lender_type:'',
+    account_number:'',
+    iban_number:'',
+    swift_code:'',
+    account_name:''
+
   });
   const [startDate, setStartDate] = useState(null);
   // const [endDate, setEndDate] = useState(null);
@@ -55,8 +61,6 @@ const LenderSignup = () => {
       getUsers();
       ApiService.get("/v1/roles", {}, {}, (res, err) => {
         if (res !== null) {
-          //   setOrdersdata(res.results);
-          //   setShowLoader(false);
           setRolesData(
             res.results.map((e) => {
               return { label: e.role_name, value: e._id };
@@ -70,8 +74,6 @@ const LenderSignup = () => {
 
       ApiService.get("/v1/lenders", {}, {}, (res, err) => {
         if (res !== null) {
-          //   setOrdersdata(res.results);
-          //   setShowLoader(false);
           setLendersData(
             res.length > 0
               ? res[0].data.map((e) => {

@@ -26,9 +26,11 @@ const Filters = ({
   paymentStatus,
   setPaymentStatus,
   orderType,
-  setOrderType
+  setOrderType,
+  lendersList,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const tomorrow = dayjs("2023-10-31").add(1, "day");
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
@@ -36,8 +38,9 @@ const Filters = ({
 
   return (
     <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
-      <div className="expand-collapse-header cursor" onClick={handleToggle}>
+      <div className="expand-collapse-header cursor d-flex justify-content-between" onClick={handleToggle}>
         {"Add Filters"}
+        <span> ▼</span>
       </div>
       {isExpanded && (
         <div className="expand-collapse-content">
@@ -47,15 +50,28 @@ const Filters = ({
             <div className="col-md-4">
               <span>Start Date</span>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <div className={"mt-2"}>
-                  <DatePicker
-                    label="Select Order Start Date *"
-                    value={startDate !== "" && dayjs(startDate)}
-                    onChange={(e) => updateStartDate(e)}
-                  />
-                </div>
-              </LocalizationProvider>
+              {userRole === "Admin" ? (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <div className={"mt-2"}>
+                    <DatePicker
+                      label="Select Order Start Date *"
+                      value={startDate !== "" && dayjs(startDate)}
+                      onChange={(e) => updateStartDate(e)}
+                    />
+                  </div>
+                </LocalizationProvider>
+              ) : (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <div className={"mt-2"}>
+                    <DatePicker
+                      label="Select Order Start Date *"
+                      value={startDate !== "" && dayjs(startDate)}
+                      onChange={(e) => updateStartDate(e)}
+                      minDate={tomorrow}
+                    />
+                  </div>
+                </LocalizationProvider>
+              )}
             </div>
 
             <div className="col-md-4">
@@ -100,10 +116,10 @@ const Filters = ({
                 <span>Lender Name</span>
                 <br />
                 <div className="mt-2">
-                  <input
-                    style={{ height: 40, width: "93%" }}
-                    value={lenderName}
-                    onChange={(e) => updateLenderName(e.target.value)}
+                  <CustomSelect
+                    options={lendersList}
+                    value={orderType}
+                    onChange={(e) => updateLenderName(e.label)}
                   />
                 </div>
               </div>
@@ -113,14 +129,14 @@ const Filters = ({
                 <span>Order Type</span>
                 <br />
                 <div className="mt-2">
-                <CustomSelect
-                  options={[
-                    { value: "Confirmed Order", label: "Confirmed Order" },
-                    { value: "Fitting", label: "Fitting" },
-                  ]}
-                  value={orderType}
-                  onChange={(e) => setOrderType(e.value)}
-                />
+                  <CustomSelect
+                    options={[
+                      { value: "Confirmed Order", label: "Confirmed Order" },
+                      { value: "Fitting", label: "Fitting" },
+                    ]}
+                    value={orderType}
+                    onChange={(e) => setOrderType(e.value)}
+                  />
                 </div>
               </div>
             )}

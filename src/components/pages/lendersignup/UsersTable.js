@@ -24,9 +24,13 @@ const UsersTable = (props) => {
 
   const handleShowDetails = (user) => {
     setPropsData({
-      lender_id: user?.lender_info[0]?.lender_id,
+      lender_id: user?.lender_info[0]?._id,
       shopify_id: user?.lender_info[0]?.shopify_id,
       phone_number_whatsapp: user?.lender_info[0]?.phone_number_whatsapp,
+      account_number:user?.lender_info[0]?.account_number,
+      iban_number:user?.lender_info[0]?.iban_number,
+      swift_code:user?.lender_info[0]?.swift_code,
+      account_name:user?.lender_info[0]?.account_name,
       ...user,
     });
     setShowCreateUserPopup(true);

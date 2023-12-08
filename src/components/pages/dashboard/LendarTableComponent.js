@@ -105,7 +105,8 @@ const LendarTableComponent = (props) => {
     let a = moment(start, "YYYY-MM-DD");
     let b = moment(end, "YYYY-MM-DD");
     //Difference in number of days
-    return moment.duration(b.diff(a)).asDays();
+    let days = moment.duration(b.diff(a)).asDays();
+    return isNaN(days) ? 1 : days;
   };
 
   return (
@@ -224,7 +225,7 @@ const LendarTableComponent = (props) => {
                         </Td>
                         <Td>
                           {order?.order_items !== undefined &&
-                            order?.order_items[0]?.brand}{" "}
+                            order?.order_items[0]?.title}{" "}
                           {/* {order.order_details?.customer?.first_name}{" "}
                           {order.order_details?.customer?.last_name}
                           <br />

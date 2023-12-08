@@ -21,6 +21,9 @@ function UserPopup(props) {
   const [showLoader, setShowLoader] = useState(false);
   const [formData, setFormData] = useState(props?.propsData);
   const [showLenderInfo, setShowLenderInfo] = useState(false);
+
+  const [showLenderBankInfo, setShowLenderBankInfo] = useState(false);
+
   const [isRequiredError, setIsRequiredError] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPhoneValid, setIsPhoneValid] = useState(false);
@@ -32,7 +35,11 @@ function UserPopup(props) {
     );
     if (findRole && findRole.label === "Lender") {
       setShowLenderInfo(true);
-    } else setShowLenderInfo(false);
+      setShowLenderBankInfo(true);
+    } else {
+      setShowLenderInfo(false);
+      setShowLenderBankInfo(false);
+    }
 
     if (emailRegx.test(formData.email)) {
       setIsEmailValid(true);
@@ -53,7 +60,12 @@ function UserPopup(props) {
 
       if (findRole && findRole.label === "Lender") {
         setShowLenderInfo(true);
-      } else setShowLenderInfo(false);
+        setShowLenderBankInfo(true);
+      } else {
+        setShowLenderInfo(false);
+
+        setShowLenderBankInfo(false);
+      }
     }
     setFormData((prevData) => {
       return {
@@ -98,6 +110,9 @@ function UserPopup(props) {
   const createNewUser = () => {
     setIsRequiredError(false);
 
+    formData.first_name = formData.first_name.trimEnd();
+    formData.last_name = formData.last_name.trimEnd();
+
     if (props.isNew === true) {
       if (
         formData.first_name === "" ||
@@ -112,8 +127,7 @@ function UserPopup(props) {
         return;
       }
       setShowLoader(true);
-      formData.first_name.trim();
-      formData.last_name.trim();
+      delete formData.lender_id;
       ApiService.post("/v1/user", formData, {}, (res, err) => {
         if (res !== null) {
           setSuccessMsg("User created successfully");
@@ -152,6 +166,7 @@ function UserPopup(props) {
         payload.role !== null && Object.keys(payload.role).length > 0
           ? payload.role._id
           : null;
+      delete payload.lender_id;
 
       ApiService.put("/v1/user/" + payload._id, payload, {}, (res, err) => {
         if (res !== null) {
@@ -336,27 +351,24 @@ function UserPopup(props) {
                     )}
                 </div>
               </div>
-              {/* {formData.role?.label === "Lender" && (
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
-                <h6 className={styles.third_titile}>Lender Info:</h6>
+                <h6 className={styles.third_titile}>Lender Type:</h6>
                 <div className={styles.modalElementDivStyle}>
                   <CustomSelect
-                    options={props.lendersData}
-                    onChange={(e) => onChangeSelect(e, "lender_info")}
-                    value={
-                      props.isNew === true
-                        ? null
-                        : formData.lender_info !== null &&
-                          formData.lender_info.length > 0
-                        ? Object.keys(formData.lender_info[0]).length > 0
-                          ? formData.lender_info[0]._id
-                          : formData.lender_info
-                        : null
-                    }
+                    options={[
+                      { value: "Managed Closet", label: "Managed Closet" },
+                      { value: "P2P", label: "P2P" },
+                    ]}
+                    value={formData.lender_type}
+                    onChange={(e) => onChangeSelect(e, "lender_type")}
                   />
+                  {(formData.lender_type === null ||
+                    formData.lender_type === "") &&
+                    isRequiredError === true && (
+                      <div>{handleIsRequiredError()}</div>
+                    )}
                 </div>
               </div>
-            )} */}
 
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
                 <h6 className={styles.third_titile}>Address:</h6>
@@ -387,6 +399,7 @@ function UserPopup(props) {
                         type="text"
                         className={styles.customInputStyle}
                         value={formData.lender_id}
+                        disabled={true}
                         onChange={(e) => onChangeVal(e, "lender_id")}
                       />
                     </div>
@@ -418,6 +431,69 @@ function UserPopup(props) {
                         className={styles.customInputStyle}
                         value={formData.shopify_id}
                         onChange={(e) => onChangeVal(e, "shopify_id")}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {showLenderBankInfo && (
+              <>
+                <hr />
+                <h6>Bank Details:</h6>
+                <div className="row col-md-12 p-4">
+                  <div
+                    className={["col-md-6", styles.modalElementStyle].join(" ")}
+                  >
+                    <h6 className={styles.third_titile}>Account Name:</h6>
+                    <div className={styles.modalElementDivStyle}>
+                      <input
+                        type="text"
+                        className={styles.customInputStyle}
+                        value={formData.account_name}
+                        onChange={(e) => onChangeVal(e, "account_name")}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={["col-md-6", styles.modalElementStyle].join(" ")}
+                  >
+                    <h6 className={styles.third_titile}>
+                      Account Number (AED):
+                    </h6>
+                    <div className={styles.modalElementDivStyle}>
+                      <input
+                        type="number"
+                        className={styles.customInputStyle}
+                        value={formData.account_number}
+                        onChange={(e) => onChangeVal(e, "account_number")}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={["col-md-6", styles.modalElementStyle].join(" ")}
+                  >
+                    <h6 className={styles.third_titile}>IBAN (AED):</h6>
+                    <div className={styles.modalElementDivStyle}>
+                      <input
+                        type="text"
+                        className={styles.customInputStyle}
+                        value={formData.iban_number}
+                        onChange={(e) => onChangeVal(e, "iban_number")}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={["col-md-6", styles.modalElementStyle].join(" ")}
+                  >
+                    <h6 className={styles.third_titile}>SWIFT Code:</h6>
+                    <div className={styles.modalElementDivStyle}>
+                      <input
+                        type="text"
+                        className={styles.customInputStyle}
+                        value={formData.swift_code}
+                        onChange={(e) => onChangeVal(e, "swift_code")}
                       />
                     </div>
                   </div>
