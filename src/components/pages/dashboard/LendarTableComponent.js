@@ -162,7 +162,7 @@ const LendarTableComponent = (props) => {
               <Th>Return to Lender</Th>
               <Th>Rental Fee</Th>
               <Th>Expenses</Th>
-              <Th>Profit</Th>
+              {/* <Th>Profit</Th> */}
               <Th>Lender's share</Th>
               <Th>Payment status</Th>
             </Tr>
@@ -287,7 +287,7 @@ const LendarTableComponent = (props) => {
                         </Td>
                         <Td>{order?.total_price}</Td>
                         <Td>{order?.expenses}</Td>
-                        <Td>{order?.profit}</Td>
+                        {/* <Td>{order?.profit}</Td> */}
                         <Td>{order?.lenders_share}</Td>
                         <Td>
                           {order?.payment_status === true ? "Paid" : "Un-paid"}

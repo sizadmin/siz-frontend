@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Styles from "./style.module.css";
 import logo from "./../../../assets/imgs/LOGO.jpeg";
 import { connect, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ const Header = (props) => {
   const { userInfo } = useSelector((state) => state.user);
   const location = useLocation();
   const navigate = useHistory();
+  const [toggleBar, setToggleBar] = useState(false);
 
   return (
     <nav className="navbar navbar-expand-md navbar-dark" id="banner">
@@ -26,27 +27,31 @@ const Header = (props) => {
         <h5 className={["mb-0", Styles.headerText].join(" ")}>
           Order Management Dashboard
         </h5>
-
         {/* <!-- Toggler/collapsibe Button --> */}
         <button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
           data-target="#collapsibleNavbar"
+          onClick={() => setToggleBar(!toggleBar)}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
         {/* <!-- Navbar links --> */}
-        <div className="collapse navbar-collapse" id="collapsibleNavbar">
+        <div
+          className="collapse navbar-collapse"
+          id="collapsibleNavbar"
+          style={{ display: toggleBar === true ? "block" : "none" }}
+        >
           <ul className="navbar-nav ml-auto">
             {/* change dropdown start  */}
             {/* <!-- Dropdown --> */}
             <li>
               <div className="d-flex flex-column">
-                  <a href="/dashboard" className="m-2">
-                    Orders
-                  </a>
+                <a href="/dashboard" className="m-2">
+                  Orders
+                </a>
               </div>
             </li>
             <li>
@@ -60,7 +65,7 @@ const Header = (props) => {
             </li>
 
             <li>
-              <div className="d-flex flex-column">
+              <div className="d-flex flex-column" style={{ color: "black" }}>
                 <span>
                   {userInfo?.loggedUser?.first_name}{" "}
                   {userInfo?.loggedUser?.last_name}
@@ -68,7 +73,7 @@ const Header = (props) => {
                 <span>{userInfo?.loggedUser?.phone_number}</span>
               </div>
             </li>
-            <li className="nav-item dropdown  d-none d-lg-block">
+            <li className="nav-item dropdown d-lg-block">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
 
               {/* <a href="/"> */}

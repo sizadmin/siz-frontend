@@ -80,8 +80,8 @@ const Dashboard = () => {
     if (userInfo.loggedUser?.role?.role_name !== "Admin") {
       // console.log(userInfo.loggedUser, "userInfo.loggedUser");
       // setLenderName(userInfo?.loggedUser?.first_name);
-      // url += `&lender_name=${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`;
-      url += `&lender_name=Diana Ganeeva`;
+       url += `&lender_name=${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`;
+      //url += `&lender_name=Diana Ganeeva`;
     } else if (lenderName !== "") url += `&lender_name=${lenderName}`;
 
     if (endDate !== null) url += `&end_date=${endDate}T23:59:59.000Z`;
@@ -192,7 +192,7 @@ const Dashboard = () => {
           lendersList={lendersList}
         />
 
-        <CardComponent data={metadata}/>
+        <CardComponent data={metadata} userRole={userRole}/>
         {userRole === "Lender" && (
           <div style={{ overflow: "auto" }}>
             <LendarTableComponent
