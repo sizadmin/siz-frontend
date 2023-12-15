@@ -116,7 +116,7 @@ function UserPopup(props) {
     if (props.isNew === true) {
       if (
         formData.first_name === "" ||
-        formData.last_name === "" ||
+       // formData.last_name === "" ||
         formData.email === "" ||
         formData.password === "" ||
         formData.role === "" ||
