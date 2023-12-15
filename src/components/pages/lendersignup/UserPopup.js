@@ -147,7 +147,7 @@ function UserPopup(props) {
     } else {
       if (
         formData.first_name === "" ||
-        formData.last_name === "" ||
+       // formData.last_name === "" ||
         formData.email === "" ||
         formData.role === "" ||
         !isEmailValid ||
