@@ -226,8 +226,7 @@ function UserPopup(props) {
                     value={formData.first_name}
                     onChange={(e) => onChangeVal(e, "first_name")}
                   />
-                  {(formData.first_name === null ||
-                    formData.first_name === "") &&
+                  {formData.first_name === null &&
                     isRequiredError === true && (
                       <div>{handleIsRequiredError()}</div>
                     )}
@@ -242,7 +241,7 @@ function UserPopup(props) {
                     value={formData.last_name}
                     onChange={(e) => onChangeVal(e, "last_name")}
                   />
-                  {(formData.last_name === null || formData.last_name === "") &&
+                  {(formData.last_name === null ) &&
                     isRequiredError === true && (
                       <div>{handleIsRequiredError()}</div>
                     )}

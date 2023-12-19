@@ -30,3 +30,7 @@
     flex-direction: column;
     margin: 10px;
 }
+
+.cardDiv{
+    justify-content: center;
+}

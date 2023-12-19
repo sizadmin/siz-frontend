@@ -6,7 +6,7 @@ const CardComponent = ({ data, userRole }) => {
   return (
     <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
       <div className="expand-collapse-content">
-        <div className="col-md-12 row d-flex p-3">
+        <div style={{justifyContent:"center"}} className={[styles.cardDiv, "col-md-12","row","d-flex","p-3"].join(" ")}> 
           {/* start admin view  */}
           {userRole === "Admin" && (
             <>

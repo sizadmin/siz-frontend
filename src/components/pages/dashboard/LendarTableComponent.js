@@ -224,27 +224,33 @@ const LendarTableComponent = (props) => {
                           )}
                         </Td>
                         <Td>
-                          {order?.order_items !== undefined &&
-                            order?.order_items[0]?.title}{" "}
-                          {/* {order.order_details?.customer?.first_name}{" "}
-                          {order.order_details?.customer?.last_name}
-                          <br />
-                          {userRole === "Admin" && (
-                            <i>{order?.order_details?.phone}</i>
-                          )} */}
+                          {order?.order_items !== undefined ?
+                            order?.order_items[0]?.vendor
+                            : order?.order_details?.line_items[0]?.vendor
+                          
+                            }
+                    
                         </Td>
 
                         <Td>
-                          {order?.order_items !== undefined &&
-                            order?.order_items[0]?.title}
+                        {order?.order_items !== undefined ?
+                            order?.order_items[0]?.title 
+                            : order?.order_details?.line_items[0]?.title
+                          
+                            }
                         </Td>
                         <Td>
-                          {order?.order_items !== undefined &&
-                            order?.order_items[0]?.variant_title?.split("/")[0]}
+                          {order?.order_items !== undefined ?
+                            order?.order_items[0]?.variant_title?.split("/")[0]
+                          : order?.order_details?.line_items[0]?.variant_title?.split("/")[0]
+                          }
+          
                         </Td>
                         <Td>
-                          {order?.order_items !== undefined &&
-                            order?.order_items[0]?.variant_title?.split("/")[1]}
+                        {order?.order_items !== undefined ?
+                            order?.order_items[0]?.variant_title?.split("/")[1]
+                          : order?.order_details?.line_items[0]?.variant_title?.split("/")[1]
+                          }
                         </Td>
                         <Td>{order?.order_type ? order?.order_type : "-"}</Td>
                         <Td>

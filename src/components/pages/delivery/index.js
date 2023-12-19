@@ -221,7 +221,7 @@ const Delivery = (props) => {
                             label="Select Pickup Date *"
                             onChange={startDatHandler}
                             value={startDate !== "" && dayjs(startDate)}
-                            minDate={startDate !== "" && dayjs(startDate)}
+                            minDate={orderDetails.rental_start_date != "" && dayjs(orderDetails.rental_start_date)}
                             maxDate={orderDetails.rental_end_date != "" && dayjs(orderDetails.rental_end_date)}
                           />
                         </div>

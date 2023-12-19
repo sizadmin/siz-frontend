@@ -383,7 +383,7 @@ const OrderTable = (props) => {
                         </Td>
                         <Td>
                           {order?.order_items !== undefined &&
-                            order?.order_items[0]?.title}{" "}
+                            order?.order_items[0]?.vendor}{" "}
                           {/* {order.order_details?.customer?.first_name}{" "}
                           {order.order_details?.customer?.last_name}
                           <br />
