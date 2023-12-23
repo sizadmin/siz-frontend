@@ -91,11 +91,21 @@ const OrderTable = (props) => {
   const renderDeliveryDate = (order) => {
     if (order.order_status != null) {
       if (order.order_status.product_delivery_date != null) {
-        return moment(order?.order_status?.[0]?.product_delivery_date).format(
-          "DD-MMM-YYYY"
+        const deliveryDate = moment(order?.order_status?.[0]?.product_delivery_date);
+        const isToday = deliveryDate.isSame(moment(), 'day');
+        return (
+          <span className={isToday ? 'highlighted-date' : ''}>
+            {deliveryDate.format("DD-MMM-YYYY")}
+          </span>
         );
       } else if (order.rental_start_date != null) {
-        return moment(order?.rental_start_date).format("DD-MMM-YYYY");
+        const rentalStartDate = moment(order?.rental_start_date);
+        const isToday = rentalStartDate.isSame(moment(), 'day');
+        return (
+          <span className={isToday ? 'highlighted-date' : ''}>
+            {rentalStartDate.format("DD-MMM-YYYY")}
+          </span>
+        );
       } else {
         return "-";
       }

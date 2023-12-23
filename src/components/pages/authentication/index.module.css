@@ -88,3 +88,8 @@ label{
   cursor: pointer;
   text-decoration: underline !important;
 }
+
+.highlighted-date {
+  background-color: yellow; /* Add your desired highlighting style */
+  /* Add any other styling you want for the highlighted dates */
+}
