@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import styles from "./index.module.css";
@@ -11,16 +11,16 @@ import dayjs from "dayjs";
 
 import moment from "moment/moment";
 import { CustomSelect } from "../../atom/CustomSelect/CustomSelect";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
+import GalleryComponent from "./../../atom/GalleryComponent/GalleryComponent";
 function ModalPopup(props) {
   const handleClose = () => props.hide();
   const [getOrdersdata, setOrdersdata] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [formData, setFormData] = useState(props?.propsData?.order);
 
-  useEffect(() => {
-    // setShowLoader(true);
-    // getOrderDetails();
-  }, []);
+  // useEffect(() => {
+  // }, []);
   const onChangeSelect = (e, field) => {
     setFormData((prevData) => {
       return {
@@ -41,7 +41,8 @@ function ModalPopup(props) {
     setFormData((prevData) => {
       return {
         ...prevData,
-        [field]:e == null ? null : moment(dayjs(e).toString()).format("YYYY-MM-DD"),
+        [field]:
+          e == null ? null : moment(dayjs(e).toString()).format("YYYY-MM-DD"),
       };
     });
   };
@@ -88,6 +89,128 @@ function ModalPopup(props) {
           {/* {getOrdersdata === undefined ? (
             <span>No data found.</span>
           ) : ( */}
+
+          <div>
+            <h6 className={[styles.third_titile, "mb-2"].join(" ")}>
+              Order Items :
+            </h6>
+
+            <Table className={styles.tableShadow}>
+              <Thead>
+                <Tr style={{ background: "#af1010", color: "white" }}>
+                  <Th style={{ width: 40 }}>#</Th>
+                  <Th>Product Image</Th>
+                  <Th>Name</Th>
+                  <Th>Brand </Th>
+                  <Th>Lender</Th>
+                  <Th>Start Date</Th>
+                  <Th>End Date</Th>
+                  <Th>Price</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {formData?.order_details?.line_items.length === 0 ? (
+                  <>
+                    <Tr>
+                      <Td colSpan="8">
+                        <div className="w-100 text-center">No Items Found</div>
+                      </Td>
+                    </Tr>
+                  </>
+                ) : (
+                  <>
+                    {formData?.order_details?.line_items.length > 0 &&
+                      formData?.order_details?.line_items.map((item, i) => (
+                        <React.Fragment key={i + "_items"}>
+                          <Tr style={{ borderBottom: "1px solid #e7d9d9" }}>
+                            <Td>{i + 1}</Td>
+                            <Td>
+                              <div
+                                style={{
+                                  height: 80,
+                                  width: 80,
+                                  boxShadow:
+                                    "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                                  margin: "auto",
+                                }}
+                              >
+                                <GalleryComponent
+                                  images={
+                                    item.images !== undefined &&
+                                    item.images.length > 0
+                                      ? item.images
+                                      : []
+                                  }
+                                />
+                              </div>
+                            </Td>
+                            <Td style={{ fontSize: "small" }}>
+                              {item.title ? item.title : "-"}
+                            </Td>
+                            <Td style={{ fontSize: "small" }}>
+                              {item.vendor ? item.vendor : "-"}
+                            </Td>
+                            <Td style={{ fontSize: "small", maxWidth: 200 }}>
+                              {item.lender !== undefined && Object.keys(item.lender).length > 0 ? (
+                                <>
+                                  <span style={{ paddingLeft: 17 }}>
+                                    {item.lender?.name
+                                      ? item.lender?.name
+                                      : "-"}
+                                  </span>
+                                  <br />
+                                  <span>
+                                    <i
+                                      className="fa fa-phone"
+                                      style={{ fontSize: 17, paddingRight: 6 }}
+                                      aria-hidden="true"
+                                    ></i>
+                                    {item.lender?.phone_number_call
+                                      ? item.lender?.phone_number_call
+                                      : "-"}
+                                  </span>
+                                  <br />
+                                  <span>
+                                    <i
+                                      className="fa fa-map-marker"
+                                      aria-hidden="true"
+                                      style={{ fontSize: 17, paddingRight: 10 }}
+                                    ></i>
+                                    {item.lender?.address
+                                      ? item.lender?.address
+                                      : "-"}
+                                  </span>
+                                </>
+                              ) : (
+                                <>-</>
+                              )}
+                            </Td>
+
+                            <Td style={{ fontSize: "small" }}>
+                              {item.properties.length > 0
+                                ? item.properties?.[0].value.split("to")[0]
+                                : "-"}
+                            </Td>
+                            <Td style={{ fontSize: "small" }}>
+                              {item.properties.length > 0
+                                ? item.properties?.[0].value.split("to")[1]
+                                : "-"}
+                            </Td>
+                            <Td style={{ fontSize: "small" }}>
+                              {" "}
+                              {item.price ? item.price : "-"}
+                            </Td>
+                          </Tr>
+                        </React.Fragment>
+                      ))}
+                  </>
+                )}
+              </Tbody>
+            </Table>
+          </div>
+          {/* <h6 className={styles.third_titile}> Order Details :</h6> */}
+          <hr style={{ width: "100%", display: "flex", marginTop: "3%" }} />
+
           <div className="row col-md-12 p-4">
             <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
               <h6 className={styles.third_titile}> Order Type :</h6>
@@ -129,7 +252,7 @@ function ModalPopup(props) {
                     <DatePicker
                       label="Select Date "
                       value={
-                        (formData.pickup_by_dry_cleaner_from_renter !== "") &&
+                        formData.pickup_by_dry_cleaner_from_renter !== "" &&
                         dayjs(formData.pickup_by_dry_cleaner_from_renter)
                       }
                       onChange={(e) =>

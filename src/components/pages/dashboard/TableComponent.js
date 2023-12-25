@@ -38,6 +38,18 @@ const OrderTable = (props) => {
     return isNaN(days) ? 1 : days;
   };
 
+  const areTodaysDate = (date2) => {
+    // const today = moment("2023-11-16"); // current date
+    // const next3days = moment("2023-11-16T00:00:00").add(3, "days");
+    const today = moment(); // current date
+    const next3days = moment().add(3, "days");
+    const checkDate = moment(date2);
+    const isBetween = checkDate.isBetween(today, next3days);
+    if (date2 === undefined) return;
+    if (moment(today).isSame(date2, "day") === true) return "#74b074";
+    else if (isBetween === true) return "#dfdf58";
+  };
+
   const getOrderDetailsStatus = (productId) => {
     console.log("Get order id : ", productId);
     ApiService.get("/v1/order-status/" + productId, {}, {}, (res, err) => {
@@ -91,18 +103,20 @@ const OrderTable = (props) => {
   const renderDeliveryDate = (order) => {
     if (order.order_status != null) {
       if (order.order_status.product_delivery_date != null) {
-        const deliveryDate = moment(order?.order_status?.[0]?.product_delivery_date);
-        const isToday = deliveryDate.isSame(moment(), 'day');
+        const deliveryDate = moment(
+          order?.order_status?.[0]?.product_delivery_date
+        );
+        const isToday = deliveryDate.isSame(moment(), "day");
         return (
-          <span className={isToday ? 'highlighted-date' : ''}>
+          <span className={isToday ? "highlighted-date" : ""}>
             {deliveryDate.format("DD-MMM-YYYY")}
           </span>
         );
       } else if (order.rental_start_date != null) {
         const rentalStartDate = moment(order?.rental_start_date);
-        const isToday = rentalStartDate.isSame(moment(), 'day');
+        const isToday = rentalStartDate.isSame(moment(), "day");
         return (
-          <span className={isToday ? 'highlighted-date' : ''}>
+          <span className={isToday ? "highlighted-date" : ""}>
             {rentalStartDate.format("DD-MMM-YYYY")}
           </span>
         );
@@ -124,6 +138,18 @@ const OrderTable = (props) => {
       }
     }
   };
+  const highlightPickupColumn = (order) => {
+    if (order.order_status != null) {
+      if (order.order_status.product_pickup_date_from_renter != null) {
+        return areTodaysDate(
+          order?.order_status?.[0]?.product_pickup_date_from_renter
+        );
+      } else if (order.rental_end_date != null) {
+        return areTodaysDate(order?.rental_end_date);
+      }
+    }
+  };
+
   const renderStatus = (order) => {
     // return <div className={styles.Completed}></div>
   };
@@ -207,7 +233,10 @@ const OrderTable = (props) => {
                   props.data.map((order, i) => (
                     <React.Fragment key={i}>
                       <Tr
-                        style={{ borderBottom: "1px solid #e7d9d9" }}
+                        style={{
+                          borderBottom: "1px solid #e7d9d9",
+                          cursor: "pointer",
+                        }}
                         onClick={() => handleShowDetails(order)}
                       >
                         <Td>
@@ -215,7 +244,13 @@ const OrderTable = (props) => {
                           <br />
                           {renderStatus(order)}
                         </Td>
-                        <Td style={{ whiteSpace: "nowrap", fontSize: "small" }}>
+                        <Td
+                          style={{
+                            whiteSpace: "nowrap",
+                            fontSize: "small",
+                            background: areTodaysDate(order?.rental_start_date),
+                          }}
+                        >
                           {
                             <>
                               <span>
@@ -239,7 +274,13 @@ const OrderTable = (props) => {
                             </>
                           }
                         </Td>
-                        <Td style={{ whiteSpace: "nowrap", fontSize: "small" }}>
+                        <Td
+                          style={{
+                            whiteSpace: "nowrap",
+                            fontSize: "small",
+                            background: highlightPickupColumn(order),
+                          }}
+                        >
                           {
                             <>
                               <span>

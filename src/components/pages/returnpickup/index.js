@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-
-import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import styles from "./index.module.css";
 import Logo from "./../../../assets/imgs/LOGO.jpeg";
 // import CHECKED from "./../../../assets/imgs/checked.png";
-import Sample1 from "./../../../assets/imgs/sample1.avif";
+// import Sample1 from "./../../../assets/imgs/sample1.avif";
 import moment from "moment";
 import ApiService from "../../../utils/middleware/ApiService";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
@@ -14,18 +12,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-const productList = [
-  {
-    title: "Freya Dress",
-    sizes: "S/M",
-    color: "Black",
-    bookingdays: "4 Days",
-    startdate: new Date(),
-    enddate: new Date(),
-  },
-];
 const ReturnPickup = (props) => {
-  let history = useHistory();
   const [errorMessages, setErrorMessages] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [endDate, setEndDate] = useState(

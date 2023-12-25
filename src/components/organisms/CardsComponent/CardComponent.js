@@ -31,7 +31,7 @@ const CardComponent = ({ data, userRole }) => {
               </div>
 
               <div className={[styles.cardStyle, "col-md-2"].join(" ")}>
-                <h4>{data.totalRentalFees - data.totalLendersShare}</h4>
+                <h4>{data.totalPrice - data.totalExpenses - data.totalLendersShare}</h4>
                 <h8>Net Profit</h8>
               </div>
             </>
