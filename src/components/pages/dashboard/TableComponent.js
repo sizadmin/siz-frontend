@@ -484,7 +484,7 @@ const OrderTable = (props) => {
                         </Td>
                         <Td>{order?.total_price}</Td>
                         <Td>{order?.expenses}</Td>
-                        <Td>{order?.profit}</Td>
+                        <Td>{order?.total_price -  order?.expenses -  order?.lenders_share}</Td>
                         <Td>{order?.lenders_share}</Td>
                         <Td>
                           {order?.payment_status === true ? "Paid" : "Un-paid"}

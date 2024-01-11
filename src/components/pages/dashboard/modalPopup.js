@@ -219,6 +219,7 @@ function ModalPopup(props) {
                   options={[
                     { value: "Confirmed Order", label: "Confirmed Order" },
                     { value: "Fitting", label: "Fitting" },
+                    { value: "Cancelled", label: "Cancelled" },
                   ]}
                   value={formData.order_type}
                   onChange={(e) => onChangeSelect(e, "order_type")}
@@ -303,7 +304,7 @@ function ModalPopup(props) {
                 <input
                   type="text"
                   className={styles.customInputStyle}
-                  value={formData.rental_fees}
+                  value={formData?.order_details?.current_total_price}
                   onChange={(e) => onChangeVal(e, "rental_fees")}
                 />
               </div>
@@ -325,8 +326,9 @@ function ModalPopup(props) {
                 <input
                   type="text"
                   className={styles.customInputStyle}
-                  value={formData.profit}
+                  value={formData?.order_details?.current_total_price - formData.expenses - formData.lenders_share }
                   onChange={(e) => onChangeVal(e, "profit")}
+                  disabled
                 />
               </div>
             </div>
@@ -348,6 +350,7 @@ function ModalPopup(props) {
                   options={[
                     { value: true, label: "Paid" },
                     { value: false, label: "Un-paid" },
+                    { value: false, label: "Refunded" },
                   ]}
                   value={formData.payment_status}
                   onChange={(e) => onChangeSelect(e, "payment_status")}
