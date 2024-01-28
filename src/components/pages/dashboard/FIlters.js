@@ -5,8 +5,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import moment from "moment";
+// import moment from "moment";
 import { CustomSelect } from "../../atom/CustomSelect/CustomSelect";
+// import downArrow from "./../../../assets/svgs/down_arrow.svg";
+// import upArrow from "./../../../assets/svgs/up_arrow.svg";
+
 const Filters = ({
   renterName,
   renterLName,
@@ -38,9 +41,9 @@ const Filters = ({
 
   return (
     <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
-      <div className="expand-collapse-header cursor d-flex justify-content-between" onClick={handleToggle}>
-        {"Add Filters"}
-        <span> ▼</span>
+      <div className="expand-collapse-header cursor d-flex justify-content-between align-items-center" onClick={handleToggle}>
+        <h6>Add Filters</h6>
+        {/* <img src={isExpanded ? downArrow : upArrow} alt="expandedIcon" /> */}
       </div>
       {isExpanded && (
         <div className="expand-collapse-content">

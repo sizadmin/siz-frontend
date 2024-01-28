@@ -291,7 +291,7 @@ const LendarTableComponent = (props) => {
                               : "No"
                             : "-"}
                         </Td>
-                        <Td>{order?.total_price}</Td>
+                        <Td>{order?.rental_fees}</Td>
                         <Td>{order?.expenses}</Td>
                         {/* <Td>{order?.profit}</Td> */}
                         <Td>{order?.lenders_share}</Td>

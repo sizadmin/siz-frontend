@@ -19,8 +19,17 @@ function ModalPopup(props) {
   const [showLoader, setShowLoader] = useState(false);
   const [formData, setFormData] = useState(props?.propsData?.order);
 
-  // useEffect(() => {
-  // }, []);
+  useEffect(() => {
+    let order = props?.propsData?.order;
+if(order.rental_fees === undefined) order.rental_fees = formData?.order_details?.current_total_price;
+// setFormData(order)
+setFormData((prevData) => {
+  return {
+    ...prevData,
+    order: order,
+  };
+});
+  }, []);
   const onChangeSelect = (e, field) => {
     setFormData((prevData) => {
       return {
@@ -151,7 +160,7 @@ function ModalPopup(props) {
                               {item.vendor ? item.vendor : "-"}
                             </Td>
                             <Td style={{ fontSize: "small", maxWidth: 200 }}>
-                              {item.lender !== undefined && Object.keys(item.lender).length > 0 ? (
+                              {item.lender !== null && item.lender !== undefined && Object.keys(item.lender).length > 0 ? (
                                 <>
                                   <span style={{ paddingLeft: 17 }}>
                                     {item.lender?.name
@@ -302,9 +311,10 @@ function ModalPopup(props) {
               <h6 className={styles.third_titile}>Rental Fees:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="text"
+                  type="number"
                   className={styles.customInputStyle}
-                  value={formData?.order_details?.current_total_price}
+                  // value={formData?.order_details?.current_total_price}
+                  value={Number(formData?.rental_fees)}
                   onChange={(e) => onChangeVal(e, "rental_fees")}
                 />
               </div>
@@ -313,9 +323,9 @@ function ModalPopup(props) {
               <h6 className={styles.third_titile}>Expenses:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="text"
+                  type="number"
                   className={styles.customInputStyle}
-                  value={formData.expenses}
+                  value={Number(formData.expenses)}
                   onChange={(e) => onChangeVal(e, "expenses")}
                 />
               </div>
@@ -324,9 +334,9 @@ function ModalPopup(props) {
               <h6 className={styles.third_titile}>Profit:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="text"
+                  type="number"
                   className={styles.customInputStyle}
-                  value={formData?.order_details?.current_total_price - formData.expenses - formData.lenders_share }
+                  value={Number(formData?.rental_fees - formData.expenses - formData.lenders_share) }
                   onChange={(e) => onChangeVal(e, "profit")}
                   disabled
                 />
@@ -336,9 +346,9 @@ function ModalPopup(props) {
               <h6 className={styles.third_titile}>Lender's share:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="text"
+                  type="number"
                   className={styles.customInputStyle}
-                  value={formData.lenders_share}
+                  value={Number(formData.lenders_share)}
                   onChange={(e) => onChangeVal(e, "lenders_share")}
                 />
               </div>

@@ -9,6 +9,7 @@
 }
 
 input[type="text"],
+input[type="number"],
 input[type="password"] {
   height: 40px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -51,9 +52,11 @@ input[type="submit"]:hover {
 .error {
   color: red;
 }
+
 .success {
   color: green;
 }
+
 .title {
   font-size: 1.6rem;
   margin-bottom: 35px;
@@ -66,30 +69,32 @@ input[type="submit"]:hover {
   gap: 8px;
   margin: 10px;
 }
+
 .logoStyle {
   width: 25vw;
   min-width: 2vw;
   max-width: 10vw;
 }
 
-label{
+label {
   margin-top: 0.6rem;
   margin-bottom: 0;
 }
 
-.link{
+.link {
   color: #000 !important;
   cursor: pointer;
   /* text-decoration: none !important; */
 }
 
-.link:hover{
+.link:hover {
   color: #af1010 !important;
   cursor: pointer;
   text-decoration: underline !important;
 }
 
 .highlighted-date {
-  background-color: yellow; /* Add your desired highlighting style */
+  background-color: yellow;
+  /* Add your desired highlighting style */
   /* Add any other styling you want for the highlighted dates */
 }
