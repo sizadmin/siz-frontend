@@ -15,7 +15,7 @@ import {
   phoneNumberRegx,
 } from "../../../utils/Helper";
 import Notification from "../../organisms/Notification/notification";
-
+import CloseIcon from "./../../../assets/svgs/Close_icon.svg"
 function UserPopup(props) {
   const handleClose = () => props.hide();
   const [showLoader, setShowLoader] = useState(false);
@@ -196,22 +196,23 @@ function UserPopup(props) {
         dialogClassName="modal-90w"
         className="my-modal modal-90w"
       >
-        <Modal.Header>
+        <Modal.Header className="align-items-center">
           <Modal.Title
             className={[
               styles.third_titile,
-              "d-flex justify-content-between",
+              "d-flex justify-content-between align-items-center",
             ].join(" ")}
           >
             {props.isNew === true ? "Create User" : "Edit User"}
             {/* <span>X</span> */}
           </Modal.Title>
-          <button
+          {/* <button
             onClick={handleClose}
             type="button"
             className="btn-close"
             aria-label="Close"
-          ></button>
+          >X</button> */}
+          <img src={CloseIcon} alt="close popup icon"  className="cursor" onClick={handleClose}/>
         </Modal.Header>
         <Modal.Body>
           <div>

@@ -1,0 +1,44 @@
+.cardOuter {
+    background-color:#E5E7EB5C;
+    height: 150px;
+    width: 300px;
+    /* margin: 10px; */
+    margin: 10px 10px;
+    flex-direction: column;
+    display: flex;
+    padding: 10px;
+    border-radius: 11px;
+}
+
+.cardTitleStyle {
+    margin-top: 0px;
+    font-size: 15px;
+    font-family: "Lexend Exa", sans-serif;
+
+}
+
+.cardTitleCountStyle {
+    margin-top: 20px;
+    font-size: 40px;
+    margin-bottom: 10px;
+    font-family: "Lexend Exa", sans-serif;
+
+}
+
+.totalOrdersCountStyle {
+    color: #000;
+}
+
+.cancelledOrdersCountStyle {
+    color: red;
+}
+
+.pendingOrdersCountStyle {
+    color: #08DF04;
+
+}
+
+.completedOrdersCountStyle {
+    color: #04C5DF;
+
+}

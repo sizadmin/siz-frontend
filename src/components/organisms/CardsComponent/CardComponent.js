@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import styles from "./card.module.css";
-//import downArrow from "./../../../assets/svgs/down_arrow.svg";
-//import upArrow from "./../../../assets/svgs/up_arrow.svg";
+// import downArrow from "./../../../assets/svgs/down_arrow.svg";
+// import upArrow from "./../../../assets/svgs/up_arrow.svg";
 
 const CardComponent = ({ data, userRole }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -33,7 +33,7 @@ const CardComponent = ({ data, userRole }) => {
             {userRole === "Admin" && (
               <>
                 <div className={[styles.cardStyle, "col-md-2"].join(" ")}>
-                  <h4>{data.totalRentalFees}</h4>
+                  <h4>{data.totalPrice}</h4>
                   <h8>Total Rental Price</h8>
                 </div>
 
@@ -55,7 +55,7 @@ const CardComponent = ({ data, userRole }) => {
                 <div className={[styles.cardStyle, "col-md-2"].join(" ")}>
                   <h4>
                     {Number(
-                      data.totalRentalFees -
+                      data.totalPrice -
                         data.totalExpenses -
                         data.totalLendersShare
                     ).toFixed(2)}
@@ -69,7 +69,7 @@ const CardComponent = ({ data, userRole }) => {
             {userRole !== "Admin" && (
               <>
                 <div className={[styles.cardStyle, "col-md-2"].join(" ")}>
-                  <h4>{data.totalRentalFees}</h4>
+                  <h4>{data.totalPrice}</h4>
                   <h8>Total Rental Price</h8>
                 </div>
 

@@ -1,0 +1,120 @@
+.logoStyle {
+    width: 10vw;
+    min-width: 2vw;
+    max-width: 2vw;
+}
+
+.SideNavbarIcon {
+    cursor: pointer;
+}
+
+.SideNavbarOuter {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 15px;
+    background-color: #F9FAFB;
+}
+
+.iconsStyles {
+    width: 10vw;
+    min-width: 2vw;
+    max-width: 2vw;
+    margin-right: 10px;
+}
+
+.activeRoute {
+    background: #E5E7EB;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black !important;
+}
+
+
+/* new */
+.sidenav {
+    width: 250px;
+    transition: width 0.3s ease-in-out;
+    height: 100vh;
+    /* background-color: rgb(10,25,41); */
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.sidenavClosed {
+    composes: sidenav;
+    transition: width 0.3s ease-in-out;
+    width: 60px
+}
+
+.sideitem {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: black !important;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.linkText {
+    padding-left: 16px;
+}
+
+.sideitem:hover {
+    background-color: #244f7d1c !important;
+    color: black;
+    text-decoration: none !important;
+}
+
+.menuBtn {
+    align-self: center;
+    align-self: flex-start;
+    justify-self: flex-end;
+    color: #B2BAC2;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding-left: 20px;
+}
+
+.userInfoOuter {
+    display: flex;
+    position: absolute;
+    bottom: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.userIconStyle {
+    height: 35px;
+    margin-right: 20px;
+}
+
+.usernameStyle {
+    color: #111827;
+    text-transform: capitalize;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+}
+
+.dotStyles {
+    right: 0;
+    margin-left: auto;
+    width: 35px;
+    text-align: end;
+    font-size: 20px;
+}
+.UsersIcon{
+    width: 20px;
+    height: 23px;
+
+}
+.emailStyle{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+}

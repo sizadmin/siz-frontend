@@ -13,6 +13,8 @@ import moment from "moment/moment";
 import { CustomSelect } from "../../atom/CustomSelect/CustomSelect";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import GalleryComponent from "./../../atom/GalleryComponent/GalleryComponent";
+import CloseIcon from "./../../../assets/svgs/Close_icon.svg";
+
 function ModalPopup(props) {
   const handleClose = () => props.hide();
   const [getOrdersdata, setOrdersdata] = useState([]);
@@ -21,14 +23,15 @@ function ModalPopup(props) {
 
   useEffect(() => {
     let order = props?.propsData?.order;
-if(order.rental_fees === undefined) order.rental_fees = formData?.order_details?.current_total_price;
-// setFormData(order)
-setFormData((prevData) => {
-  return {
-    ...prevData,
-    order: order,
-  };
-});
+    if (order.rental_fees === undefined)
+      order.rental_fees = formData?.order_details?.current_total_price;
+    // setFormData(order)
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        order: order,
+      };
+    });
   }, []);
   const onChangeSelect = (e, field) => {
     setFormData((prevData) => {
@@ -87,12 +90,12 @@ setFormData((prevData) => {
           <Modal.Title className={styles.third_titile}>
             Order Details
           </Modal.Title>
-          <button
+          <img
+            src={CloseIcon}
+            alt="close popup icon"
+            className="cursor"
             onClick={handleClose}
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-          ></button>
+          />
         </Modal.Header>
         <Modal.Body>
           {/* {getOrdersdata === undefined ? (
@@ -160,7 +163,9 @@ setFormData((prevData) => {
                               {item.vendor ? item.vendor : "-"}
                             </Td>
                             <Td style={{ fontSize: "small", maxWidth: 200 }}>
-                              {item.lender !== null && item.lender !== undefined && Object.keys(item.lender).length > 0 ? (
+                              {item.lender !== null &&
+                              item.lender !== undefined &&
+                              Object.keys(item.lender).length > 0 ? (
                                 <>
                                   <span style={{ paddingLeft: 17 }}>
                                     {item.lender?.name
@@ -314,7 +319,7 @@ setFormData((prevData) => {
                   type="number"
                   className={styles.customInputStyle}
                   // value={formData?.order_details?.current_total_price}
-                  value={Number(formData?.rental_fees)}
+                  value={formData?.rental_fees}
                   onChange={(e) => onChangeVal(e, "rental_fees")}
                 />
               </div>
@@ -323,9 +328,9 @@ setFormData((prevData) => {
               <h6 className={styles.third_titile}>Expenses:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="number"
+                  type="text"
                   className={styles.customInputStyle}
-                  value={Number(formData.expenses)}
+                  value={formData.expenses}
                   onChange={(e) => onChangeVal(e, "expenses")}
                 />
               </div>
@@ -334,9 +339,13 @@ setFormData((prevData) => {
               <h6 className={styles.third_titile}>Profit:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="number"
+                  type="text"
                   className={styles.customInputStyle}
-                  value={Number(formData?.rental_fees - formData.expenses - formData.lenders_share) }
+                  value={
+                    formData?.order_details?.current_total_price -
+                    formData.expenses -
+                    formData.lenders_share
+                  }
                   onChange={(e) => onChangeVal(e, "profit")}
                   disabled
                 />
@@ -346,9 +355,9 @@ setFormData((prevData) => {
               <h6 className={styles.third_titile}>Lender's share:</h6>
               <div className={styles.modalElementDivStyle}>
                 <input
-                  type="number"
+                  type="text"
                   className={styles.customInputStyle}
-                  value={Number(formData.lenders_share)}
+                  value={formData.lenders_share}
                   onChange={(e) => onChangeVal(e, "lenders_share")}
                 />
               </div>
@@ -364,6 +373,41 @@ setFormData((prevData) => {
                   ]}
                   value={formData.payment_status}
                   onChange={(e) => onChangeSelect(e, "payment_status")}
+                />
+              </div>
+            </div>
+            <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
+              <h6 className={styles.third_titile}>
+                Dry Cleaner Payment Status:
+              </h6>
+              <div className={styles.modalElementDivStyle}>
+                <CustomSelect
+                  options={[
+                    { value: true, label: "Paid" },
+                    { value: false, label: "Un-paid" },
+                  ]}
+                  value={formData.drycleaner_payment}
+                  onChange={(e) => onChangeSelect(e, "drycleaner_payment")}
+                />
+              </div>
+            </div>
+            <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
+              <h6 className={styles.third_titile}>Order Status:</h6>
+              <div className={styles.modalElementDivStyle}>
+                <CustomSelect
+                  options={[
+                    { value: "new_order", label: "New Order" },
+                    { value: "fulfilled", label: "Fulfilled" },
+                    {
+                      value: "pickedup_drycleaner",
+                      label: "Pickedup By Drycleaner",
+                    },
+                    { value: "delivered", label: "Delivered" },
+                    { value: "completed", label: "Completed" },
+                    { value: "cancelled", label: "Cancelled" },
+                  ]}
+                  value={formData.order_status}
+                  onChange={(e) => onChangeSelect(e, "order_status")}
                 />
               </div>
             </div>

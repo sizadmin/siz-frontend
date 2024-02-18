@@ -9,9 +9,13 @@ import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
 import { UsersTable } from "./UsersTable";
 import UserPopup from "./UserPopup";
 import Notification from "../../organisms/Notification/notification";
+import { SideNavbar } from "../../atom/SidenavBar/SidenavBar";
+import { Pagination } from "../../organisms/PaginationComponent/Pagination";
 
-const LenderSignup = () => {
+const DrycleanerOrders = () => {
   const [getOrdersdata, setOrdersdata] = useState([]);
+  const [getOrdersdataMetadata, setOrdersdataMetadata] = useState([]);
+
   const [showLoader, setShowLoader] = useState(false);
   const [propsData, setPropsData] = useState({
     first_name: "",
@@ -26,13 +30,12 @@ const LenderSignup = () => {
     lender_id: "",
     shopify_id: "",
     phone_number_whatsapp: "",
-    username:'',
-    lender_type:'',
-    account_number:'',
-    iban_number:'',
-    swift_code:'',
-    account_name:''
-
+    username: "",
+    lender_type: "",
+    account_number: "",
+    iban_number: "",
+    swift_code: "",
+    account_name: "",
   });
   const [startDate, setStartDate] = useState(null);
   // const [endDate, setEndDate] = useState(null);
@@ -55,10 +58,12 @@ const LenderSignup = () => {
 
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [SuccessMsg, setSuccessMsg] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     async function data() {
-      getUsers();
+      getUsers(pageNumber, pageSize);
       ApiService.get("/v1/roles", {}, {}, (res, err) => {
         if (res !== null) {
           setRolesData(
@@ -97,7 +102,7 @@ const LenderSignup = () => {
         setSuccessMsg("User Deleted successfully");
         setShowSuccessMsg(true);
         setshowCreateUserPopup(false);
-        getUsers();
+        getUsers(pageNumber, pageSize);
       } else {
         console.log(err);
         setShowLoader(false);
@@ -105,11 +110,13 @@ const LenderSignup = () => {
     });
   };
 
-  
-  const getUsers = () => {
+  const getUsers = (pageNumber, pageSize) => {
     setShowLoader(true);
 
     let url = `/v1/users?`;
+
+    if (pageNumber) url = url + `page=${pageNumber}`;
+    if (pageSize) url = url + `&size=${pageSize}`;
 
     if (startDate !== null) url += `&start_date=${startDate}T00:00:00.000Z`;
 
@@ -124,6 +131,7 @@ const LenderSignup = () => {
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
         setOrdersdata(res.results);
+        setOrdersdataMetadata(res.metadata);
         setShowLoader(false);
       } else {
         console.log(err);
@@ -134,7 +142,7 @@ const LenderSignup = () => {
   const updateSorting = async (e) => {
     setSortOrderByOrder(e);
 
-    getUsers();
+    getUsers(pageNumber, pageSize);
   };
 
   const handleUserPopup = () => {
@@ -147,10 +155,20 @@ const LenderSignup = () => {
       {showSuccessMsg && (
         <Notification show={showSuccessMsg} msg={SuccessMsg} type="success" />
       )}
-      <Header />
-      <div className="container-fluid cont-padd">
+      <SideNavbar route={window.location.pathname} />
+      <div
+        className="container-fluid cont-padd"
+        style={{
+          display: "grid",
+          maxHeight: "100vh",
+          overflowY: "auto",
+          height: "max-content",
+        }}
+      >
+        <Header />
+
         <div className="d-flex row justify-content-between p-3">
-          <h6>User management</h6>
+          <h6></h6>
           <div>
             <button className={styles.applyBtn} onClick={handleUserPopup}>
               Create User
@@ -182,10 +200,20 @@ const LenderSignup = () => {
             lendersData={lendersData}
             deleteUser={(e) => deleteUser(e)}
           />
+          <Pagination
+            itemsPerPage={pageSize}
+            pageNumber={pageNumber}
+            total={getOrdersdataMetadata[0]?.total}
+            fetchData={(pageNumber, pageSize) => {
+              setPageNumber(pageNumber);
+              setPageSize(pageSize);
+              getUsers(pageNumber, pageSize);
+            }}
+          />
         </div>
       </div>
     </>
   );
 };
 
-export default LenderSignup;
+export default DrycleanerOrders;

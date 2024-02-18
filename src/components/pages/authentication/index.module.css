@@ -6,6 +6,7 @@
   gap: 50px;
   height: 100vh;
   background-color: #f8f9fd;
+  width: 100vw;
 }
 
 input[type="text"],

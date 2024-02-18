@@ -6,7 +6,7 @@ const CustomSelect = (props) => {
 
   useEffect(() => {
     findVal();
-  }, [value,,props.value,props.options]);
+  }, [value,props.value,props.options]);
   const customStyles = {
     control: (base) => ({
       ...base,

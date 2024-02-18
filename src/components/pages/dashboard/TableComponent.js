@@ -101,10 +101,10 @@ const OrderTable = (props) => {
   };
 
   const renderDeliveryDate = (order) => {
-    if (order.order_status != null) {
-      if (order.order_status.product_delivery_date != null) {
+    if (order.order_status_extra != null) {
+      if (order.order_status_extra.product_delivery_date != null) {
         const deliveryDate = moment(
-          order?.order_status?.[0]?.product_delivery_date
+          order?.order_status_extra?.[0]?.product_delivery_date
         );
         const isToday = deliveryDate.isSame(moment(), "day");
         return (
@@ -126,10 +126,10 @@ const OrderTable = (props) => {
     }
   };
   const renderProductPickupDateFromRenter = (order) => {
-    if (order.order_status != null) {
-      if (order.order_status.product_pickup_date_from_renter != null) {
+    if (order.order_status_extra != null) {
+      if (order.order_status_extra.product_pickup_date_from_renter != null) {
         return moment(
-          order?.order_status?.[0]?.product_pickup_date_from_renter
+          order?.order_status_extra?.[0]?.product_pickup_date_from_renter
         ).format("DD-MMM-YYYY");
       } else if (order.rental_end_date != null) {
         return moment(order?.rental_end_date).format("DD-MMM-YYYY");
@@ -139,10 +139,10 @@ const OrderTable = (props) => {
     }
   };
   const highlightPickupColumn = (order) => {
-    if (order.order_status != null) {
-      if (order.order_status.product_pickup_date_from_renter != null) {
+    if (order.order_status_extra != null) {
+      if (order.order_status_extra.product_pickup_date_from_renter != null) {
         return areTodaysDate(
-          order?.order_status?.[0]?.product_pickup_date_from_renter
+          order?.order_status_extra?.[0]?.product_pickup_date_from_renter
         );
       } else if (order.rental_end_date != null) {
         return areTodaysDate(order?.rental_end_date);
@@ -166,11 +166,11 @@ const OrderTable = (props) => {
           getOrders={props.getOrders}
         />
       )}
-      <h6>Showing {props.data.length} Records</h6>
-      <div style={{ overflow: "auto", width: "200%" }}>
+
+      <div style={{ overflow: "auto", width: "250%", height: 520 }}>
         <Table className={styles.tableShadow}>
           <Thead>
-            <Tr style={{ background: "#af1010", color: "white" }}>
+            <Tr style={{ color: "#6B7280", background: "#F9FAFB" }}>
               <Th style={{ width: 40 }}>#</Th>
               <Th>Delivery To Renter</Th>
               <Th>Pickup From Renter</Th>
@@ -195,8 +195,8 @@ const OrderTable = (props) => {
               <Th>Renter Details</Th>
               <Th>Renter Address</Th>
               <Th>Product Details</Th>
-              <Th>Lendar Details</Th>
-              <Th>Lendar Address</Th>
+              <Th>Lender Details</Th>
+              <Th>Lender Address</Th>
               <Th>Pickup From Lender</Th>
               <Th>Delivery To Lender</Th>
 
@@ -223,14 +223,14 @@ const OrderTable = (props) => {
               <>
                 <Tr>
                   <Td colSpan="10">
-                    <div className="w-100 text-center">No Orders Found</div>
+                    <div className="text-center">No Orders Found</div>
                   </Td>
                 </Tr>
               </>
             ) : (
               <>
-                {props.data.length > 0 &&
-                  props.data.map((order, i) => (
+                {props?.data?.length > 0 &&
+                  props?.data?.map((order, i) => (
                     <React.Fragment key={i}>
                       <Tr
                         style={{
@@ -255,10 +255,10 @@ const OrderTable = (props) => {
                             <>
                               <span>
                                 {renderDeliveryDate(order)}
-                                {/* {order?.order_status?.[0]
+                                {/* {order?.order_status_extra?.[0]
                                 ?.product_delivery_date
                                 ? moment(
-                                    order?.order_status?.[0]
+                                    order?.order_status_extra?.[0]
                                       ?.product_delivery_date
                                   ).format("DD-MMM-YYYY")
                                 : order?.rental_start_date ? moment(order?.rental_start_date).format("DD-MMM-YYYY") : "-"
@@ -267,7 +267,7 @@ const OrderTable = (props) => {
                               <br />
                               <span>
                                 {
-                                  order?.order_status?.[0]
+                                  order?.order_status_extra?.[0]
                                     ?.product_delivery_timeslot
                                 }
                               </span>
@@ -285,10 +285,10 @@ const OrderTable = (props) => {
                             <>
                               <span>
                                 {renderProductPickupDateFromRenter(order)}
-                                {/* {order?.order_status?.[0]
+                                {/* {order?.order_status_extra?.[0]
                                 ?.product_pickup_date_from_renter
                                 ? moment(
-                                    order?.order_status?.[0]
+                                    order?.order_status_extra?.[0]
                                       ?.product_pickup_date_from_renter
                                   ).format("DD-MMM-YYYY")
                                 : moment(
@@ -297,7 +297,7 @@ const OrderTable = (props) => {
                               <br />
                               <span>
                                 {
-                                  order?.order_status?.[0]
+                                  order?.order_status_extra?.[0]
                                     ?.product_pickup_timeslot_from_renter
                                 }
                               </span>
@@ -307,7 +307,7 @@ const OrderTable = (props) => {
                         </Td>
                         <Td style={{ fontSize: "small" }}>
                           <a
-                            href={order?.order_details?.order_status_url}
+                            href={order?.order_details?.order_status_extra_url}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -349,13 +349,13 @@ const OrderTable = (props) => {
                           {order?.lender_address}
                         </Td>
                         <Td style={{ fontSize: "small" }}>
-                          {order?.order_status?.length > 0 && (
+                          {order?.order_status_extra?.length > 0 && (
                             <>
                               <span>
-                                {order?.order_status?.[0]
+                                {order?.order_status_extra?.[0]
                                   ?.product_pickup_date !== null
                                   ? moment(
-                                      order?.order_status?.[0]
+                                      order?.order_status_extra?.[0]
                                         ?.product_pickup_date
                                     ).format("DD-MMM-YYYY")
                                   : "-"}
@@ -363,7 +363,7 @@ const OrderTable = (props) => {
                               <br />
                               <span>
                                 {
-                                  order?.order_status?.[0]
+                                  order?.order_status_extra?.[0]
                                     ?.product_pickup_timeslot
                                 }
                               </span>
@@ -371,13 +371,13 @@ const OrderTable = (props) => {
                           )}
                         </Td>
                         <Td style={{ fontSize: "small" }}>
-                          {order?.order_status?.length > 0 && (
+                          {order?.order_status_extra?.length > 0 && (
                             <>
                               <span>
-                                {order?.order_status?.[0]
+                                {order?.order_status_extra?.[0]
                                   ?.product_delivery_date_to_lender
                                   ? moment(
-                                      order?.order_status?.[0]
+                                      order?.order_status_extra?.[0]
                                         ?.product_delivery_date_to_lender
                                     ).format("MM/DD/YYYY")
                                   : "-"}
@@ -385,7 +385,7 @@ const OrderTable = (props) => {
                               <br />
                               <span>
                                 {
-                                  order?.order_status?.[0]
+                                  order?.order_status_extra?.[0]
                                     ?.product_delivery_timeslot_to_lender
                                 }
                               </span>
@@ -393,13 +393,13 @@ const OrderTable = (props) => {
                                 <input
                                   type="checkbox"
                                   disabled={
-                                    order?.order_status?.[0]
+                                    order?.order_status_extra?.[0]
                                       ?.return_picked_up === "true"
                                       ? true
                                       : false
                                   }
                                   checked={
-                                    order?.order_status?.[0]
+                                    order?.order_status_extra?.[0]
                                       ?.return_picked_up === "true"
                                       ? true
                                       : false
@@ -482,9 +482,15 @@ const OrderTable = (props) => {
                               : "No"
                             : "-"}
                         </Td>
-                        <Td>{order?.rental_fees}</Td>
+                        <Td>{order?.total_price}</Td>
                         <Td>{order?.expenses}</Td>
-                        <Td>{Number(order?.rental_fees -  order?.expenses -  order?.lenders_share).toFixed(2)}</Td>
+                        <Td>
+                          {Number(
+                            order?.total_price -
+                              order?.expenses -
+                              order?.lenders_share
+                          ).toFixed(2)}
+                        </Td>
                         <Td>{order?.lenders_share}</Td>
                         <Td>
                           {order?.payment_status === true ? "Paid" : "Un-paid"}

@@ -53,10 +53,9 @@ const UsersTable = (props) => {
           }}
         />
       )}
-      <h6>Showing {props.data.length} Records</h6>
       <Table className={styles.tableShadow}>
         <Thead>
-          <Tr style={{ background: "#af1010", color: "white" }}>
+          <Tr style={{color: "#6B7280",background:'#F9FAFB' }}>
             <Th style={{ width: 40 }}>#</Th>
             <Th>First Name</Th>
             <Th>Last Name</Th>

@@ -227,7 +227,17 @@ Td {
 }
 
 .tableShadow {
-    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.tableShadow th {
+    font-family: "DM Serif Display", serif !important;
+    font-size: 13px;
+    font-weight: 400;
+    /* line-height: 15px; */
+    letter-spacing: 0.05em;
+    text-align: left;
+
 }
 
 /* .Completed{
@@ -313,20 +323,128 @@ th {
 }
 
 .modalElementDivStyle {
-   width: 47%;
+    width: 47%;
 }
-.customInputStyle{
+
+.customInputStyle {
     width: 100%;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+.applyBtn {
+    background: rgb(175, 16, 16);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 6px;
+}
+
+.customTextareaStyle {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+
 }
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.cardOuter {
+    height: 100px;
+    width: 220px;
+    border-radius: 15px;
+    background: #F6F5F157;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.cardTitle {
+    font-family: "Lexend Exa", sans-serif;
+
+}
+
+.cardCount {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+
+}
+
+.totalCount {
+    color: #AF1010;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.pendingCount {
+    color: #00D509;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+
+}
+
+.pickedUp {
+    color: #3C0EF2;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.pendingDelivery {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+    color: #AB5F5F;
+
+}
+
+.delivered {
+    color: #302D2DD9;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.cancelled {
+    color: #F80000;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+.orderStatusFullFilled{
+    background: #00D509;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+.orderStatusCancelled{
+    background: #AF1010;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+.orderStatusDelivered{
+    background: #AB5F5F;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+.orderStatusCompleted{
+    background: #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+.orderStatusPickedUp{
+    background: #3C0EF2;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
 }

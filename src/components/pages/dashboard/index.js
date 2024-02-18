@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 import { LendarTableComponent } from "./LendarTableComponent";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
 import CardComponent from "../../organisms/CardsComponent/CardComponent";
+import { SideNavbar } from "../../atom/SidenavBar/SidenavBar";
+import { Pagination } from "../../organisms/PaginationComponent/Pagination";
 const Dashboard = () => {
   const [getOrdersdata, setOrdersdata] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -35,11 +37,13 @@ const Dashboard = () => {
   );
   const [lendersList, setLendersList] = useState([]);
   const [metadata, setMetadata] = useState({});
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [pagination, setPagination] = useState(null);
 
-  
   useEffect(() => {
     async function data() {
-      getOrders();
+      getOrders(pageNumber, pageSize);
       getLendersList();
     }
     data();
@@ -55,7 +59,7 @@ const Dashboard = () => {
 
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
-        console.log(res,"res.data[0].data")
+        console.log(res, "res.data[0].data");
         setLendersList(
           res[0].data.map((e) => {
             return { label: e.name, value: e._id };
@@ -68,19 +72,19 @@ const Dashboard = () => {
       }
     });
   };
-  const getOrders = () => {
+  const getOrders = (pageNumber, pageSize) => {
     setShowLoader(true);
 
     let url = `/v1/dashboard/getorders?`;
 
     if (startDate !== null) url += `&start_date=${startDate}T00:00:00.000Z`;
-    if (startDate == null && userRole !== "Admin") url += `&start_date=2023-11-01T00:00:00.000Z`;
-
+    if (startDate == null && userRole !== "Admin")
+      url += `&start_date=2023-11-01T00:00:00.000Z`;
 
     if (userInfo.loggedUser?.role?.role_name !== "Admin") {
       // console.log(userInfo.loggedUser, "userInfo.loggedUser");
       // setLenderName(userInfo?.loggedUser?.first_name);
-       url += `&lender_name=${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`;
+      url += `&lender_name=${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`;
       //url += `&lender_name=Diana Ganeeva`;
     } else if (lenderName !== "") url += `&lender_name=${lenderName}`;
 
@@ -96,15 +100,20 @@ const Dashboard = () => {
       url += `&order_type=${orderType}`;
 
     if (sortOrderByOrder !== "") url += `&sortByOrder=${sortOrderByOrder}`;
+
+    if (pageNumber) url += `&page=${pageNumber}`;
+
+    if (pageSize) url += `&pageSize=${pageSize}`;
+
     let header = {
       Token: userInfo.token,
     };
 
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
-        setOrdersdata(res.data);
-        setMetadata(res.metadata);
-
+        setOrdersdata(res.data[0].data);
+        setMetadata(res.aggregatedData);
+        setPagination(res.data[0].metadata);
         setShowLoader(false);
       } else {
         console.log(err);
@@ -115,16 +124,20 @@ const Dashboard = () => {
   const updateSorting = async (e) => {
     setSortOrderByOrder(e);
 
-    getOrders();
+    getOrders(pageNumber, pageSize);
   };
 
   const applyFilter = () => {
-    getOrders();
+    let pageNumber = 1;
+    setPageNumber(pageNumber);
+    getOrders(pageNumber, pageSize);
   };
 
   const closeFilter = () => {};
 
   const clearFilter = () => {
+    let pageNumber = 1;
+    setPageNumber(pageNumber);
     setStartDate(null);
     setEndDate(null);
     setLenderName("");
@@ -133,14 +146,17 @@ const Dashboard = () => {
     setLenderLName("");
     setPaymentStatus(null);
     setOrderType(null);
-    getOrders();
+    getOrders(pageNumber, pageSize);
   };
 
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
-      <Header />
-      <div className="container-fluid cont-padd">
+      <SideNavbar route={window.location.pathname} />
+
+      <div className="container-fluid cont-padd customContainer">
+        <Header />
+
         {userInfo.loggedUser?.lender_info !== null &&
           userInfo.loggedUser?.lender_info !== undefined && (
             <div className={[styles.lenderInfoBlock, "row"].join(" ")}>
@@ -192,7 +208,7 @@ const Dashboard = () => {
           lendersList={lendersList}
         />
 
-        <CardComponent data={metadata} userRole={userRole}/>
+        <CardComponent data={metadata} userRole={userRole} />
         {userRole === "Lender" && (
           <div style={{ overflow: "auto" }}>
             <LendarTableComponent
@@ -202,16 +218,33 @@ const Dashboard = () => {
             />
           </div>
         )}
+
         {userRole === "Admin" && (
-          <div style={{ overflow: "auto" }}>
-            <OrderTable
-              data={getOrdersdata}
-              sortOrderByOrder={sortOrderByOrder}
-              changeSort={(e) => updateSorting(e)}
-              getOrders={getOrders}
-            />
-          </div>
+          <>
+            <div style={{ overflow: "auto" }}>
+              <OrderTable
+                data={getOrdersdata}
+                sortOrderByOrder={sortOrderByOrder}
+                changeSort={(e) => updateSorting(e)}
+                getOrders={getOrders}
+              />
+            </div>
+          </>
         )}
+        {pagination !== null &&
+          pagination.length > 0 &&
+          pagination[0].total && (
+            <Pagination
+              itemsPerPage={pageSize}
+              pageNumber={pageNumber}
+              total={pagination !== null && pagination[0].total}
+              fetchData={(pageNumber, pageSize) => {
+                setPageNumber(pageNumber);
+                setPageSize(pageSize);
+                getOrders(pageNumber, pageSize);
+              }}
+            />
+          )}
       </div>
     </>
   );

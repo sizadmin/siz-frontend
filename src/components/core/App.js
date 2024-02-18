@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import "./App.css";
 import "rsuite/dist/rsuite.min.css";
 import "react-activity/dist/library.css";
@@ -11,7 +11,7 @@ import {
   useHistory,
 } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 import MyErrorBoundary from "./MyErrorBoundary";
 import { Provider } from "react-redux";
@@ -25,6 +25,10 @@ import { Button } from "react-bootstrap";
 
 // import AdminStaffRoute from "./AdminStaffRoute";
 import ActivityLoader from "../atom/ActivityLoader/ActivityLoader";
+import { ThemeProvider } from "../organisms/ThemeProvider/ThemeProvider";
+import { ServerError } from "../pages/ServerError/ServerError";
+import { NoMatchPage } from "../pages/NoMatchPage/NomatchPage";
+import DrycleanerOrders from "../pages/drycleanerOrders";
 global.navigate = null;
 
 const Login = lazy(() => import("../pages/authentication/login"));
@@ -33,49 +37,12 @@ const Pickup = lazy(() => import("../pages/pickup"));
 const ReturnPickup = lazy(() => import("../pages/returnpickup"));
 const Dashboard = lazy(() => import("../pages/dashboard"));
 const LenderSignup = lazy(() => import("../pages/lendersignup"));
-
-
-
-
-const NoMatchPage = () => {
-  document.body.style.height = "100%";
-  return <div className="noPageFound">Page Not found</div>;
-};
-
-const ServerError = () => {
-  const history = useHistory();
-  document.body.style.height = "100%";
-  return (
-    <>
-      <div className="noPageFound">
-        <div>
-          <h1 className="mb-3"> Something went wrong </h1>
-          <h6 className="text-center">
-            Please try again or report a issue to support
-          </h6>
-          {/* <p className="title text-center" ></p> */}
-          <br />
-
-          <div className="text-center">
-            <Button
-              variant="primary"
-              onClick={() => {
-                history.goBack();
-              }}
-            >
-              Try again
-            </Button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
+const DashboardNew = lazy(() => import("../pages/dashboardNew"));
 
 const App = () => {
   return (
-    <div className="app">
-      <div>
+    <ThemeProvider>
+      <div className="app">
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Router>
@@ -107,15 +74,24 @@ const App = () => {
                       component={ResetPassword}
                     />
                     <Route exact path="/error" component={ServerError} />
-                    <Route  exact path="/delivery/:productId" component={Delivery} />
-                    <Route  exact path="/pickup/:productId" component={Pickup} />
-                    <Route  exact path="/dashboard" component={Dashboard} />
-                    <Route  exact path="/returnpickup/:productId" component={ReturnPickup} />
-                    <Route  exact path="/lendersignup" component={LenderSignup} />
-
+                    <Route
+                      exact
+                      path="/delivery/:productId"
+                      component={Delivery}
+                    />
+                    <Route exact path="/pickup/:productId" component={Pickup} />
+                    <Route
+                      exact
+                      path="/returnpickup/:productId"
+                      component={ReturnPickup}
+                    />
+                    <Route exact path="/users" component={LenderSignup} />
+                    <Route exact path="/dashboard" component={DashboardNew} />
+                    
+                    <Route exact path="/drycleaner" component={DrycleanerOrders} />
+                    <Route exact path="/orders" component={Dashboard} />
 
                     <Route component={NoMatchPage} />
-
                   </Switch>
                 </Suspense>
               </MyErrorBoundary>
@@ -124,7 +100,7 @@ const App = () => {
           </PersistGate>
         </Provider>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 

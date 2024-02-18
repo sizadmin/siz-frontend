@@ -1,5 +1,5 @@
-.App {
-  text-align: center;
+.app {
+  display: flex;
 }
 
 .App-logo {
@@ -63,7 +63,7 @@
 }
 
 .cont-padd {
-  padding: 3rem;
+  padding: 2rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -111,6 +111,8 @@
   align-items: center;
   height: 100vh;
   font-size: 3vw;
+  width: 100vw;
+  flex-direction: column
 }
 
 /* new css */
@@ -196,7 +198,7 @@ h6 {
 }
 
 .nav-link:hover {
-  color: #ef5124 !important;
+  /* color: #ef5124 !important; */
   /* text-decoration: underline; */
 }
 
@@ -207,12 +209,12 @@ h6 {
 .navbar-expand-md .navbar-nav .dropdown-menu {
   left: auto;
   right: 0;
-  border-top: 3px solid #ef5124;
+  border-top: 3px solid #af1010;
 }
 
 .dropdown-item:hover {
-  background-color: #ef5124;
-  color: #fff;
+  /* background-color: #ef5124; */
+  /* color: #fff; */
 }
 
 nav {
@@ -276,8 +278,8 @@ nav {
 
 .btn-primary {
   color: #fff;
-  background-color: #ef5124 !important;
-  border-color: #ef5124 !important;
+  background-color: #af1010 !important;
+  border-color: #af1010 !important;
 }
 
 .btn-check:focus+.btn-primary,
@@ -288,7 +290,7 @@ nav {
 
 .form-control:focus {
   background-color: #fff;
-  border-color: #ef5124 !important;
+  border-color: #af1010 !important;
   ;
   box-shadow: none !important;
 }
@@ -395,7 +397,7 @@ nav {
 .profileIcon {
   padding: 9px 12px;
   background-color: #fdede9;
-  color: #f48566;
+  color: #af1010;
 }
 
 .calenderIcon {
@@ -415,11 +417,11 @@ nav {
 }
 
 .icon-btn :hover {
-  color: #f48566 !important;
+  color: #af1010 !important;
 }
 
 .orange-text {
-  color: #f48566 !important;
+  color: #af1010 !important;
 }
 
 .error-text,
@@ -559,12 +561,12 @@ tr {
 }
 
 .form-check-input:checked {
-  background-color: #ef5124 !important;
-  border-color: #ef5124 !important;
+  background-color: #af1010 !important;
+  border-color: #af1010 !important;
 }
 
 .form-check-input:focus {
-  border-color: #EF5124 !important;
+  border-color: #af1010 !important;
   box-shadow: none !important;
 }
 
@@ -635,4 +637,33 @@ tr {
 .requiredErrorMsgStyle {
   font-size: 0.8rem;
   color: red;
+}
+
+main {
+  padding: 10px;
+  flex-grow: 1;
+  flex-direction: row;
+  width: 90%;
+
+}
+
+#dropdown-item-button {
+  color: #000 !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.customContainer {
+  display: grid;
+  max-height: 100vh;
+  overflow-y: auto;
+  height: max-content
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.rs-picker-popup{
+  z-index: 999999 !important;
 }

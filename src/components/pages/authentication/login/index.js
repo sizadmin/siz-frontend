@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { connect } from "react-redux";
-import { withRouter,useHistory } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { setUser, resetUser } from "../../../../utils/redux/actions";
 import { Reset_DATA } from "../../../../utils/redux/actions/commonActions";
 
@@ -17,7 +17,6 @@ const Login = (props) => {
   useEffect(() => {
     props.Reset_DATA();
   });
-
 
   const handleSubmit = (event) => {
     //Prevent page reload
@@ -41,12 +40,17 @@ const Login = (props) => {
           });
           history.push("/");
         } else {
-          history.push("/dashboard");
+          sessionStorage.setItem("sidebarOpened", true);
+          console.log(res.loggedUser);
+          if (res.loggedUser.role.role_name === "Dry Cleaner") {
+            history.push("/drycleaner");
+          } else history.push("/dashboard");
         }
       } else {
         console.log(err);
         setErrorMessages({ message: err.message });
         setShowLoader(false);
+        sessionStorage.setItem("sidebarOpened", null);
       }
     });
   };
@@ -74,7 +78,7 @@ const Login = (props) => {
         </div>
       </form>
       <div className="text-center mt-4">
-       {/*  <a className={styles.link} href="/forgetPassword">
+        {/*  <a className={styles.link} href="/forgetPassword">
           Forgot Password?
         </a> */}
       </div>

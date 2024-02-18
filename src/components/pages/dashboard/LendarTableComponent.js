@@ -86,10 +86,10 @@ const LendarTableComponent = (props) => {
     }
   };
   const renderProductPickupDateFromRenter = (order) => {
-    if (order.order_status != null) {
-      if (order.order_status.product_pickup_date_from_renter != null) {
+    if (order.order_status_extra != null) {
+      if (order.order_status_extra.product_pickup_date_from_renter != null) {
         return moment(
-          order?.order_status?.[0]?.product_pickup_date_from_renter
+          order?.order_status_extra?.[0]?.product_pickup_date_from_renter
         ).format("DD-MMM-YYYY");
       } else if (order.rental_end_date != null) {
         return moment(order?.rental_end_date).format("DD-MMM-YYYY");
@@ -192,7 +192,7 @@ const LendarTableComponent = (props) => {
                         </Td>
                         <Td>
                           {/* <a
-                          href={order?.order_details?.order_status_url}
+                          href={order?.order_details?.order_status_extra_url}
                           target="_blank"
                           rel="noopener noreferrer"
                         > */}
@@ -262,10 +262,10 @@ const LendarTableComponent = (props) => {
                         <Td>
                           {" "}
                           <span>
-                            {order?.order_status?.[0]?.product_pickup_date !==
+                            {order?.order_status_extra?.[0]?.product_pickup_date !==
                             null
                               ? moment(
-                                  order?.order_status?.[0]?.product_pickup_date
+                                  order?.order_status_extra?.[0]?.product_pickup_date
                                 ).format("DD-MMM-YYYY")
                               : "-"}
                           </span>
