@@ -47,10 +47,20 @@ const SideNavbar = (props) => {
                     className={[
                       window.location.pathname === item.link &&
                         styles.activeRoute,
+                      userInfo.loggedUser.role.role_name === "Dry Cleaner" &&
+                        item.link === "/orders" &&
+                        window.location.pathname === "/drycleaner" &&
+                        styles.activeRoute,
+
                       "p-2 align-items-center d-flex ",
                       styles.sideitem,
                     ].join(" ")}
-                    to={item.link}
+                    to={
+                      userInfo.loggedUser.role.role_name === "Dry Cleaner" &&
+                      item.link === "/orders"
+                        ? "drycleaner"
+                        : item.link
+                    }
                   >
                     <img
                       src={item.icon}
@@ -91,7 +101,14 @@ const SideNavbar = (props) => {
               </div>
               {/* <span className={styles.dotStyles}>...</span> */}
               <DropdownButton id="dropdown-item-button" title="...">
-                <Dropdown.Item as="button">Profile</Dropdown.Item>
+                <Dropdown.Item
+                  as="button"
+                  onClick={() => {
+                    navigate.push("/profile");
+                  }}
+                >
+                  Profile
+                </Dropdown.Item>
                 <Dropdown.Item
                   as="button"
                   onClick={() => {

@@ -32,6 +32,111 @@
     margin: 10px;
 }
 
-.cardDiv{
-    justify-content: center;
-} 
+.cardDiv {
+    /* justify-content: center; */
+}
+
+/* new css */
+.cardOuter {
+    height: 100px;
+    width: 220px;
+    border-radius: 15px;
+    background: #F6F5F157;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.cardTitle {
+    font-family: "Lexend Exa", sans-serif;
+
+}
+
+.cardCount {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+
+}
+
+.totalCount {
+    color: #AF1010;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.pendingCount {
+    color: #00D509;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+
+}
+
+.pickedUp {
+    color: #3C0EF2;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.pendingDelivery {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+    color: #AB5F5F;
+
+}
+
+.delivered {
+    color: #302D2DD9;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.cancelled {
+    color: #F80000;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.orderStatusFullFilled {
+    background: #00D509;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusCancelled {
+    background: #AF1010;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusDelivered {
+    background: #AB5F5F;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusCompleted {
+    background: #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusPickedUp {
+    background: #3C0EF2;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.cardTitleCountStyle {
+    color: #3C0EF2;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+
+}

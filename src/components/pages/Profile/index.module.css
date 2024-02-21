@@ -1,0 +1,48 @@
+/* Profile.module.css */
+.profile {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column;
+    width: 600px;
+    text-align: center;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
+  }
+  
+  .avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .info {
+    /* flex-grow: 1; */
+    width: 50%;
+  }
+  
+  .name {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  .bio {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .email {
+    font-size: 14px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .uploadBtn{
+    background: rgb(175, 16, 16);
+    color: white;
+    padding: 5px 20px;
+    border-radius: 6px;
+  }

@@ -160,6 +160,9 @@ const Header = (props) => {
       {path === "/dashboardNew" && (
         <span className={Styles.pageTitle}>Dashboard</span>
       )}
+      {path === "/profile" && (
+        <span className={Styles.pageTitle}>Profile</span>
+      )}
       {path === "/drycleaner" && (
         <span className={Styles.pageTitle}>
           Order Management ( Dry Cleaning )

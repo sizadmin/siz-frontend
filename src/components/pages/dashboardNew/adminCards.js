@@ -1,6 +1,6 @@
 import OrdersDashboard from "./../../../assets/svgs/OrdersDashboard.svg";
 import OrdersCompletedIcon from "./../../../assets/svgs/OrdersCompletedIcon.svg";
-export const cardsData = [
+export const AdminCardsData = [
   {
     id: 0,
     title: "Total Orders",
@@ -10,36 +10,42 @@ export const cardsData = [
   },
   {
     id: 1,
-    title: "Pending For Pickup",
+    title: "Pending Orders",
     class: "pendingCount",
-    field: "fulfilled",
+    field: "new_order",
     icon: OrdersDashboard,
   },
   {
     id: 2,
-    title: "Picked Up",
+    title: "Fulfilled Orders",
     class: "pickedUp",
-    field: "pickedup_drycleaner",
+    field: "fulfilled",
     icon: OrdersDashboard,
   },
   {
     id: 3,
-    title: "Pending For Delivery",
+    title: "Cancelled Orders",
+    class: "cancelled",
+    field: "cancelled",
+  },
+  {
+    id: 4,
+    title: "Dry Cleaner Unpaid Orders",
+    class: "unpaid",
+    field: "unpaid",
+  },
+  {
+    id: 5,
+    title: "Drycleaner Pending For Pickup",
     class: "pendingDelivery",
     field: "pickedup_drycleaner",
     icon: OrdersDashboard,
   },
   {
-    id: 4,
+    id: 6,
     title: "Delivered",
     class: "delivered",
     field: "completed",
     icon: OrdersCompletedIcon,
-  },
-  {
-    id: 5,
-    title: "Cancelled",
-    class: "cancelled",
-    field: "cancelled",
   },
 ];

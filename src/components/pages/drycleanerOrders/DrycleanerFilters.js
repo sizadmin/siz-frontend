@@ -15,7 +15,10 @@ const DrycleanerFilters = ({
   updateFormData,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const handleEnter = (e) => {
+    console.log(e.key, "kkk");
+    if (e.key === "Enter") applyFilter();
+  };
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
@@ -49,6 +52,7 @@ const DrycleanerFilters = ({
                   onChange={(e) =>
                     updateFormData("order_number", e.target.value)
                   }
+                  onKeyDown={(e) => handleEnter(e)}
                 />
               </div>
             </div>
@@ -102,7 +106,7 @@ const DrycleanerFilters = ({
               </LocalizationProvider>
             </div>
 
-            <div className="col-md-4">
+            <div className="col-md-4 mt-3">
               <span>Customer Name</span>
               <br />
               <div className="mt-2">
@@ -130,7 +134,7 @@ const DrycleanerFilters = ({
                 />
               </div>
             </div>
-            <div className="col-md-4 mt-3">
+            {/* <div className="col-md-4 mt-3">
               <span>Order Status</span>
               <br />
               <div className="mt-2">
@@ -149,7 +153,7 @@ const DrycleanerFilters = ({
                   onChange={(e) => updateFormData("order_status", e.value)}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="col-md-12 d-flex justify-content-center mt-4 mb-2">
             <div className="col-md-2">

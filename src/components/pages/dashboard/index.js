@@ -157,7 +157,7 @@ const Dashboard = () => {
       <div className="container-fluid cont-padd customContainer">
         <Header />
 
-        {userInfo.loggedUser?.lender_info !== null &&
+        {/* {userInfo.loggedUser?.lender_info !== null &&
           userInfo.loggedUser?.lender_info !== undefined && (
             <div className={[styles.lenderInfoBlock, "row"].join(" ")}>
               <div className="col-md-3 d-flex flex-column">
@@ -179,7 +179,7 @@ const Dashboard = () => {
                 <span>{userInfo.loggedUser?.lender_info?.address}</span>
               </div>
             </div>
-          )}
+          )} */}
         <Filters
           startDate={startDate}
           endDate={endDate}

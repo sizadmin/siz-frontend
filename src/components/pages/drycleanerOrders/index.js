@@ -64,18 +64,18 @@ const DrycleanerOrders = () => {
   useEffect(() => {
     async function data() {
       getOrders(pageNumber, pageSize);
-      ApiService.get("/v1/roles", {}, {}, (res, err) => {
-        if (res !== null) {
-          setRolesData(
-            res.results.map((e) => {
-              return { label: e.role_name, value: e._id };
-            })
-          );
-        } else {
-          console.log(err);
-          setShowLoader(false);
-        }
-      });
+      // ApiService.get("/v1/roles", {}, {}, (res, err) => {
+      //   if (res !== null) {
+      //     setRolesData(
+      //       res.results.map((e) => {
+      //         return { label: e.role_name, value: e._id };
+      //       })
+      //     );
+      //   } else {
+      //     console.log(err);
+      //     setShowLoader(false);
+      //   }
+      // });
     }
     data();
   }, [sortOrderByOrder]);
@@ -103,7 +103,7 @@ const DrycleanerOrders = () => {
     // let end_date = moment().add(3,'days')
 
     if (!formData.pickupDate) {
-      url += `&start_date=${start_date}T00:00:000`;
+      url += `&start_date=${start_date}T00:00:00`;
       if (!formData.deliveryDate) url += `&end_date=${end_date}T23:59:59`;
     }
 
@@ -154,6 +154,17 @@ const DrycleanerOrders = () => {
     end_date = end_date.add(3, "days");
     end_date = end_date.format("YYYY-MM-DD");
 
+    // let start_date = moment().subtract(3,'days')
+    // let end_date = moment().add(3,'days')
+
+    if (!formData.pickupDate) {
+      url += `&start_date=${start_date}T00:00:00`;
+      if (!formData.deliveryDate) url += `&end_date=${end_date}T23:59:59`;
+    } else {
+      url += `&start_date=${formData.pickupDate}T00:00:00`;
+      url += `&end_date=${formData.pickupDate}T23:59:59`;
+    }
+
     let header = {
       Token: userInfo.token,
     };
@@ -177,22 +188,51 @@ const DrycleanerOrders = () => {
     getOrders(pageNumber, pageSize);
   };
 
-  const handleUserPopup = () => {
-    setshowCreateUserPopup(true);
+  const updateStatus = (text) => {
+    // "order_status", e.value
+    setShowLoader(true);
+
+    let url = `/v1/dashboard/getorders?`;
+
+    if (pageNumber) url += `&page=${pageNumber}`;
+
+    if (pageSize) url += `&pageSize=${pageSize}`;
+
+    let start_date = moment();
+    start_date = start_date.subtract(3, "days");
+    start_date = start_date.format("YYYY-MM-DD");
+
+    let end_date = moment();
+    end_date = end_date.add(3, "days");
+    end_date = end_date.format("YYYY-MM-DD");
+
+    if (!formData.pickupDate) {
+      url += `&start_date=${start_date}T00:00:00`;
+      if (!formData.deliveryDate) url += `&end_date=${end_date}T23:59:59`;
+    }
+
+    if (text !== "" && text !== null) url += `&order_status=${text}`;
+
+    let header = {
+      Token: userInfo.token,
+    };
+
+    ApiService.get(url, {}, header, (res, err) => {
+      if (res !== null) {
+        setOrdersdata(res.data[0].data);
+        setMetadata(res.aggregatedData);
+        setOrdersdataMetadata(res.data[0].metadata);
+        setShowLoader(false);
+      } else {
+        console.log(err);
+        setShowLoader(false);
+      }
+    });
   };
 
   const returnVal = (itm) => {
     let val = _.find(dashboardData, { _id: itm.field });
-    if (itm.field === "total") {
-      const initialValue = 0;
-      const sumWithInitial =
-        dashboardData !== null &&
-        dashboardData.reduce(
-          (accumulator, currentValue) => accumulator + currentValue.count,
-          initialValue
-        );
-      return sumWithInitial;
-    } else return val !== undefined ? val.count : 0;
+    return val !== undefined ? val.count : 0;
   };
 
   const applyFilter = () => {
@@ -219,6 +259,19 @@ const DrycleanerOrders = () => {
     if (pageNumber) url += `&page=${pageNumber}`;
 
     if (pageSize) url += `&pageSize=${pageSize}`;
+
+    let start_date = moment();
+    start_date = start_date.subtract(3, "days");
+    start_date = start_date.format("YYYY-MM-DD");
+
+    let end_date = moment();
+    end_date = end_date.add(3, "days");
+    end_date = end_date.format("YYYY-MM-DD");
+
+    if (!formData.pickupDate) {
+      url += `&start_date=${start_date}T00:00:00`;
+      if (!formData.deliveryDate) url += `&end_date=${end_date}T23:59:59`;
+    }
 
     let header = {
       Token: userInfo.token,
@@ -263,26 +316,14 @@ const DrycleanerOrders = () => {
         <div className="d-flex">
           {cardsData.map((itm) => {
             return (
-              <div className={styles.cardOuter}>
+              <div
+                className={styles.cardOuter}
+                onClick={() =>
+                  updateStatus(itm.field === "total" ? "" : itm.field)
+                }
+              >
                 <span className={styles.cardTitle}>{itm.title}</span>
-                <span className={styles[itm.class]}>
-                  {/* {dashboardData.map((i) => {
-                    return <>{i._id === itm.field ? i.count : "0"}</>;
-                  })} */}
-
-                  {returnVal(itm)}
-                  {/* {dashboardData !== null &&
-                    dashboardData.find((i) => {
-                      if (itm.field === i._id) {
-                        // [0]?.count
-                        return (
-                          <>
-                            <span>{i?.count}</span>;
-                          </>
-                        );
-                      } else <>0</>;
-                    })} */}
-                </span>
+                <span className={styles[itm.class]}>{returnVal(itm)}</span>
               </div>
             );
           })}

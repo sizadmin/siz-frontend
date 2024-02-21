@@ -52,8 +52,8 @@ const OrdersTable = (props) => {
             <Th>STATUS</Th>
             <Th>ITEM</Th>
             <Th>CUSTOMER NAME & PHONE NUMBER</Th>
-            <Th>PICKUP ADDRESS</Th>
             <Th>DELIVERY ADDRESS</Th>
+            <Th>PICKUP  ADDRESS</Th>
             <Th>DELIVERY DATE</Th>
             <Th>PAYMENT STATUS</Th>
           </Tr>

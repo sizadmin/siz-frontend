@@ -15,7 +15,7 @@ import {
   phoneNumberRegx,
 } from "../../../utils/Helper";
 import Notification from "../../organisms/Notification/notification";
-import CloseIcon from "./../../../assets/svgs/Close_icon.svg"
+import CloseIcon from "./../../../assets/svgs/Close_icon.svg";
 function UserPopup(props) {
   const handleClose = () => props.hide();
   const [showLoader, setShowLoader] = useState(false);
@@ -35,9 +35,16 @@ function UserPopup(props) {
     );
     if (findRole && findRole.label === "Lender") {
       setShowLenderInfo(true);
-      setShowLenderBankInfo(true);
     } else {
       setShowLenderInfo(false);
+    }
+
+    if (
+      findRole &&
+      (findRole.label === "Lender" || findRole.label === "Dry Cleaner")
+    ) {
+      setShowLenderBankInfo(true);
+    } else {
       setShowLenderBankInfo(false);
     }
 
@@ -60,10 +67,16 @@ function UserPopup(props) {
 
       if (findRole && findRole.label === "Lender") {
         setShowLenderInfo(true);
-        setShowLenderBankInfo(true);
       } else {
         setShowLenderInfo(false);
+      }
 
+      if (
+        findRole &&
+        (findRole.label === "Lender" || findRole.label === "Dry Cleaner")
+      ) {
+        setShowLenderBankInfo(true);
+      } else {
         setShowLenderBankInfo(false);
       }
     }
@@ -116,7 +129,7 @@ function UserPopup(props) {
     if (props.isNew === true) {
       if (
         formData.first_name === "" ||
-       // formData.last_name === "" ||
+        // formData.last_name === "" ||
         formData.email === "" ||
         formData.password === "" ||
         formData.role === "" ||
@@ -147,7 +160,7 @@ function UserPopup(props) {
     } else {
       if (
         formData.first_name === "" ||
-       // formData.last_name === "" ||
+        // formData.last_name === "" ||
         formData.email === "" ||
         formData.role === "" ||
         !isEmailValid ||
@@ -212,7 +225,12 @@ function UserPopup(props) {
             className="btn-close"
             aria-label="Close"
           >X</button> */}
-          <img src={CloseIcon} alt="close popup icon"  className="cursor" onClick={handleClose}/>
+          <img
+            src={CloseIcon}
+            alt="close popup icon"
+            className="cursor"
+            onClick={handleClose}
+          />
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -227,10 +245,9 @@ function UserPopup(props) {
                     value={formData.first_name}
                     onChange={(e) => onChangeVal(e, "first_name")}
                   />
-                  {formData.first_name === null &&
-                    isRequiredError === true && (
-                      <div>{handleIsRequiredError()}</div>
-                    )}
+                  {formData.first_name === null && isRequiredError === true && (
+                    <div>{handleIsRequiredError()}</div>
+                  )}
                 </div>
               </div>
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
@@ -242,10 +259,9 @@ function UserPopup(props) {
                     value={formData.last_name}
                     onChange={(e) => onChangeVal(e, "last_name")}
                   />
-                  {(formData.last_name === null ) &&
-                    isRequiredError === true && (
-                      <div>{handleIsRequiredError()}</div>
-                    )}
+                  {formData.last_name === null && isRequiredError === true && (
+                    <div>{handleIsRequiredError()}</div>
+                  )}
                 </div>
               </div>
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
@@ -351,24 +367,28 @@ function UserPopup(props) {
                     )}
                 </div>
               </div>
-              <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
-                <h6 className={styles.third_titile}>Lender Type:</h6>
-                <div className={styles.modalElementDivStyle}>
-                  <CustomSelect
-                    options={[
-                      { value: "Managed Closet", label: "Managed Closet" },
-                      { value: "P2P", label: "P2P" },
-                    ]}
-                    value={formData.lender_type}
-                    onChange={(e) => onChangeSelect(e, "lender_type")}
-                  />
-                  {(formData.lender_type === null ||
-                    formData.lender_type === "") &&
-                    isRequiredError === true && (
-                      <div>{handleIsRequiredError()}</div>
-                    )}
+              {showLenderInfo && (
+                <div
+                  className={["col-md-6", styles.modalElementStyle].join(" ")}
+                >
+                  <h6 className={styles.third_titile}>Lender Type:</h6>
+                  <div className={styles.modalElementDivStyle}>
+                    <CustomSelect
+                      options={[
+                        { value: "Managed Closet", label: "Managed Closet" },
+                        { value: "P2P", label: "P2P" },
+                      ]}
+                      value={formData.lender_type}
+                      onChange={(e) => onChangeSelect(e, "lender_type")}
+                    />
+                    {(formData.lender_type === null ||
+                      formData.lender_type === "") &&
+                      isRequiredError === true && (
+                        <div>{handleIsRequiredError()}</div>
+                      )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
                 <h6 className={styles.third_titile}>Address:</h6>

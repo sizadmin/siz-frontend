@@ -29,6 +29,7 @@ import { ThemeProvider } from "../organisms/ThemeProvider/ThemeProvider";
 import { ServerError } from "../pages/ServerError/ServerError";
 import { NoMatchPage } from "../pages/NoMatchPage/NomatchPage";
 import DrycleanerOrders from "../pages/drycleanerOrders";
+import Profile from "../pages/Profile/Profile";
 global.navigate = null;
 
 const Login = lazy(() => import("../pages/authentication/login"));
@@ -87,9 +88,10 @@ const App = () => {
                     />
                     <Route exact path="/users" component={LenderSignup} />
                     <Route exact path="/dashboard" component={DashboardNew} />
-                    
+
                     <Route exact path="/drycleaner" component={DrycleanerOrders} />
                     <Route exact path="/orders" component={Dashboard} />
+                    <Route exact path="/profile" component={Profile} />
 
                     <Route component={NoMatchPage} />
                   </Switch>

@@ -42,3 +42,41 @@
     color: #04C5DF;
 
 }
+
+.totalCount {
+    color: #AF1010;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.pendingCount {
+    color: #00D509;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+
+}
+
+.pickedUp {
+    color: #3C0EF2;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.pendingDelivery {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+    color: #AB5F5F;
+
+}
+
+.delivered {
+    color: #302D2DD9;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}
+
+.cancelled {
+    color: #F80000;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+}

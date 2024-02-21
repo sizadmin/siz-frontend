@@ -210,7 +210,7 @@ function OrderPopup(props) {
                     value={formData._id}
                     disabled={true}
                   /> */}
-                  {formData._id}
+                  {formData.order_number}
                 </div>
               </div>
 
@@ -278,13 +278,13 @@ function OrderPopup(props) {
                 </div>
               </div>
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
-                <h6 className={styles.third_titile}>Pickup Address:</h6>
+                <h6 className={styles.third_titile}>Delivery Address:</h6>
                 <div className={styles.modalElementDivStyle}>
                   {formData?.lender_address ? formData?.lender_address : "-"}
                 </div>
               </div>
               <div className={["col-md-6", styles.modalElementStyle].join(" ")}>
-                <h6 className={styles.third_titile}>Delivery Address:</h6>
+                <h6 className={styles.third_titile}>Pickup  Address:</h6>
                 <div className={styles.modalElementDivStyle}>
                   {formData?.order_details?.customer?.default_address &&
                     formData?.order_details?.customer?.default_address
