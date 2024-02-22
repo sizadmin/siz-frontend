@@ -1,7 +1,6 @@
 import axios from "axios";
 import { backendHost as API_URL } from "../../config/config";
 
-
 let ApiService = {
   get: (url, payload, headers, callback) => {
     axios
@@ -11,8 +10,9 @@ let ApiService = {
           headers === null
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+                "Content-Type": "application/json",
+              },
       })
       .then((responseData) => {
         if (responseData) {
@@ -30,10 +30,10 @@ let ApiService = {
           //   global.navigate("/");
           // }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
           //  window.location.replace("/error");
-            return;
+          return;
         }
       });
   },
@@ -42,11 +42,12 @@ let ApiService = {
     axios
       .post(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+                "Content-Type": "application/json",
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null, data);
@@ -62,10 +63,10 @@ let ApiService = {
             global.navigate("/");
           }
           callback && callback(null, error.response.data, data);
-        }else{
+        } else {
           callback && callback(null, error);
           //  window.location.replace("/error");
-            return;
+          return;
         }
       });
   },
@@ -74,11 +75,11 @@ let ApiService = {
       .delete(API_URL.getAPIUrl() + url, {
         params: payload,
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null);
@@ -90,10 +91,10 @@ let ApiService = {
             return;
           }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace("/error");
+          return;
         }
       });
   },
@@ -101,11 +102,12 @@ let ApiService = {
     axios
       .patch(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+                "Content-Type": "application/json",
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null, data);
@@ -117,10 +119,10 @@ let ApiService = {
             return;
           }
           callback && callback(null, error.response.data, data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace("/error");
+          return;
         }
       });
   },
@@ -129,11 +131,12 @@ let ApiService = {
     axios
       .put(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+                "Content-Type": "application/json",
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null);
@@ -149,10 +152,10 @@ let ApiService = {
             global.navigate("/");
           }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace("/error");
+          return;
         }
       });
   },
@@ -160,11 +163,11 @@ let ApiService = {
     axios
       .patch(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null);
@@ -180,10 +183,10 @@ let ApiService = {
             global.navigate("/");
           }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace("/error");
+          return;
         }
       });
   },

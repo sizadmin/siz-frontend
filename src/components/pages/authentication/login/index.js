@@ -41,10 +41,7 @@ const Login = (props) => {
           history.push("/");
         } else {
           sessionStorage.setItem("sidebarOpened", true);
-          console.log(res.loggedUser);
-          if (res.loggedUser.role.role_name === "Dry Cleaner") {
-            history.push("/drycleaner");
-          } else history.push("/dashboard");
+          history.push("/dashboard");
         }
       } else {
         console.log(err);

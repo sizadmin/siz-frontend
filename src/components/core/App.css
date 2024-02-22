@@ -667,3 +667,10 @@ main {
 .rs-picker-popup{
   z-index: 999999 !important;
 }
+
+.css-1pysi21-MuiFormLabel-root-MuiInputLabel-root{
+  line-height: 1em !important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+  margin: 0px !important;
+}

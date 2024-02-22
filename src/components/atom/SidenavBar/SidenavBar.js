@@ -78,7 +78,7 @@ const SideNavbar = (props) => {
         </div>
         <div className={styles.userInfoOuter}>
           <img
-            src={UserIcon}
+            src={userInfo.loggedUser.profilePicture ?? UserIcon}
             alt={"userIcon"}
             className={styles.userIconStyle}
           />

@@ -210,7 +210,13 @@ const Dashboard = () => {
 
         <CardComponent data={metadata} userRole={userRole} />
         {userRole === "Lender" && (
-          <div style={{ overflow: "auto" }}>
+          <div
+            style={{
+              overflow: "auto",
+              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+              borderRadius: 10,
+            }}
+          >
             <LendarTableComponent
               data={getOrdersdata}
               sortOrderByOrder={sortOrderByOrder}
@@ -221,7 +227,13 @@ const Dashboard = () => {
 
         {userRole === "Admin" && (
           <>
-            <div style={{ overflow: "auto" }}>
+            <div
+              style={{
+                overflow: "auto",
+                boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                borderRadius: 10,
+              }}
+            >
               <OrderTable
                 data={getOrdersdata}
                 sortOrderByOrder={sortOrderByOrder}

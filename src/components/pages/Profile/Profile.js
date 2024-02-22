@@ -1,5 +1,5 @@
 // Profile.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { SideNavbar } from "../../atom/SidenavBar/SidenavBar";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
@@ -7,6 +7,8 @@ import Header from "./../../organisms/Navbar";
 import { useSelector } from "react-redux";
 import UserIcon from "./../../../assets/svgs/Avatar.svg";
 import ApiService from "../../../utils/middleware/ApiService";
+import Notification from "../../organisms/Notification/notification";
+import { setUser } from "../../../utils/redux/actions";
 
 const Profile = () => {
   //   return (
@@ -31,6 +33,13 @@ const Profile = () => {
 
   const { userInfo } = useSelector((state) => state.user);
   const [image, setImage] = useState(userInfo.loggedUser.profilePicture);
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [SuccessMsg, setSuccessMsg] = useState("");
+
+useEffect(()=>{
+    // console.log(userInfo.loggedUser)
+},[userInfo])
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -43,18 +52,23 @@ const Profile = () => {
   };
 
   const handleUpload = () => {
+    setShowLoader(true);
     let payload = {};
     payload._id = userInfo.loggedUser._id;
     payload.profilePicture = image;
 
     ApiService.put("/v1/user/" + payload._id, payload, {}, (res, err) => {
       if (res !== null) {
-        //   setSuccessMsg("User updated successfully");
-        //   setShowSuccessMsg(true);
-        //   setTimeout(() => {
-        //     setShowLoader(false);
-        //     handleClose();
-        //   }, 3000);
+        setSuccessMsg("User updated successfully");
+        console.log(res,"res")
+        setUser({
+            userInfo: res.result,
+          });
+          console.log(userInfo)
+        setShowSuccessMsg(true);
+        setTimeout(() => {
+          setShowLoader(false);
+        }, 3000);
       } else {
         console.log(err);
         setShowLoader(false);
@@ -75,7 +89,9 @@ const Profile = () => {
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
       <SideNavbar route={window.location.pathname} />
-
+      {showSuccessMsg && (
+        <Notification show={showSuccessMsg} msg={SuccessMsg} type="success" />
+      )}
       <div className="container-fluid cont-padd customContainer">
         <Header />
         <div className="d-flex flex-column">
@@ -91,8 +107,8 @@ const Profile = () => {
             <br />
             <button className={styles.uploadBtn} onClick={handleUpload}>
               Upload
-            </button> */}
-            <br />
+            </button>
+            <br /> */}
             <br />
             <div className={styles.info}>
               <p className={styles.email}>

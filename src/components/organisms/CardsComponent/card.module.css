@@ -138,5 +138,11 @@
     color: #3C0EF2;
     font-family: "Lexend Exa", sans-serif;
     font-size: 30px;
+    font-weight: 400;
 
+}
+.cardTitleStyle{
+    margin-top: 0px;
+    font-size: 15px;
+    font-family: "Lexend Exa", sans-serif;
 }

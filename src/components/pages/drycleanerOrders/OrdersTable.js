@@ -46,14 +46,59 @@ const OrdersTable = (props) => {
       )}
       <Table className={styles.tableShadow}>
         <Thead>
+          <Tr>
+            <Th
+              colSpan="3"
+              style={{
+                textAlign: "center",
+                background: "#DBEAFE",
+                color: "#1E40AF",
+                height: 50
+              }}
+            >
+              New Order
+            </Th>
+            <Th
+              colSpan="3"
+              style={{
+                textAlign: "center",
+                background: "#FCE7F3",
+                color: "#9D174D",
+                height: 50
+              }}
+            >
+              PICKUP
+            </Th>
+            <Th
+              colSpan="2"
+              style={{
+                textAlign: "center",
+                background: "#D1FAE5",
+                color: "#1F2937",
+                height: 50
+              }}
+            >
+              DELIVERY
+            </Th>
+          </Tr>
+        </Thead>
+        <Thead>
+          {/* <Tr>
+            <Th colSpan="3">New Order</Th>
+            <Th colSpan="3">New Order2</Th>
+            <Th colSpan="4">New Order3</Th>
+          </Tr> */}
           <Tr style={{ color: "#6B7280", background: "#F9FAFB" }}>
-            <Th style={{ width: 40 }}>ORDER ID</Th>
-            <Th>PICKUP DATE</Th>
+            <Th style={{ width: 100 }}>ORDER ID</Th>
+            <Th>Brand</Th>
             <Th>STATUS</Th>
-            <Th>ITEM</Th>
+            <Th>PICKUP DATE</Th>
+
+            {/* <Th>ITEM</Th> */}
             <Th>CUSTOMER NAME & PHONE NUMBER</Th>
+            <Th>PICKUP ADDRESS</Th>
+
             <Th>DELIVERY ADDRESS</Th>
-            <Th>PICKUP  ADDRESS</Th>
             <Th>DELIVERY DATE</Th>
             <Th>PAYMENT STATUS</Th>
           </Tr>
@@ -77,15 +122,11 @@ const OrdersTable = (props) => {
                       onClick={() => handleShowDetails(order)}
                     >
                       <Td>{order.order_number}</Td>
-                      <Td style={{ whiteSpace: "nowrap", fontSize: "small" }}>
-                        {console.log(order.pickup_by_dry_cleaner_from_renter)}
-                        {order.pickup_by_dry_cleaner_from_renter !== "" &&
-                        order.pickup_by_dry_cleaner_from_renter !== null
-                          ? moment(
-                              order.pickup_by_dry_cleaner_from_renter
-                            ).format("DD-MMM-YY")
-                          : "-"}
+                      <Td>
+                        {order?.order_items !== undefined &&
+                          order?.order_items[0]?.vendor}
                       </Td>
+
                       <Td
                         style={{
                           whiteSpace: "nowrap",
@@ -119,22 +160,26 @@ const OrdersTable = (props) => {
                           </span>
                         )}
 
-                        {/* {order.order_status ? 
-                        order.order_status : "-"} */}
                       </Td>
-                      <Td style={{ fontSize: "small" }}>
+                      <Td style={{ whiteSpace: "nowrap", fontSize: "small" }}>
+                        {console.log(order.pickup_by_dry_cleaner_from_renter)}
+                        {order.pickup_by_dry_cleaner_from_renter !== "" &&
+                        order.pickup_by_dry_cleaner_from_renter !== null
+                          ? moment(
+                              order.pickup_by_dry_cleaner_from_renter
+                            ).format("DD-MMM-YY")
+                          : "-"}
+                      </Td>
+                      {/* <Td style={{ fontSize: "small" }}>
                         {order.order_details.line_items
                           ? order.order_details.line_items.length
                           : "-"}
-                      </Td>
+                      </Td> */}
                       <Td style={{ fontSize: "small" }}>
                         {order.order_details?.customer?.first_name}{" "}
                         {order.order_details?.customer?.last_name}
                         <br />
                         <i>{order?.order_details?.phone}</i>
-                      </Td>
-                      <Td style={{ fontSize: "small" }}>
-                        {order?.lender_address ? order?.lender_address : "-"}
                       </Td>
                       <Td style={{ fontSize: "small" }}>
                         {order?.order_details?.customer?.default_address &&
@@ -150,6 +195,10 @@ const OrdersTable = (props) => {
                           order?.order_details?.customer?.default_address
                             .country_name}{" "}
                       </Td>
+                      <Td style={{ fontSize: "small" }}>
+                        {order?.lender_address ? order?.lender_address : "-"}
+                      </Td>
+                    
                       <Td style={{ fontSize: "small" }}>
                         <span>
                           {order?.order_status_extra?.[0]

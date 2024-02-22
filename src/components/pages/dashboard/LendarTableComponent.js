@@ -120,11 +120,10 @@ const LendarTableComponent = (props) => {
           propsData={propsData}
         />
       )}
-      <h6>Showing {props.data.length} Records</h6>
       <div style={{ overflow: "auto", width: "180%" }}>
         <Table className={styles.tableShadow}>
           <Thead>
-            <Tr style={{ background: "#af1010", color: "white" }}>
+          <Tr style={{ color: "#6B7280", background: "#F9FAFB" }}>
               <Th style={{ width: 40 }}>#</Th>
               <Th>Order Date</Th>
               <Th>Order Id</Th>

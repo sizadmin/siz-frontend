@@ -239,6 +239,14 @@ Td {
     text-align: left;
 
 }
+.tableShadow td {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    /* letter-spacing: 0.05em; */
+    text-align: left;
+}
+
 
 /* .Completed{
     background: green !important;
@@ -371,6 +379,8 @@ input[type=number] {
 }
 
 .cardTitle {
+    margin-top: 0px;
+    font-size: 15px;
     font-family: "Lexend Exa", sans-serif;
 
 }

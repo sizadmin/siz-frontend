@@ -228,6 +228,7 @@ Td {
 
 .tableShadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
 }
 
 .tableShadow th {
@@ -355,4 +356,11 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
+}
+.tableShadow td {
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    /* letter-spacing: 0.05em; */
+    text-align: left;
 }

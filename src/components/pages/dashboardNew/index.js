@@ -30,11 +30,22 @@ const DashboardNew = () => {
   const [cardsData1, setCardsData] = useState([]);
 
   useEffect(() => {
-    if(userInfo.loggedUser.role.role_name === "Admin") setCardsData(AdminCardsData);
-    if(userInfo.loggedUser.role.role_name === "Dry Cleaner" ) setCardsData(cardsData);
-    if(userInfo.loggedUser.role.role_name === "Lender" ) setCardsData(cardsData);
+    if (userInfo.loggedUser.role.role_name === "Admin") {
+      filterList.push({ label: "All", value: "all" });
+      setSelectedFilter(filterList[0]);
+      setCardsData(AdminCardsData);
+    }
+    if (userInfo.loggedUser.role.role_name === "Dry Cleaner"){
+      setCardsData(cardsData);
+      setSelectedFilter(filterList[0]);
 
-    console.log(userInfo.loggedUser.role.role_name,cardsData1)
+    }
+    if (userInfo.loggedUser.role.role_name === "Lender"){
+      setCardsData(cardsData);
+      setSelectedFilter(filterList[0]);
+      }
+
+    console.log(userInfo.loggedUser.role.role_name, cardsData1);
     async function data() {
       getDashboardData();
     }
@@ -63,9 +74,10 @@ const DashboardNew = () => {
 
     // let start_date = moment().subtract(3,'days')
     // let end_date = moment().add(3,'days')
-
-    url += `&start_date=${start_date}T00:00:00`;
-    url += `&end_date=${end_date}T23:59:59`;
+    if (filter !== "all") {
+      url += `&start_date=${start_date}T00:00:00`;
+      url += `&end_date=${end_date}T23:59:59`;
+    }
 
     let header = {
       Token: userInfo.token,
