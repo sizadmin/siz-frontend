@@ -20,6 +20,12 @@ const SideNavbar = (props) => {
   const toggleOpen = () => {
     setOpen(!open);
   };
+  const [profileImage, setProfileImage] = useState(
+    window.sessionStorage.getItem("profilePicture")
+  );
+  useEffect(() => {
+    setProfileImage(window.sessionStorage.getItem("profilePicture"));
+  }, [userInfo]);
 
   return (
     <div className={open ? styles.sidenav : styles.sidenavClosed}>
@@ -78,7 +84,7 @@ const SideNavbar = (props) => {
         </div>
         <div className={styles.userInfoOuter}>
           <img
-            src={userInfo.loggedUser.profilePicture ?? UserIcon}
+            src={profileImage ?? UserIcon}
             alt={"userIcon"}
             className={styles.userIconStyle}
           />

@@ -15,7 +15,6 @@ const ThemeProvider = (props) => {
   }, []);
 
   const fetchUserInfo = async () => {
-    console.log(sessionStorage.getItem("sidebarOpened"), "sessionStorage");
     // setUserInfo({
     //   name: "",
     //   isSideNavBarOpened:

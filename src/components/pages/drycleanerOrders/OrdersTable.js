@@ -53,10 +53,10 @@ const OrdersTable = (props) => {
                 textAlign: "center",
                 background: "#DBEAFE",
                 color: "#1E40AF",
-                height: 50
+                height: 50,
               }}
             >
-              New Order
+              ORDER DETAILS
             </Th>
             <Th
               colSpan="3"
@@ -64,18 +64,18 @@ const OrdersTable = (props) => {
                 textAlign: "center",
                 background: "#FCE7F3",
                 color: "#9D174D",
-                height: 50
+                height: 50,
               }}
             >
               PICKUP
             </Th>
             <Th
-              colSpan="2"
+              colSpan="3"
               style={{
                 textAlign: "center",
                 background: "#D1FAE5",
                 color: "#1F2937",
-                height: 50
+                height: 50,
               }}
             >
               DELIVERY
@@ -89,17 +89,47 @@ const OrdersTable = (props) => {
             <Th colSpan="4">New Order3</Th>
           </Tr> */}
           <Tr style={{ color: "#6B7280", background: "#F9FAFB" }}>
-            <Th style={{ width: 100 }}>ORDER ID</Th>
-            <Th>Brand</Th>
-            <Th>STATUS</Th>
-            <Th>PICKUP DATE</Th>
+            <Th style={{ width: 100, background: "#DBEAFE", color: "#1E40AF" }}>
+              ORDER ID
+            </Th>
+            <Th
+              style={{
+                background: "#DBEAFE",
+                color: "#1E40AF",
+              }}
+            >
+              Brand
+            </Th>
+            <Th
+              style={{
+                background: "#DBEAFE",
+                color: "#1E40AF",
+              }}
+            >
+              STATUS
+            </Th>
+            <Th style={{ background: "#FCE7F3", color: "#9D174D" }}>
+              PICKUP DATE
+            </Th>
 
             {/* <Th>ITEM</Th> */}
-            <Th>CUSTOMER NAME & PHONE NUMBER</Th>
-            <Th>PICKUP ADDRESS</Th>
+            <Th style={{ background: "#FCE7F3", color: "#9D174D" }}>
+              CUSTOMER NAME & PHONE NUMBER
+            </Th>
+            <Th style={{ background: "#FCE7F3", color: "#9D174D" }}>
+              PICKUP ADDRESS
+            </Th>
+            {/* delivery block */}
+            <Th style={{ background: "#D1FAE5", color: "#1F2937" }}>
+              DELIVERY DATE
+            </Th>
+            <Th style={{ background: "#D1FAE5", color: "#1F2937" }}>
+              CUSTOMER NAME & PHONE NUMBER
+            </Th>
+            <Th style={{ background: "#D1FAE5", color: "#1F2937" }}>
+              DELIVERY ADDRESS
+            </Th>
 
-            <Th>DELIVERY ADDRESS</Th>
-            <Th>DELIVERY DATE</Th>
             <Th>PAYMENT STATUS</Th>
           </Tr>
         </Thead>
@@ -159,10 +189,8 @@ const OrdersTable = (props) => {
                             Delivered
                           </span>
                         )}
-
                       </Td>
                       <Td style={{ whiteSpace: "nowrap", fontSize: "small" }}>
-                        {console.log(order.pickup_by_dry_cleaner_from_renter)}
                         {order.pickup_by_dry_cleaner_from_renter !== "" &&
                         order.pickup_by_dry_cleaner_from_renter !== null
                           ? moment(
@@ -196,10 +224,6 @@ const OrdersTable = (props) => {
                             .country_name}{" "}
                       </Td>
                       <Td style={{ fontSize: "small" }}>
-                        {order?.lender_address ? order?.lender_address : "-"}
-                      </Td>
-                    
-                      <Td style={{ fontSize: "small" }}>
                         <span>
                           {order?.order_status_extra?.[0]
                             ?.product_delivery_date_to_lender
@@ -210,6 +234,14 @@ const OrdersTable = (props) => {
                             : "-"}
                         </span>
                       </Td>
+                      <Td>
+                        
+                      </Td>
+                      <Td style={{ fontSize: "small" }}>
+                        {order?.lender_address ? order?.lender_address : "-"}
+                      </Td>
+
+                      
                       <Td style={{ fontSize: "small" }}>
                         {order.drycleaner_payment === true ? "Paid" : "Un-paid"}
                       </Td>

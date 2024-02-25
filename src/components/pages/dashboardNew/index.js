@@ -14,10 +14,12 @@ import moment from "moment";
 import _ from "lodash";
 import OrdersDashboard from "./../../../assets/svgs/OrdersDashboard.svg";
 import { AdminCardsData } from "./adminCards";
+import { LenderCards } from "./LenderCards";
 
 const filterList = [
   { label: "Today", value: "today" },
   { label: "This Week", value: "thisWeek" },
+  { label: "All", value: "all" },
 ];
 const DashboardNew = () => {
   const [showLoader, setShowLoader] = useState(false);
@@ -31,19 +33,15 @@ const DashboardNew = () => {
 
   useEffect(() => {
     if (userInfo.loggedUser.role.role_name === "Admin") {
-      filterList.push({ label: "All", value: "all" });
       setSelectedFilter(filterList[0]);
       setCardsData(AdminCardsData);
     }
-    if (userInfo.loggedUser.role.role_name === "Dry Cleaner"){
+    if (userInfo.loggedUser.role.role_name === "Dry Cleaner") {
       setCardsData(cardsData);
-      setSelectedFilter(filterList[0]);
-
     }
-    if (userInfo.loggedUser.role.role_name === "Lender"){
-      setCardsData(cardsData);
-      setSelectedFilter(filterList[0]);
-      }
+    if (userInfo.loggedUser.role.role_name === "Lender") {
+      setCardsData(LenderCards);
+    }
 
     console.log(userInfo.loggedUser.role.role_name, cardsData1);
     async function data() {

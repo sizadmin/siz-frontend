@@ -33,6 +33,8 @@ const Login = (props) => {
         props.setUser({
           userInfo: res,
         });
+        window.sessionStorage.setItem("profilePicture", res.loggedUser.profilePicture);
+
         setShowLoader(false);
         if (res.loggedUser.isActive !== true) {
           setErrorMessages({

@@ -10,6 +10,8 @@ export default (state = initialState, action) => {
       return { ...state, ...action.payload };
     case "RESET_USER":
       return { ...initialState };
+    case "SET_PROFILE":
+      return { ...state, ...action.payload };
     default:
       return state;
   }

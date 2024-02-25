@@ -123,46 +123,29 @@ const LendarTableComponent = (props) => {
       <div style={{ overflow: "auto", width: "180%" }}>
         <Table className={styles.tableShadow}>
           <Thead>
-          <Tr style={{ color: "#6B7280", background: "#F9FAFB" }}>
+            <Tr style={{ color: "#6B7280", background: "#F9FAFB" }}>
               <Th style={{ width: 40 }}>#</Th>
               <Th>Order Date</Th>
               <Th>Order Id</Th>
-              <Th>Rental Start Date</Th>
-              <Th>Rental End Date</Th>
-              {/* <Th
-              className="cursor"
-              onClick={() =>
-                props.changeSort(
-                  props.sortOrderByOrder === "-order_number"
-                    ? "order_number"
-                    : "-order_number"
-                )
-              }
-            >
-              Order Number
-              <br />
-              {props.sortOrderByOrder === "-order_number" ? (
-                <i style={{ fontSize: 24 }} className="fa fa-sort-down"></i>
-              ) : (
-                <i style={{ fontSize: 24 }} className="fa fa-sort-up"></i>
-              )}
-            </Th> */}
-              <Th>Rent Duration</Th>
+              <Th style={{ width: 125 }}>Rental Start Date</Th>
+              <Th style={{ width: 125 }}>Rental End Date</Th>
+              <Th style={{ width: 70 }}>Rent Duration</Th>
               <Th>Brand</Th>
               <Th>Item</Th>
               <Th>Size</Th>
               <Th>Color</Th>
-              <Th>Order Type</Th>
-              <Th>Date of Fitting</Th>
-              <Th>Renter</Th>
-              <Th>Pickup From Lender Date</Th>
-              <Th>Pick up by dry cleaner from renter</Th>
-              <Th>Return date by dry cleaner to lender</Th>
-              <Th>Return to Lender</Th>
               <Th>Rental Fee</Th>
               <Th>Expenses</Th>
               {/* <Th>Profit</Th> */}
               <Th>Lender's share</Th>
+              <Th>Renter</Th>
+              <Th style={{ width: 125 }}>Pickup From Lender Date</Th>
+              <Th style={{ width: 125 }}>Pick up by dry cleaner from renter</Th>
+              <Th style={{ width: 125 }}>
+                Return date by dry cleaner to lender
+              </Th>
+              <Th>Return to Lender</Th>
+
               <Th>Payment status</Th>
             </Tr>
           </Thead>
@@ -223,48 +206,48 @@ const LendarTableComponent = (props) => {
                           )}
                         </Td>
                         <Td>
-                          {order?.order_items !== undefined ?
-                            order?.order_items[0]?.vendor
-                            : order?.order_details?.line_items[0]?.vendor
-                          
-                            }
-                    
+                          {order?.order_items !== undefined
+                            ? order?.order_items[0]?.vendor
+                            : order?.order_details?.line_items[0]?.vendor}
                         </Td>
 
                         <Td>
-                        {order?.order_items !== undefined ?
-                            order?.order_items[0]?.title 
-                            : order?.order_details?.line_items[0]?.title
-                          
-                            }
+                          {order?.order_items !== undefined
+                            ? order?.order_items[0]?.title
+                            : order?.order_details?.line_items[0]?.title}
                         </Td>
                         <Td>
-                          {order?.order_items !== undefined ?
-                            order?.order_items[0]?.variant_title?.split("/")[0]
-                          : order?.order_details?.line_items[0]?.variant_title?.split("/")[0]
-                          }
-          
+                          {order?.order_items !== undefined
+                            ? order?.order_items[0]?.variant_title?.split(
+                                "/"
+                              )[0]
+                            : order?.order_details?.line_items[0]?.variant_title?.split(
+                                "/"
+                              )[0]}
                         </Td>
                         <Td>
-                        {order?.order_items !== undefined ?
-                            order?.order_items[0]?.variant_title?.split("/")[1]
-                          : order?.order_details?.line_items[0]?.variant_title?.split("/")[1]
-                          }
+                          {order?.order_items !== undefined
+                            ? order?.order_items[0]?.variant_title?.split(
+                                "/"
+                              )[1]
+                            : order?.order_details?.line_items[0]?.variant_title?.split(
+                                "/"
+                              )[1]}
                         </Td>
-                        <Td>{order?.order_type ? order?.order_type : "-"}</Td>
-                        <Td>
-                          {order?.fitting_date
-                            ? moment(order?.fitting_date).format("DD-MMM-YYYY")
-                            : "-"}
-                        </Td>
+                        <Td>{order?.rental_fees}</Td>
+                        <Td>{order?.expenses}</Td>
+                        {/* <Td>{order?.profit}</Td> */}
+                        <Td>{order?.lenders_share}</Td>
+
                         <Td>{order?.renter_name}</Td>
                         <Td>
                           {" "}
                           <span>
-                            {order?.order_status_extra?.[0]?.product_pickup_date !==
-                            null
+                            {order?.order_status_extra?.[0]
+                              ?.product_pickup_date !== null
                               ? moment(
-                                  order?.order_status_extra?.[0]?.product_pickup_date
+                                  order?.order_status_extra?.[0]
+                                    ?.product_pickup_date
                                 ).format("DD-MMM-YYYY")
                               : "-"}
                           </span>
@@ -290,10 +273,7 @@ const LendarTableComponent = (props) => {
                               : "No"
                             : "-"}
                         </Td>
-                        <Td>{order?.rental_fees}</Td>
-                        <Td>{order?.expenses}</Td>
-                        {/* <Td>{order?.profit}</Td> */}
-                        <Td>{order?.lenders_share}</Td>
+
                         <Td>
                           {order?.payment_status === true ? "Paid" : "Un-paid"}
                         </Td>

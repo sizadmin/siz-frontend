@@ -33,7 +33,8 @@
 }
 
 .cardDiv {
-    /* justify-content: center; */
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 /* new css */
@@ -145,4 +146,12 @@
     margin-top: 0px;
     font-size: 15px;
     font-family: "Lexend Exa", sans-serif;
+}
+
+.cardTitleCountStyleDefault {
+    color: #af1010;
+    font-family: "Lexend Exa", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+
 }

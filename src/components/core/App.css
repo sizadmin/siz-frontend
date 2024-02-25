@@ -674,3 +674,6 @@ main {
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
   margin: 0px !important;
 }
+.inputCustomStyle{
+  border-color: #d0c9c9 !important;
+}

@@ -313,7 +313,7 @@ const DrycleanerOrders = () => {
           applyFilter={applyFilter}
           clearFilter={clearFilter}
         />
-        <div className="d-flex">
+        <div className="d-flex justify-content-center" style={{marginBottom:'2rem'}}>
           {cardsData.map((itm) => {
             return (
               <div

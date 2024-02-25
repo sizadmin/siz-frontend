@@ -38,10 +38,16 @@ const Filters = ({
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
+  const handleEnter = (e) => {
+    if (e.key === "Enter") applyFilter();
+  };
 
   return (
     <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
-      <div className="expand-collapse-header cursor d-flex justify-content-between align-items-center" onClick={handleToggle}>
+      <div
+        className="expand-collapse-header cursor d-flex justify-content-between align-items-center"
+        onClick={handleToggle}
+      >
         <h6>Add Filters</h6>
         {/* <img src={isExpanded ? downArrow : upArrow} alt="expandedIcon" /> */}
       </div>
@@ -52,13 +58,21 @@ const Filters = ({
           <div className="col-md-12 row d-flex p-3">
             <div className="col-md-4">
               <span>Start Date</span>
-
               {userRole === "Admin" ? (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <div className={"mt-2"}>
                     <DatePicker
-                      label="Select Order Start Date *"
-                      value={startDate !== "" && dayjs(startDate)}
+                      label="Order Start Date *"
+                      value={
+                        startDate !== "" && startDate !== null
+                          ? dayjs(startDate)
+                          : null
+                      }
+                      slotProps={{textField:{size:'small'}}}
+
+                      sx={{"& .MuiInputBase-input": {
+                        height: "80px"
+                      }}}
                       onChange={(e) => updateStartDate(e)}
                     />
                   </div>
@@ -67,8 +81,12 @@ const Filters = ({
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <div className={"mt-2"}>
                     <DatePicker
-                      label="Select Order Start Date *"
-                      value={startDate !== "" ? dayjs(startDate):tomorrow}
+                      label="Order Start Date *"
+                      value={
+                        startDate !== "" && startDate !== null
+                          ? dayjs(startDate)
+                          : null
+                      }
                       onChange={(e) => updateStartDate(e)}
                       minDate={tomorrow}
                     />
@@ -83,8 +101,8 @@ const Filters = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div className={"mt-2"}>
                   <DatePicker
-                    label="Select Order End Date *"
-                    value={endDate !== "" && dayjs(endDate)}
+                    label="Order End Date *"
+                    value={endDate !== ""&& endDate !== null ? dayjs(endDate):null}
                     onChange={(e) => updateEndDate(e)}
                   />
                 </div>
@@ -99,6 +117,9 @@ const Filters = ({
                   style={{ height: 40, width: "93%" }}
                   value={renterName}
                   onChange={(e) => updateRenterName(e.target.value)}
+                  type="text"
+                  className="inputCustomStyle"
+                  onKeyDown={(e) => handleEnter(e)}
                 />
               </div>
             </div>

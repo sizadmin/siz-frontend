@@ -16,7 +16,6 @@ const DrycleanerFilters = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const handleEnter = (e) => {
-    console.log(e.key, "kkk");
     if (e.key === "Enter") applyFilter();
   };
   const handleToggle = () => {

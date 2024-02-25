@@ -59,7 +59,6 @@ const Dashboard = () => {
 
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
-        console.log(res, "res.data[0].data");
         setLendersList(
           res[0].data.map((e) => {
             return { label: e.name, value: e._id };

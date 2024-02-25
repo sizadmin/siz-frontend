@@ -16,7 +16,7 @@ const CardComponent = ({ data, userRole }) => {
       {userRole === "Admin" ? (
         <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
           <div
-            className="align-items-center expand-collapse-content justify-content-between pl-3 pr-3 row"
+            className="align-items-center expand-collapse-content justify-content-between pl-3 pr-3 row cursor"
             onClick={handleToggle}
           >
             <h6>Summary</h6>
@@ -67,35 +67,35 @@ const renderData = (userRole, data) => {
         <>
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Rental Price</span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalPrice}
             </span>
           </div>
 
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Expenses</span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalExpenses}
             </span>
           </div>
 
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Gross Profit</span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalProfit}
             </span>
           </div>
 
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Lender's Share </span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalLendersShare}
             </span>
           </div>
 
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Net Profit </span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {Number(
                 data.totalPrice - data.totalExpenses - data.totalLendersShare
               ).toFixed(2)}
@@ -109,21 +109,21 @@ const renderData = (userRole, data) => {
         <>
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Rental Price</span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalPrice}
             </span>
           </div>
 
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Expenses</span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalExpenses}
             </span>
           </div>
 
           <div className={styles.cardOuter}>
             <span className={styles.cardTitleStyle}>Total Lender's Share</span>
-            <span className={[styles.cardTitleCountStyle].join(" ")}>
+            <span className={[styles.cardTitleCountStyleDefault].join(" ")}>
               {data.totalLendersShare}
             </span>
           </div>

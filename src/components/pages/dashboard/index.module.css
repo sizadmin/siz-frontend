@@ -339,6 +339,7 @@ input[type=number] {
     letter-spacing: 0.05em;
     text-align: left;
 }
+
 .tableShadow td {
     font-family: "Lexend Exa", sans-serif;
     font-size: 13px;
@@ -347,3 +348,44 @@ input[type=number] {
     text-align: left;
 }
 
+.orderStatusNewOrder {
+    background: #DBEAFE    ;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #1E40AF;
+}
+
+.orderStatusFullFilled {
+    background: #00D509;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusCancelled {
+    background: #AF1010;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusDelivered {
+    background: #AB5F5F;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusCompleted {
+    background: #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.orderStatusPickedUp {
+    background: #3C0EF2;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
