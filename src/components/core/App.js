@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import MyErrorBoundary from "./MyErrorBoundary";
 import { Provider } from "react-redux";
@@ -34,6 +35,8 @@ const ReturnPickup = lazy(() => import("../pages/returnpickup"));
 const Dashboard = lazy(() => import("../pages/dashboard"));
 const LenderSignup = lazy(() => import("../pages/lendersignup"));
 
+const Contact = lazy(() => import("../pages/contacts"));
+const Campaign = lazy(() => import("../pages/campaign"));
 
 
 
@@ -112,7 +115,10 @@ const App = () => {
                     <Route  exact path="/dashboard" component={Dashboard} />
                     <Route  exact path="/returnpickup/:productId" component={ReturnPickup} />
                     <Route  exact path="/lendersignup" component={LenderSignup} />
+                    <Route  exact path="/contacts" component={Contact} />
+                    <Route  exact path="/campaigns" component={Campaign} />
 
+                    
 
                     <Route component={NoMatchPage} />
 

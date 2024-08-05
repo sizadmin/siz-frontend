@@ -2,7 +2,7 @@ import axios from "axios";
 import { backendHost as API_URL } from "../../config/config";
 
 
-let ApiService = {
+const ApiService = {
   get: (url, payload, headers, callback) => {
     axios
       .get(API_URL.getAPIUrl() + url, {
@@ -139,6 +139,7 @@ let ApiService = {
         callback && callback(responseData.data, null);
       })
       .catch((error) => {
+        console.log(error.response)
         if (error.response) {
           if (error.response.status === 401) {
             window.location.replace("/");

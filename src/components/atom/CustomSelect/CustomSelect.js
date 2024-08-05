@@ -17,7 +17,7 @@ const CustomSelect = (props) => {
     menu: (base) => ({
       ...base,
       width: "100%",
-      zindex : 99999,
+      zIndex : 99999,
     }),
     valueContainer: (provided, state) => ({
       ...provided,

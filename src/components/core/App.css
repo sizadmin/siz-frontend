@@ -127,9 +127,9 @@ body {
   --rs-listbox-option-hover-bg: rgba(0, 0, 0, 0.11) !important;
   --rs-calendar-range-bg: rgba(0, 0, 0, 0.08) !important;
   --rs-input-focus-border: #000 !important;
-  --rs-listbox-option-hover-text: #EF5124 !important;
+  --rs-listbox-option-hover-text: #af0707 !important;
   --rs-btn-link-text: #000 !important;
-  --rs-btn-link-hover-text: #EF5124 !important;
+  --rs-btn-link-hover-text: #af0707 !important;
   --rs-btn-primary-hover-bg: #000 !important;
   --rs-btn-primary-bg: #000 !important;
   --rs-picker-value: #000 !important;
@@ -173,7 +173,7 @@ h6 {
 }
 
 .navbar-brand span {
-  color: #ef5124;
+  color: #af0707;
   font-size: 25px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -196,7 +196,7 @@ h6 {
 }
 
 .nav-link:hover {
-  color: #ef5124 !important;
+  color: #af0707 !important;
   /* text-decoration: underline; */
 }
 
@@ -207,11 +207,11 @@ h6 {
 .navbar-expand-md .navbar-nav .dropdown-menu {
   left: auto;
   right: 0;
-  border-top: 3px solid #ef5124;
+  border-top: 3px solid #af0707;
 }
 
 .dropdown-item:hover {
-  background-color: #ef5124;
+  background-color: #af0707;
   color: #fff;
 }
 
@@ -276,8 +276,8 @@ nav {
 
 .btn-primary {
   color: #fff;
-  background-color: #ef5124 !important;
-  border-color: #ef5124 !important;
+  background-color: #af0707 !important;
+  border-color: #af0707 !important;
 }
 
 .btn-check:focus+.btn-primary,
@@ -288,7 +288,7 @@ nav {
 
 .form-control:focus {
   background-color: #fff;
-  border-color: #ef5124 !important;
+  border-color: #af0707 !important;
   ;
   box-shadow: none !important;
 }
@@ -304,7 +304,7 @@ nav {
 @media (max-width: 500px) {
   .navbar-nav {
     /* background-color: #000; */
-    border-top: 3px solid #ef5124;
+    border-top: 3px solid #af0707;
     color: #fff;
     z-index: 1;
     margin-top: 25px;
@@ -559,12 +559,12 @@ tr {
 }
 
 .form-check-input:checked {
-  background-color: #ef5124 !important;
-  border-color: #ef5124 !important;
+  background-color: #af0707 !important;
+  border-color: #af0707 !important;
 }
 
 .form-check-input:focus {
-  border-color: #EF5124 !important;
+  border-color: #af0707 !important;
   box-shadow: none !important;
 }
 
@@ -592,9 +592,7 @@ tr {
   color: #000;
 }
 
-.subUserIcon:hover {
-  color: #ef5124 !important;
-}
+
 
 .dropdown-menu {
   min-width: 7rem !important;
@@ -635,4 +633,30 @@ tr {
 .requiredErrorMsgStyle {
   font-size: 0.8rem;
   color: red;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.custom-close-button {
+  background: transparent;
+  border: none !important;
+}
+
+.custom-close-button:focus {
+  outline: none !important;
+}
+
+.closeIcon {
+  height: 35px;
+}
+.titles{
+  color: #3b3a3a;
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-family: inherit;
+}
+a:hover{
+  color: #af0707 !important;
 }

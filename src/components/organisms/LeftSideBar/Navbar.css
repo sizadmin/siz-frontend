@@ -1,0 +1,47 @@
+/* Navbar.css */
+
+body {
+    font-size: .875rem;
+  }
+  
+  .navbar {
+    margin-bottom: 1rem;
+  }
+  
+  .navbar-toggler {
+    top: .25rem;
+    right: 1rem;
+  }
+  
+  .navbar-toggler-icon {
+    background-color: rgba(0, 0, 0, .5);
+  }
+  
+  @media (min-width: 768px) {
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 56px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
+  
+  .sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+  }
+  
+  .sidebar .nav-link.active {
+    color: #007bff;
+  }
+  
