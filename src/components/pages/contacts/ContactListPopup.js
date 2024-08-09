@@ -11,7 +11,7 @@ import { handleIsRequiredError } from '../../../utils/Helper';
 import Notification from '../../organisms/Notification/notification';
 import axios from 'axios';
 import { backendHost as API_URL } from '../../../config/config';
-import closeIcon from "./../../../assets/imgs/cross.png"
+import closeIcon from './../../../assets/imgs/cross.png';
 import { useSelector } from 'react-redux';
 const ContactListPopup = (props) => {
   const handleClose = () => props.hide();
@@ -71,7 +71,7 @@ const ContactListPopup = (props) => {
     if (!selectedOptions) {
       selectedOptions = [];
     }
-console.log(selectedOptions,"selectedOptions")
+    console.log(selectedOptions, 'selectedOptions');
     setFormData((prevData) => ({
       ...prevData,
       phone_number: selectedOptions.map((permission) => permission),
@@ -101,7 +101,6 @@ console.log(selectedOptions,"selectedOptions")
   };
 
   const createContactList = () => {
-
     let header = {
       Token: userInfo.token,
     };
@@ -177,17 +176,17 @@ console.log(selectedOptions,"selectedOptions")
       callback([]);
     }
   };
-  const onSelectAll = (e)=>{
+  const onSelectAll = (e) => {
     // setSelectAllContacts(!selectAllContacts);
-    console.log(e,"e")
+    console.log(e, 'e');
     setFormData((prevData) => {
       return {
         ...prevData,
         select_all: e.target.checked,
-        phone_number: e.target.checked === true ? [] : prevData.phone_number
+        phone_number: e.target.checked === true ? [] : prevData.phone_number,
       };
     });
-  }
+  };
 
   return (
     <>
@@ -199,7 +198,7 @@ console.log(selectedOptions,"selectedOptions")
             {props.isNew === true ? 'Create New Contact List' : 'Edit Contact List'}
           </Modal.Title>
           <button onClick={handleClose} type="button" className="custom-close-button" aria-label="Close">
-          <img src={closeIcon} alt="Close" className={'closeIcon'} />
+            <img src={closeIcon} alt="Close" className={'closeIcon'} />
           </button>
         </Modal.Header>
         <Modal.Body>
@@ -212,7 +211,6 @@ console.log(selectedOptions,"selectedOptions")
                   {(formData.name === null || formData.name === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
                 </div>
               </div>
-
               <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Phone Numbers:</h6>
                 <div className={styles.modalElementDivStyle}>
@@ -224,15 +222,16 @@ console.log(selectedOptions,"selectedOptions")
                     placeholder="Select Phone Numbers"
                     styles={customStyles}
                     value={formData?.phone_number?.map((first_name) => ({
-                      label: first_name.label,
-                      value: first_name.value,
+                      label: first_name?.info?.phone_number ?? first_name.label,
+                      value: first_name?.info?.phone_number ?? first_name.label,
+                      ...first_name
                     }))}
                     isMulti
                     isDisabled={formData?.select_all === true ? true : false}
                   />
                   <span className="mt-1 d-flex ">
                     Instead Select All Contacts
-                    <input type="checkbox"  checked={formData?.select_all} className="ml-2 cursor" onChange={async (e) => onSelectAll(e)} />
+                    <input type="checkbox" checked={formData?.select_all} className="ml-2 cursor" onChange={async (e) => onSelectAll(e)} />
                   </span>
                 </div>
               </div>
@@ -254,25 +253,11 @@ console.log(selectedOptions,"selectedOptions")
         </Modal.Body>
         <Modal.Footer>
           {props.isNew === false && (
-            <Button
-              variant="secondary"
-              onClick={() => props.deleteContactList(formData)}
-              style={{
-                background: 'rgb(175, 16, 16)',
-                borderColor: 'rgb(175, 16, 16)',
-              }}
-            >
+            <Button variant="secondary" onClick={() => props.deleteContactList(formData)} className="secondary">
               Delete Contact List
             </Button>
           )}
-          <Button
-            variant="secondary"
-            style={{
-              background: 'rgb(175, 16, 16)',
-              borderColor: 'rgb(175, 16, 16)',
-            }}
-            onClick={createContactList}
-          >
+          <Button variant="secondary" className="secondary" onClick={createContactList}>
             {props.isNew === true ? 'Save' : 'Update'}
           </Button>
           <Button variant="secondary" onClick={handleClose}>

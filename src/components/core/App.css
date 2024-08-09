@@ -660,3 +660,7 @@ tr {
 a:hover{
   color: #af0707 !important;
 }
+.secondary{
+  background: rgb(175, 16, 16);
+  border-color: rgb(175, 16, 16);
+}

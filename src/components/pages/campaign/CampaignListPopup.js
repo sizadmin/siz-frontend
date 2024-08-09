@@ -236,12 +236,12 @@ const CampaignListPopup = (props) => {
     return template[0]?.components.map((component, index) => {
       if (component.type === 'BODY') {
         const placeholders = component.text.match(/\{\{(\d+)\}\}/g);
-        return placeholders.map((placeholder, i) => {
+        return placeholders?.map((placeholder, i) => {
           const placeholderIndex = placeholder.replace(/\{\{|\}\}/g, '');
           const exampleText = component.example.body_text[0][i];
           return (
             <div key={`${index}-${i}`} className="col-md-12 d-flex justify-content-between mb-2 p-0">
-              <label>{`Placeholder ${placeholderIndex}`}</label>
+              <label>{`Body_Parameter_ ${placeholderIndex}`}</label>
               <input
                 type="text"
                 name={`placeholder_${placeholderIndex}`}
@@ -255,11 +255,20 @@ const CampaignListPopup = (props) => {
         });
       } else if (component.type === 'BUTTONS') {
         return component.buttons.map((button, i) => {
-          if (button.type === 'URL')
+          if (button.type === 'URL' && button.example)
             return (
               <div key={`${index}-${i}`} className="col-md-12 d-flex justify-content-between mb-2 p-0">
                 <label>{button.text}</label>
                 <input className="w-60" type="text" name={`button_${i}_url`} value={formData?.template[`button_${i}_url`] || button.url} onChange={handleInputChange} />
+              </div>
+            );
+        });
+      }else if (component.type === 'HEADER') {
+        return component?.example?.header_handle.map((button, i) => {
+            return (
+              <div key={`${index}-${i}`} className="col-md-12 d-flex justify-content-between mb-2 p-0">
+                <label>{'Header Image'}</label>
+                <input className="w-60" type="text" name={`header_${i}_url`} value={formData?.template[`header_${i}_url`] || button} onChange={handleInputChange} />
               </div>
             );
         });
@@ -335,7 +344,7 @@ const CampaignListPopup = (props) => {
                       if (inputValue === '') {
                         let options = [];
                         templatesData.data.data.map((res) => {
-                          options.push({ label: res.name, value: res.name });
+                          options.push({ label: res.name, value: res.name,...res });
                           setTimeout(() => {
                             callback(options);
                           }, 1000);

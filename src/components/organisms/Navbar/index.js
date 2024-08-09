@@ -80,7 +80,7 @@ const Header = (props) => {
 
               {/* <a href="/"> */}
 
-              <div class="dropdown">
+              <div className="dropdown">
                 <button
                   className="btn dropdown-toggle dropdown"
                   type="button"

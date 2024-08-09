@@ -17,18 +17,8 @@ const Notification = (props) => {
       });
     }
   }, []);
-  const handleShowNotification = (type) => {};
-
   return (
     <div>
-      {/* <button
-        onClick={() =>
-          handleShowNotification("Hello, this is a notification!", "success")
-        }
-      >
-        Show Notification
-      </button> */}
-
       <ToastContainer />
     </div>
   );

@@ -9,9 +9,12 @@ import ActivityLoader from '../../atom/ActivityLoader/ActivityLoader';
 import { ContactLisTable } from './ContactListTable';
 import ContactListPopup from './ContactListPopup';
 import Notification from '../../organisms/Notification/notification';
+import CreateContactPopup from './CreateContactPopup';
 
 const Contacts = () => {
-  const [ContactListData, setContactListData] = useState([]);
+  const [contactListData, setContactListData] = useState([]);
+  const [showCreateContactPopup, setShowCreateContactPopup] = useState(false);
+
   const [showLoader, setShowLoader] = useState(false);
   const [propsData, setPropsData] = useState({
     name: '',
@@ -19,7 +22,14 @@ const Contacts = () => {
     phone_number: [],
     select_all: false,
   });
-  const [showCreateUserPopup, setshowCreateUserPopup] = useState(false);
+
+  const [userData, setUserData] = useState({
+    first_name: '',
+    last_name: '',
+    isActive: false,
+    phone_number: '',
+  });
+  const [showCreateContactListPopup, setShowCreateContactListPopup] = useState(false);
 
   const { userInfo } = useSelector((state) => state.user);
 
@@ -42,7 +52,7 @@ const Contacts = () => {
         setShowLoader(false);
         setSuccessMsg('Contact List Deleted successfully');
         setShowSuccessMsg(true);
-        setshowCreateUserPopup(false);
+        setShowCreateContactListPopup(false);
         getContactLists();
       } else {
         console.log(err);
@@ -91,7 +101,11 @@ const Contacts = () => {
   };
 
   const handleUserPopup = () => {
-    setshowCreateUserPopup(true);
+    setShowCreateContactListPopup(true);
+  };
+
+  const showCreateContact = () => {
+    setShowCreateContactPopup(true);
   };
 
   return (
@@ -103,6 +117,10 @@ const Contacts = () => {
         <div className="d-flex row justify-content-between p-3">
           <h6>Contact List</h6>
           <div>
+            <button className={[styles.applyBtn, 'mr-3'].join(' ')} onClick={showCreateContact}>
+              Contacts New Contact
+            </button>
+
             <button className={styles.applyBtn} onClick={syncContacts}>
               Sync Contacts
             </button>
@@ -112,10 +130,10 @@ const Contacts = () => {
             </button>
           </div>
         </div>
-        {showCreateUserPopup && (
+        {showCreateContactListPopup && (
           <ContactListPopup
-            show={showCreateUserPopup}
-            hide={() => setshowCreateUserPopup(false)}
+            show={showCreateContactListPopup}
+            hide={() => setShowCreateContactListPopup(false)}
             propsData={propsData}
             getContactLists={getContactLists}
             isNew={true}
@@ -125,8 +143,19 @@ const Contacts = () => {
           />
         )}
 
+        {showCreateContactPopup && (
+          <CreateContactPopup
+            show={showCreateContactPopup}
+            hide={() => setShowCreateContactPopup(false)}
+            propsData={userData}
+            isNew={true}
+            setSuccessMsg={setSuccessMsg}
+            setShowSuccessMsg={setShowSuccessMsg}
+          />
+        )}
+
         <div>
-          <ContactLisTable data={ContactListData} getContactLists={getContactLists} deleteContactList={(e) => deleteContactList(e)} />
+          <ContactLisTable data={contactListData} getContactLists={getContactLists} deleteContactList={(e) => deleteContactList(e)} />
         </div>
       </div>
     </>
