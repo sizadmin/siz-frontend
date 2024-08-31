@@ -18,7 +18,7 @@ const Campaign = () => {
     isActive: false,
     contact_list: null,
     template: null,
-    schedule_date:null
+    schedule_date: null,
   });
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
 
@@ -79,12 +79,12 @@ const Campaign = () => {
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
       {showSuccessMsg && <Notification show={showSuccessMsg} msg={SuccessMsg} type="success" />}
-      <Header />
-      
-      <div className="container-fluid cont-padd">
-        <div className="d-flex row justify-content-between p-3">
-          <h6>Campaigns</h6>
-          <div>
+      {/* <Header /> */}
+
+      <div className="container-fluid cont-padd base-container">
+        <div className="d-flex justify-content-between containerBackground">
+          <h2 className='mb-0'>Campaigns</h2>
+          <div style={{margin:5}}>
             <button className={[styles.applyBtn].join(' ')} onClick={handleUserPopup}>
               Create New Campaign
             </button>
@@ -103,7 +103,7 @@ const Campaign = () => {
           />
         )}
 
-        <div>
+        <div className='containerBackground'>
           <CampaignListTable data={campaignData} getCampaignLists={getCampaignLists} deleteCampaign={(e) => deleteCampaign(e)} />
         </div>
       </div>

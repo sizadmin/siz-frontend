@@ -141,10 +141,6 @@ const ApiService = {
       .catch((error) => {
         console.log(error.response)
         if (error.response) {
-          if (error.response.status === 401) {
-            window.location.replace("/");
-            return;
-          }
           if (error.response.data.detail) {
             alert(error.response.data.detail);
             global.navigate("/");

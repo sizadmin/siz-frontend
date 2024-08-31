@@ -42,8 +42,8 @@ const ContactLisTable = (props) => {
           }}
         />
       )}
-      <h6>Showing {props?.data?.length} Records</h6>
-      <Table className={styles.tableShadow}>
+      <h6 className='mb-2'>Showing {props?.data?.length} Records</h6>
+      <Table >
         <Thead>
           <Tr style={{ background: '#af1010', color: 'white' }}>
             <Th style={{ width: 40 }}>#</Th>

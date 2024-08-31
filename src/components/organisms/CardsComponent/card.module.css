@@ -4,6 +4,7 @@
     margin-bottom: 2rem;
     font-weight: 700;
     border-radius: 5px;
+    background-color: #fff;
 }
 
 .applyBtn {
@@ -11,6 +12,7 @@
     color: white;
     padding: 10px 30px;
     border-radius: 6px;
+    font-weight: 700;
 }
 
 .cancelBtn {
@@ -29,6 +31,7 @@
     align-items: center;
     flex-direction: column;
     margin: 10px;
+    background-color: #fff;
 }
 
 .cardDiv{

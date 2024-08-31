@@ -18,14 +18,12 @@ import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
-import { SAMPLE_DATA_WHATSAPP_TEMPLATES } from '../../../utils/helper/helperData';
-import closeIcon from "./../../../assets/imgs/cross.png"
+import closeIcon from './../../../assets/imgs/cross.png';
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
     backgroundColor: '#f5f5f5',
     height: '50px', // Adjust height here
   },
-
   '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
     borderColor: 'blue',
   },
@@ -36,7 +34,6 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     marginTop: '50px',
   },
 }));
-
 const CampaignListPopup = (props) => {
   const handleClose = () => props.hide();
   const [showLoader, setShowLoader] = useState(false);
@@ -44,14 +41,13 @@ const CampaignListPopup = (props) => {
   const [successMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [isRequiredError, setIsRequiredError] = useState(false);
-  const [templatesData, setTemplatesData] = useState(SAMPLE_DATA_WHATSAPP_TEMPLATES);
-
   const { userInfo } = useSelector((state) => state.user);
-
   useEffect(() => {
-    getTemplates();
+    async function fetchData() {
+      await getTemplates();
+    }
+    fetchData();
   }, []);
-
   const customStyles = {
     control: (base) => ({
       ...base,
@@ -86,7 +82,6 @@ const CampaignListPopup = (props) => {
       minWidth: '100%',
     }),
   };
-
   const onChangeVal = (e, field) => {
     setFormData((prevData) => {
       return {
@@ -95,14 +90,12 @@ const CampaignListPopup = (props) => {
       };
     });
   };
-
   const onChangeDateTime = (datetime) => {
     setFormData((prevData) => ({
       ...prevData,
       schedule_date: datetime,
     }));
   };
-
   const onChangePermissions = (selectedOptions) => {
     if (!selectedOptions) {
       selectedOptions = [];
@@ -122,8 +115,9 @@ const CampaignListPopup = (props) => {
     }));
   };
   const getTemplates = async () => {
-    let url = `/v1/getMessageTemplates`;
+    let url = `/v1/template/getall`;
 
+    let options = [];
     try {
       const response = await axios.get(API_URL.getAPIUrl() + url, {
         headers: {
@@ -131,26 +125,6 @@ const CampaignListPopup = (props) => {
           Authorization: userInfo.token,
         },
       });
-
-      setTemplatesData(response.data);
-    } catch (error) {
-      console.error('Error fetching templates:', error);
-      return [];
-    }
-  };
-
-  const getContactLists = async (val) => {
-    let options = [];
-    let url = `/v1/contact_list?value=`;
-
-    try {
-      const response = await axios.get(API_URL.getAPIUrl() + url + val, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: userInfo.token,
-        },
-      });
-
       options = response.data.results.map((res) => ({
         label: res.name, // Adjust according to your API response structure
         value: res._id, // Adjust according to your API response structure
@@ -161,7 +135,26 @@ const CampaignListPopup = (props) => {
       return [];
     }
   };
-
+  const getContactLists = async (val) => {
+    let options = [];
+    let url = `/v1/contact_list?value=`;
+    try {
+      const response = await axios.get(API_URL.getAPIUrl() + url + val, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userInfo.token,
+        },
+      });
+      options = response.data.results.map((res) => ({
+        label: res.name, // Adjust according to your API response structure
+        value: res._id, // Adjust according to your API response structure
+      }));
+      return options;
+    } catch (error) {
+      console.error('Error fetching contact list:', error);
+      return [];
+    }
+  };
   const createContactList = () => {
     setIsRequiredError(false);
     if (formData.name === '' || formData.contact_list === '' || formData.template === '') {
@@ -171,13 +164,10 @@ const CampaignListPopup = (props) => {
     let header = {
       Token: userInfo.token,
     };
-
     if (props.isNew === true) {
       setShowLoader(true);
-
       let payload = _.cloneDeep(formData);
       payload.contact_list = payload.contact_list.value;
-
       ApiService.post('/v1/campaign', payload, header, (res, err) => {
         if (res !== null) {
           setSuccessMsg('Campaign created successfully');
@@ -196,7 +186,6 @@ const CampaignListPopup = (props) => {
       setShowLoader(true);
       let payload = _.cloneDeep(formData);
       payload.contact_list = payload.contact_list.value;
-
       ApiService.put('/v1/campaign/' + payload._id, payload, header, (res, err) => {
         if (res !== null) {
           setSuccessMsg('Campaign updated successfully');
@@ -213,7 +202,6 @@ const CampaignListPopup = (props) => {
       });
     }
   };
-
   const onChangeSelect = (e, field) => {
     setFormData((prevData) => {
       return {
@@ -223,59 +211,6 @@ const CampaignListPopup = (props) => {
     });
   };
 
-  const templateFilter = (inputValue) => {
-    return templatesData.data.data.filter((i) => i.name?.includes(inputValue?.toLowerCase()));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, template: { ...formData.template, [name]: value } });
-  };
-  const renderComponents = (template) => {
-    if (!template) return;
-    return template[0]?.components.map((component, index) => {
-      if (component.type === 'BODY') {
-        const placeholders = component.text.match(/\{\{(\d+)\}\}/g);
-        return placeholders?.map((placeholder, i) => {
-          const placeholderIndex = placeholder.replace(/\{\{|\}\}/g, '');
-          const exampleText = component.example.body_text[0][i];
-          return (
-            <div key={`${index}-${i}`} className="col-md-12 d-flex justify-content-between mb-2 p-0">
-              <label>{`Body_Parameter_ ${placeholderIndex}`}</label>
-              <input
-                type="text"
-                name={`placeholder_${placeholderIndex}`}
-                value={formData?.template[`placeholder_${placeholderIndex}`] || ''}
-                onChange={handleInputChange}
-                placeholder={exampleText}
-                className="w-60"
-              />
-            </div>
-          );
-        });
-      } else if (component.type === 'BUTTONS') {
-        return component.buttons.map((button, i) => {
-          if (button.type === 'URL' && button.example)
-            return (
-              <div key={`${index}-${i}`} className="col-md-12 d-flex justify-content-between mb-2 p-0">
-                <label>{button.text}</label>
-                <input className="w-60" type="text" name={`button_${i}_url`} value={formData?.template[`button_${i}_url`] || button.url} onChange={handleInputChange} />
-              </div>
-            );
-        });
-      }else if (component.type === 'HEADER') {
-        return component?.example?.header_handle.map((button, i) => {
-            return (
-              <div key={`${index}-${i}`} className="col-md-12 d-flex justify-content-between mb-2 p-0">
-                <label>{'Header Image'}</label>
-                <input className="w-60" type="text" name={`header_${i}_url`} value={formData?.template[`header_${i}_url`] || button} onChange={handleInputChange} />
-              </div>
-            );
-        });
-      }
-      return null;
-    });
-  };
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
@@ -286,8 +221,8 @@ const CampaignListPopup = (props) => {
             {props.isNew === true ? 'Create New Campaign' : 'Edit Campaign'}
           </Modal.Title>
           <button onClick={handleClose} type="button" className="custom-close-button" aria-label="Close">
-          <img src={closeIcon} alt="Close" className={'closeIcon'} />
-        </button>
+            <img src={closeIcon} alt="Close" className={'closeIcon'} />
+          </button>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -299,7 +234,6 @@ const CampaignListPopup = (props) => {
                   {(formData.name === null || formData.name === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
                 </div>
               </div>
-
               <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Contact List:</h6>
                 <div className={styles.modalElementDivStyle}>
@@ -340,24 +274,19 @@ const CampaignListPopup = (props) => {
                     className="modal-custom-input mb-2"
                     onChange={onChangeTemplate}
                     defaultOptions
-                    loadOptions={(inputValue, callback) => {
+                    loadOptions={async (inputValue, callback) => {
+                      console.log(inputValue, 'inputValue');
                       if (inputValue === '') {
-                        let options = [];
-                        templatesData.data.data.map((res) => {
-                          options.push({ label: res.name, value: res.name,...res });
-                          setTimeout(() => {
-                            callback(options);
-                          }, 1000);
-                        });
+                        let options = await getTemplates(inputValue);
+                        setTimeout(() => {
+                          callback(options);
+                        }, 1000);
                         callback(options);
                       } else {
-                        let options = [];
-                        templateFilter(inputValue).map((res) => {
-                          options.push({ label: res.name, value: res.name });
-                          setTimeout(() => {
-                            callback(options);
-                          }, 1000);
-                        });
+                        let options = await getTemplates(inputValue);
+                        setTimeout(() => {
+                          callback(options);
+                        }, 1000);
                         callback(options);
                       }
                     }}
@@ -365,9 +294,8 @@ const CampaignListPopup = (props) => {
                     styles={customStyles}
                     value={formData?.template !== null && Object.keys(formData?.template).length > 0 ? { label: formData?.template.label, value: formData?.template.value } : null}
                   />
-                  {(formData.template === null || formData.template === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
-
-                  {renderComponents(templatesData.data.data.filter((itm) => itm.name === formData?.template?.label))}
+                  {(formData?.template === null || formData?.template === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
+                  {/* {renderComponents(templatesData.data.data.filter((itm) => itm.name === formData?.template?.label))} */}
                 </div>
               </div>
               <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
@@ -386,7 +314,6 @@ const CampaignListPopup = (props) => {
                   {(formData.schedule_date === null || formData.schedule_date === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
                 </div>
               </div>
-
               <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Status :</h6>
                 <div className={styles.modalElementDivStyle}>
@@ -400,6 +327,9 @@ const CampaignListPopup = (props) => {
                   />
                 </div>
               </div>
+              {/* {formData?.template && (
+                <TemplatePreview templateName={formData?.template.label} languageCode={formData?.template.language} policy={'text'} components={formData?.template.components} />
+              )} */}
             </div>
           </div>
         </Modal.Body>
@@ -434,5 +364,4 @@ const CampaignListPopup = (props) => {
     </>
   );
 };
-
 export default CampaignListPopup;

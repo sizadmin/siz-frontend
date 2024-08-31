@@ -9,7 +9,7 @@ const Notification = (props) => {
     if (props.show) {
       toast[props.type](props.msg, {
         position: "top-right",
-        autoClose: 3000, // Set the duration
+        autoClose: 5000, // Set the duration
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

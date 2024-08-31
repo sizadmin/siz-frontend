@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
 import styles from "./index.module.css";
 import { OrderTable } from "./TableComponent";
 import Filters from "./FIlters";
@@ -139,8 +135,8 @@ const Dashboard = () => {
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
-      <Header />
-      <div className="container-fluid cont-padd">
+      {/* <Header /> */}
+      <div className="container-fluid cont-padd base-container">
         {userInfo.loggedUser?.lender_info !== null &&
           userInfo.loggedUser?.lender_info !== undefined && (
             <div className={[styles.lenderInfoBlock, "row"].join(" ")}>
@@ -194,7 +190,7 @@ const Dashboard = () => {
 
         <CardComponent data={metadata} userRole={userRole}/>
         {userRole === "Lender" && (
-          <div style={{ overflow: "auto" }}>
+          <div className={styles.containerBackground}>
             <LendarTableComponent
               data={getOrdersdata}
               sortOrderByOrder={sortOrderByOrder}
@@ -203,7 +199,7 @@ const Dashboard = () => {
           </div>
         )}
         {userRole === "Admin" && (
-          <div style={{ overflow: "auto" }}>
+          <div className={styles.containerBackground}>
             <OrderTable
               data={getOrdersdata}
               sortOrderByOrder={sortOrderByOrder}

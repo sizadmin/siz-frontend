@@ -226,9 +226,6 @@ Td {
     max-width: 200px;
 }
 
-.tableShadow {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
 
 /* .Completed{
     background: green !important;
@@ -329,4 +326,12 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+.containerBackground{
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    padding: 1em;
+    margin-bottom: 2rem;
+    border-radius: 5px;
+    background: #fff;
+    overflow: auto;
 }

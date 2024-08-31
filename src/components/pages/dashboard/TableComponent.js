@@ -166,9 +166,9 @@ const OrderTable = (props) => {
           getOrders={props.getOrders}
         />
       )}
-      <h6>Showing {props.data.length} Records</h6>
+      <h6 className="mb-2">Showing {props.data.length} Records</h6>
       <div style={{ overflow: "auto", width: "200%" }}>
-        <Table className={styles.tableShadow}>
+        <Table >
           <Thead>
             <Tr style={{ background: "#af1010", color: "white" }}>
               <Th style={{ width: 40 }}>#</Th>
@@ -195,8 +195,8 @@ const OrderTable = (props) => {
               <Th>Renter Details</Th>
               <Th>Renter Address</Th>
               <Th>Product Details</Th>
-              <Th>Lendar Details</Th>
-              <Th>Lendar Address</Th>
+              <Th>Lender Details</Th>
+              <Th>Lender Address</Th>
               <Th>Pickup From Lender</Th>
               <Th>Delivery To Lender</Th>
 

@@ -104,7 +104,7 @@ setFormData((prevData) => {
               Order Items :
             </h6>
 
-            <Table className={styles.tableShadow}>
+            <Table >
               <Thead>
                 <Tr style={{ background: "#af1010", color: "white" }}>
                   <Th style={{ width: 40 }}>#</Th>

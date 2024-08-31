@@ -1,13 +1,11 @@
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import React, { useState } from 'react';
 import styles from './index.module.css';
-import { useSelector } from 'react-redux';
 import CampaignListPopup from './CampaignListPopup';
 
 const CampaignListTable = (props) => {
-  // const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+
   const [propsData, setPropsData] = useState();
-  // const { userInfo } = useSelector((state) => state.user);
 
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
 
@@ -35,8 +33,8 @@ const CampaignListTable = (props) => {
           }}
         />
       )}
-      <h6>Showing {props?.data?.length} Records</h6>
-      <Table className={styles.tableShadow}>
+      <h6 className='mb-2'>Showing {props?.data?.length} Records</h6>
+      <Table >
         <Thead>
           <Tr style={{ background: '#af1010', color: 'white' }}>
             <Th style={{ width: 40 }}>#</Th>

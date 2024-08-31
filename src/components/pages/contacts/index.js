@@ -112,10 +112,10 @@ const Contacts = () => {
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
       {showSuccessMsg && <Notification show={showSuccessMsg} msg={SuccessMsg} type="success" />}
-      <Header />
-      <div className="container-fluid cont-padd">
-        <div className="d-flex row justify-content-between p-3">
-          <h6>Contact List</h6>
+      {/* <Header /> */}
+      <div className="container-fluid cont-padd base-container">
+        <div className="d-flex justify-content-between containerBackground align-items-center">
+          <h2 className='mb-0'>Contact List</h2>
           <div>
             <button className={[styles.applyBtn, 'mr-3'].join(' ')} onClick={showCreateContact}>
               Contacts New Contact
@@ -154,7 +154,7 @@ const Contacts = () => {
           />
         )}
 
-        <div>
+        <div className='containerBackground'>
           <ContactLisTable data={contactListData} getContactLists={getContactLists} deleteContactList={(e) => deleteContactList(e)} />
         </div>
       </div>

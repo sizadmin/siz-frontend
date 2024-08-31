@@ -1,78 +1,107 @@
-import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import './Navbar.css'; // Import your custom styles
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import styles from './Navbar.module.css';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
-const LeftSidebar = () => {
+const SideNavbar = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 767);
+  const { userInfo } = useSelector((state) => state.user);
+  const location = useLocation();  // Get the current location
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 767);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const isActive = (route) => location.pathname === route;
+
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ width: '250px' }}>
-      <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <svg className="bi me-2" width="40" height="32">
-          <use xlinkHref="#bootstrap"></use>
-        </svg>
-        <span className="fs-4">Sidebar</span>
-      </a>
-      <hr />
-      <ul className="nav nav-pills flex-column mb-auto">
-        <li className="nav-item">
-          <a href="#" className="nav-link active" aria-current="page">
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="#" className="nav-link link-dark">
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="#" className="nav-link link-dark">
-            Orders
-          </a>
-        </li>
-        <li>
-          <a href="#" className="nav-link link-dark">
-            Products
-          </a>
-        </li>
-        <li>
-          <a href="#" className="nav-link link-dark">
-            Customers
-          </a>
-        </li>
-      </ul>
-      <hr />
-      <div className="dropdown">
-        <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://via.placeholder.com/150" alt="" width="32" height="32" className="rounded-circle me-2" />
-          <strong>mdo</strong>
-        </a>
-        <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
-          <li>
-            <a className="dropdown-item" href="#">
-              New project...
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Settings
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Profile
-            </a>
-          </li>
-          <li>
-            <hr className="dropdown-divider" />
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Sign out
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <>
+      {isSmallScreen ? (
+        <Navbar key="" expand="md" className={styles.smallNavbarContainer}>
+          <Container fluid className='w-100'>
+            <Navbar.Toggle className={styles.navbarToggleButton} bsPrefix="navbar-toggler" />
+
+            <Navbar.Offcanvas id={`offcanvasNavbar-expand-md`} aria-labelledby={`offcanvasNavbarLabel-expand-md`} placement="start" className={styles.offcanvas}>
+              <Offcanvas.Header closeButton className={styles.offCanvasHeader}></Offcanvas.Header>
+              <Offcanvas.Body className={styles.offcanvasBody}>
+                <Nav className={'flex-grow-1 pe-3'}>
+                  <Navbar.Brand href="#" className='m-auto'>
+                  <h1 className={[styles.navBarTitle, 'text-center'].join(' ')}>SIZ</h1>
+
+                  </Navbar.Brand>
+                  <Nav.Link href="dashboard" className={`${styles.navLink} ${isActive('/dashboard') ? styles.activeNavLink : ''}`}>
+                    <img className={styles.vectorIcon} src={require('../../../assets/imgs/order.png')} alt="Home Icon" />
+                    Orders
+                  </Nav.Link>
+                  <Nav.Link href="users" className={`${styles.navLink} ${isActive('/users') ? styles.activeNavLink : ''}`}>
+                    <img className={styles.vectorIcon} src={require('../../../assets/imgs/users.png')} alt="Profile Icon" />
+                    Users
+                  </Nav.Link>
+                  <Nav.Link href="contacts" className={`${styles.navLink} ${isActive('/contacts') ? styles.activeNavLink : ''}`}>
+                    <img className={styles.vectorIcon} src={require('../../../assets/imgs/contacts.png')} alt="Settings Icon" />
+                    Contacts
+                  </Nav.Link>
+                  <Nav.Link href="campaigns" className={`${styles.navLink} ${isActive('/campaigns') ? styles.activeNavLink : ''}`}>
+                    <img className={styles.vectorIcon} src={require('../../../assets/imgs/campaigns.png')} alt="On-Site Icon" />
+                    Campaigns
+                  </Nav.Link>
+                  <Nav.Link href="templates" className={`${styles.navLink} ${isActive('/templates') ? styles.activeNavLink : ''}`}>
+                    <img className={styles.vectorIcon} src={require('../../../assets/imgs/templates.png')} alt="Documents Icon" />
+                    Templates
+                  </Nav.Link>
+                  {/* <div className={styles.divider} /> */}
+                </Nav>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+      ) : (
+        <Navbar className={styles.navbarContainer}>
+          <Navbar.Brand href="#profile" className={styles.navbarBrand}>
+            {/* <div className={styles.profileContainer}>
+              <img src={require('../../../assets/imgs/sizlogo.png')} alt="Profile" className={styles.profileImage} />
+            </div>
+            {console.log(userInfo, 'userInfo')}
+            <h4 className={styles.username}> {`${userInfo.loggedUser.first_name} ${userInfo.loggedUser.last_name}`}</h4>
+            <h4 className={`${styles.username} fontWeight-400`}>{`${userInfo.loggedUser.email}`}</h4> */}
+          </Navbar.Brand>
+          <Nav className="flex-column mt-5 w-100">
+            <Nav.Link href="dashboard" className={`${styles.navLink} ${isActive('/dashboard') ? styles.activeNavLink : ''}`}>
+              <img className={styles.vectorIcon} src={require('../../../assets/imgs/order.png')} alt="Home Icon" />
+              Orders
+            </Nav.Link>
+            <Nav.Link href="users" className={`${styles.navLink} ${isActive('/users') ? styles.activeNavLink : ''}`}>
+              <img className={styles.vectorIcon} src={require('../../../assets/imgs/users.png')} alt="Profile Icon" />
+              Users
+            </Nav.Link>
+            <Nav.Link href="contacts" className={`${styles.navLink} ${isActive('/contacts') ? styles.activeNavLink : ''}`}>
+              <img className={styles.vectorIcon} src={require('../../../assets/imgs/contacts.png')} alt="Settings Icon" />
+              Contacts
+            </Nav.Link>
+            <Nav.Link href="campaigns" className={`${styles.navLink} ${isActive('/campaigns') ? styles.activeNavLink : ''}`}>
+              <img className={styles.vectorIcon} src={require('../../../assets/imgs/campaigns.png')} alt="On-Site Icon" />
+              Campaigns
+            </Nav.Link>
+            <Nav.Link href="templates" className={`${styles.navLink} ${isActive('/templates') ? styles.activeNavLink : ''}`}>
+              <img className={styles.vectorIcon} src={require('../../../assets/imgs/templates.png')} alt="Documents Icon" />
+              Templates
+            </Nav.Link>
+          </Nav>
+        </Navbar>
+      )}
+    </>
   );
 };
 
-export default LeftSidebar;
+export default SideNavbar;

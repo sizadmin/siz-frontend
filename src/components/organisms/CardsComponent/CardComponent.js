@@ -12,8 +12,8 @@ const CardComponent = ({ data, userRole }) => {
   };
 
   return (
-    <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
-      <div className="align-items-center expand-collapse-content justify-content-between pl-3 pr-3 row" onClick={handleToggle}>
+    <div className={[styles.filterBlock, "expand-collapse cursor"].join(" ")} onClick={handleToggle}>
+      <div className="align-items-center expand-collapse-content justify-content-between pl-3 pr-3 row" >
         <h6>Summary</h6>
         {/* <div className="text-right cursor" >
           <img src={isExpanded ? downArrow : upArrow} alt="expandedIcon" />

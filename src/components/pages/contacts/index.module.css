@@ -226,9 +226,6 @@ Td {
     /* max-width: 200px; */
 }
 
-.tableShadow {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
 
 /* .Completed{
     background: green !important;
@@ -327,6 +324,7 @@ th {
     color: white;
     padding: 10px 30px;
     border-radius: 6px;
+    font-weight: 700;
 }
 
 .customTextareaStyle {

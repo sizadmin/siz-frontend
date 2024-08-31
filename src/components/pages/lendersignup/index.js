@@ -147,11 +147,11 @@ const LenderSignup = () => {
       {showSuccessMsg && (
         <Notification show={showSuccessMsg} msg={SuccessMsg} type="success" />
       )}
-      <Header />
-      <div className="container-fluid cont-padd">
-        <div className="d-flex row justify-content-between p-3">
-          <h6>User management</h6>
-          <div>
+      {/* <Header /> */}
+      <div className="container-fluid cont-padd base-container">
+        <div className={["d-flex justify-content-between", styles.containerBackground].join(" ")}>
+          <h2 className="mb-0">User management</h2>
+          <div style={{margin:5}}>
             <button className={styles.applyBtn} onClick={handleUserPopup}>
               Create User
             </button>
@@ -172,7 +172,7 @@ const LenderSignup = () => {
           />
         )}
 
-        <div>
+        <div className={styles.containerBackground}>
           <UsersTable
             data={getOrdersdata}
             sortOrderByOrder={sortOrderByOrder}

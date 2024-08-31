@@ -40,8 +40,8 @@ const Filters = ({
   };
 
   return (
-    <div className={[styles.filterBlock, "expand-collapse"].join(" ")}>
-      <div className="expand-collapse-header cursor d-flex justify-content-between align-items-center" onClick={handleToggle}>
+    <div className={[styles.filterBlock, "expand-collapse cursor"].join(" ")} onClick={handleToggle}>
+      <div className="expand-collapse-header cursor d-flex justify-content-between align-items-center" >
         <h6>Add Filters</h6>
         {/* <img src={isExpanded ? downArrow : upArrow} alt="expandedIcon" /> */}
       </div>
