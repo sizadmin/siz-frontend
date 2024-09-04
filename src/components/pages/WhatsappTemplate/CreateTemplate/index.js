@@ -11,6 +11,7 @@ const CreateTemplate = () => {
   const { templateId } = useParams() || null;
 
   const [formData, setFormData] = useState();
+  const [originalData, setOriginalData] = useState();
 
   const { userInfo } = useSelector((state) => state.user);
 
@@ -34,6 +35,7 @@ const CreateTemplate = () => {
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
         setFormData(res.results[0]);
+        setOriginalData(res.results[0])
         setShowLoader(false);
       } else {
         console.log(err);
@@ -47,7 +49,7 @@ const CreateTemplate = () => {
       {showLoader && <ActivityLoader show={showLoader} />}
 
       <div className="container-fluid base-container" style={{ height: '100vh' }}>
-        <WhatsAppTemplateCreator template={formData} />
+        <WhatsAppTemplateCreator template={formData} originalData={originalData}/>
       </div>
     </>
   );

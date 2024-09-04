@@ -106,8 +106,8 @@
   }
   
   .loginFooter {
-    margin-top: 1.5rem;
-    text-align: center;
+    /* margin-top: 1.5rem; */
+    text-align: right;
   }
   
   .loginFooter a {
@@ -170,4 +170,9 @@
   
   .error {
     color: red !important;
+  }
+  .logoStyle {
+    width: 25vw;
+    min-width: 2vw;
+    max-width: 10vw;
   }

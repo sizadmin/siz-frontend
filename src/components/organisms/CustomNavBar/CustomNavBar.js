@@ -32,7 +32,8 @@ const CustomNavbar = (props) => {
         <Navbar key="" expand="md" className={styles.navbarContainer}>
           <Container fluid>
             <Navbar.Brand href="#">
-              <h1 className={[styles.navBarTitle, 'text-center'].join(' ')}>SIZ</h1>
+              {/* <h1 className={[styles.navBarTitle, 'text-center'].join(' ')}></h1> */}
+              <img src={require('../../../assets/imgs/LOGO.jpeg')} className={styles.logo} alt="logo" />
             </Navbar.Brand>
             <div className={styles.imageContainer}>
               <div className="dropdown">

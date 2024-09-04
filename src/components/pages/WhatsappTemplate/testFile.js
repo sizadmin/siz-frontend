@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Toggle from 'react-toggle';
 import WhatsAppTemplatePreview from './WhatsAppTemplatePreview';
-import Styles from  './index.module.css';
+import Styles from './index.module.css';
 import closeIcon from './../../../assets/imgs/cross.png';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -108,8 +108,16 @@ const WhatsAppTemplateCreator = (props) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTemplate({ ...template, [name]: value });
-    // setITemplateModified(true);
+    let fieldValue = props?.originalData?.[name];
+    let templateValue = template?.[name];
+    console.log(fieldValue, '-----', templateValue);
+    if (fieldValue !== templateValue) setITemplateModified(true);
+
+    // setTemplate({ ...template, [name]: value });
+    setTemplate((prevTemplate) => ({
+      ...prevTemplate,
+      [name]: value,
+    }));
   };
 
   const handleTemplateNameChange = (e) => {
@@ -247,7 +255,7 @@ const WhatsAppTemplateCreator = (props) => {
         }
       });
     } else {
-      template.status = (template.status === 'APPROVED' || template.status === 'REJECTED') && 'UPDATED';
+      template.status = template.status === 'APPROVED' || template.status === 'REJECTED' ? 'UPDATED' : template.status;
       ApiService.put('/v1/template/' + template._id, template, header, (res, err) => {
         if (res !== null) {
           setSuccessMsg('Template Updated successfully');
@@ -408,6 +416,7 @@ const WhatsAppTemplateCreator = (props) => {
           </div>
         )}
         <div>
+          {console.log(isTemplateModified, 'isTemplateModified')}
           {(template.status === 'CREATED' || template.status === 'UPDATED') && !isTemplateModified ? (
             <Button variant="secondary" className="secondary mr-4 " onClick={handleSubmitReview}>
               Submit for review
@@ -426,9 +435,9 @@ const WhatsAppTemplateCreator = (props) => {
         </div>
       </div>
       <div className="d-flex justify-content-around row col-md-12">
-        <div className={[Styles.templateCreator, "col-md-4"].join(" ")} style={{ maxHeight: 730, overflowY: 'auto' }}>
+        <div className={[Styles.templateCreator, 'col-md-4'].join(' ')} style={{ maxHeight: 730, overflowY: 'auto' }}>
           <div className="form-container">
-            <div className={[Styles.formGroup ,"d-flex flex-column"].join(" ")}>
+            <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
               <label>Name:</label>
               <div className="d-flex flex-column p-0 w-100 mt-2">
                 <input type="text" name="name" value={template.name} onChange={handleTemplateNameChange} disabled={templateId} className={Styles.inputField} />
@@ -436,17 +445,17 @@ const WhatsAppTemplateCreator = (props) => {
               </div>
             </div>
 
-            <div className={[Styles.formGroup, "d-flex flex-column"].join(" ")}>
+            <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
               <label>Category:</label>
-              <select name="category" value={template.category} onChange={handleInputChange} disabled={templateId} className={[Styles.selectField ,"w-100 mt-2"].join(" ")}>
+              <select name="category" value={template.category} onChange={handleInputChange} disabled={templateId} className={[Styles.selectField, 'w-100 mt-2'].join(' ')}>
                 <option value="MARKETING">Marketing</option>
                 <option value="UTILITY">Utility</option>
               </select>
             </div>
 
-            <div className={[Styles.formGroup, "d-flex flex-column"].join(" ")}>
+            <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
               <label>Language:</label>
-              <select name="language" value={template.language} onChange={handleInputChange} disabled={templateId} className={[Styles.selectField ,"w-100 mt-2"].join(" ")}>
+              <select name="language" value={template.language} onChange={handleInputChange} disabled={templateId} className={[Styles.selectField, 'w-100 mt-2'].join(' ')}>
                 <option value="en">English</option>
                 <option value="en_US">English (US)</option>
                 <option value="es">Spanish</option>
@@ -462,9 +471,9 @@ const WhatsAppTemplateCreator = (props) => {
               </select>
             </div>
 
-            <div className={[Styles.formGroup, "d-flex flex-column"].join(" ")}>
+            <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
               <label>Header:</label>
-              <div className={[Styles.inputField, "d-flex flex-column p-0 w-100 mt-2"].join(" ")}>
+              <div className={[Styles.inputField, 'd-flex flex-column p-0 w-100 mt-2'].join(' ')}>
                 <Tabs onClick={setActiveTab} value={activeTab}>
                   {activeTab === 'text' && (
                     <>
@@ -482,7 +491,7 @@ const WhatsAppTemplateCreator = (props) => {
                     </>
                   )}
                   {activeTab === 'image' && (
-                    <div className={[Styles.formGroup, "justify-content-center"].join(" ")}>
+                    <div className={[Styles.formGroup, 'justify-content-center'].join(' ')}>
                       {template.headerImageUrl === '' ? (
                         <FileUploader
                           label="Upload or drop a file right here"
@@ -508,7 +517,7 @@ const WhatsAppTemplateCreator = (props) => {
             {activeTab !== 'image' && (
               <>
                 {template?.headerVariables.length > 0 && (
-                  <div className={[Styles.formGroup, "d-flex flex-column"].join(" ")}>
+                  <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
                     <label>Variables:</label>
                     <div>
                       {template?.headerVariables?.map((itm, i) => {
@@ -535,9 +544,16 @@ const WhatsAppTemplateCreator = (props) => {
                               <span className={Styles.errorMessage}>
                                 <i>Variable Value if empty</i>
                               </span>
-                              {validationErrors[`variableValue-${i}`] && <span className={[Styles.errorMessage, Styles.variablesInputWidth].join(" ")}>{validationErrors[`variableValue-${i}`]}</span>}
+                              {validationErrors[`variableValue-${i}`] && (
+                                <span className={[Styles.errorMessage, Styles.variablesInputWidth].join(' ')}>{validationErrors[`variableValue-${i}`]}</span>
+                              )}
                             </div>
-                            <select name="field" value={itm.field} onChange={(e) => handleInputChangeVariablesHeader(e, i)} className={[Styles.selectField, Styles.variablesInputWidth].join(" ")}>
+                            <select
+                              name="field"
+                              value={itm.field}
+                              onChange={(e) => handleInputChangeVariablesHeader(e, i)}
+                              className={[Styles.selectField, Styles.variablesInputWidth].join(' ')}
+                            >
                               <option value="first_name">FIRSTNAME</option>
                               <option value="last_name">LASTNAME</option>
                               <option value="PHONENUMBER">PHONENUMBER</option>
@@ -552,9 +568,9 @@ const WhatsAppTemplateCreator = (props) => {
                 )}
               </>
             )}
-            <div className={[Styles.formGroup, "d-flex flex-column"].join(" ")}>
+            <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
               <label>Body Text:</label>
-              <div className={[Styles.inputField,"d-flex flex-column p-0 w-100 mt-2"].join(" ")}>
+              <div className={[Styles.inputField, 'd-flex flex-column p-0 w-100 mt-2'].join(' ')}>
                 <BodyFieldEditor
                   text={template.body}
                   className={Styles.textareaField}
@@ -568,7 +584,7 @@ const WhatsAppTemplateCreator = (props) => {
               </div>
             </div>
             {template?.bodyVariables.length > 0 && (
-              <div className={[Styles.formGroup, "d-flex flex-column"].join(" ")}>
+              <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
                 <label>Variables:</label>
                 <div>
                   {template?.bodyVariables?.map((itm, i) => {
@@ -581,7 +597,7 @@ const WhatsAppTemplateCreator = (props) => {
                           disabled
                           value={itm.label}
                           onChange={(e) => handleInputChangeVariables(e, i)}
-                          className={[Styles.inputField, Styles.variablesInputWidth, "mr-3"].join(" ")}
+                          className={[Styles.inputField, Styles.variablesInputWidth, 'mr-3'].join(' ')}
                         />
                         <div className="d-flex flex-column">
                           <input
@@ -595,9 +611,16 @@ const WhatsAppTemplateCreator = (props) => {
                           <span className={Styles.errorMessage}>
                             <i>Variable Value if empty</i>
                           </span>
-                          {validationErrors[`variableValue-${i}`] && <span className={[Styles.errorMessage, Styles.variablesInputWidth].join(" ")}>{validationErrors[`variableValue-${i}`]}</span>}
+                          {validationErrors[`variableValue-${i}`] && (
+                            <span className={[Styles.errorMessage, Styles.variablesInputWidth].join(' ')}>{validationErrors[`variableValue-${i}`]}</span>
+                          )}
                         </div>
-                        <select name="field" value={itm.field} onChange={(e) => handleInputChangeVariables(e, i)} className={[Styles.selectField ,Styles.variablesInputWidth].join(" ")}>
+                        <select
+                          name="field"
+                          value={itm.field}
+                          onChange={(e) => handleInputChangeVariables(e, i)}
+                          className={[Styles.selectField, Styles.variablesInputWidth].join(' ')}
+                        >
                           <option value="first_name">FIRSTNAME</option>
                           <option value="last_name">LASTNAME</option>
                           <option value="PHONENUMBER">PHONENUMBER</option>
@@ -622,13 +645,11 @@ const WhatsAppTemplateCreator = (props) => {
             {template.buttonEnabled && (
               <>
                 {/* Render buttons if buttonType is 'URL' */}
-                <div className={[Styles.formGroup ,"row"].join(" ")}>
+                <div className={[Styles.formGroup, 'row'].join(' ')}>
                   {template.buttons.map((button, index) => (
                     <React.Fragment key={index}>
                       {button.buttonType === 'callToAction' && (
-                        <div
-                          className={["button-group w-100", styles.buttonContainer].join(" ")}
-                        >
+                        <div className={['button-group w-100', styles.buttonContainer].join(' ')}>
                           <button
                             onClick={() => handleRemoveButton(index)}
                             type="button"
@@ -699,7 +720,7 @@ const WhatsAppTemplateCreator = (props) => {
                           <button
                             onClick={() => handleRemoveButton(index)}
                             type="button"
-                            className={[Styles.customCloseButton ,"d-flex mb-1"].join(" ")}
+                            className={[Styles.customCloseButton, 'd-flex mb-1'].join(' ')}
                             style={{ marginLeft: 'auto' }}
                             aria-label="Close"
                           >
