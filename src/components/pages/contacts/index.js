@@ -118,7 +118,7 @@ const Contacts = () => {
           <h2 className='mb-0'>Contact List</h2>
           <div>
             <button className={[styles.applyBtn, 'mr-3'].join(' ')} onClick={showCreateContact}>
-              Contacts New Contact
+              Create New Contact
             </button>
 
             <button className={styles.applyBtn} onClick={syncContacts}>
