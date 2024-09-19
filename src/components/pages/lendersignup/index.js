@@ -51,6 +51,8 @@ const LenderSignup = () => {
   //   userInfo?.loggedUser?.role?.role_name
   // );
   const [rolesData, setRolesData] = useState([]);
+  const [permissionData, setPermissionData] = useState([]);
+
   const [lendersData, setLendersData] = useState([]);
 
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
@@ -71,6 +73,20 @@ const LenderSignup = () => {
           setShowLoader(false);
         }
       });
+
+      ApiService.get("/v1/permission", {}, {}, (res, err) => {
+        if (res !== null) {
+          setPermissionData(
+            res.results.map((e) => {
+              return { label: e.name, value: e._id };
+            })
+          );
+        } else {
+          console.log(err);
+          setShowLoader(false);
+        }
+      });
+
 
       ApiService.get("/v1/lenders", {}, {}, (res, err) => {
         if (res !== null) {
@@ -152,7 +168,7 @@ const LenderSignup = () => {
         <div className={["d-flex justify-content-between", styles.containerBackground].join(" ")}>
           <h2 className="mb-0">User management</h2>
           <div style={{margin:5}}>
-            <button className={styles.applyBtn} onClick={handleUserPopup}>
+            <button className={[styles.applyBtn,"btn-primary"].join(" ")} onClick={handleUserPopup}>
               Create User
             </button>
           </div>
@@ -169,6 +185,7 @@ const LenderSignup = () => {
             setSuccessMsg={setSuccessMsg}
             setShowSuccessMsg={setShowSuccessMsg}
             deleteUser={(e) => deleteUser(e)}
+            permissionData={permissionData}
           />
         )}
 
@@ -181,6 +198,7 @@ const LenderSignup = () => {
             rolesData={rolesData}
             lendersData={lendersData}
             deleteUser={(e) => deleteUser(e)}
+            permissionData={permissionData}
           />
         </div>
       </div>

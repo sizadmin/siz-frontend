@@ -1,6 +1,5 @@
-import axios from "axios";
-import { backendHost as API_URL } from "../../config/config";
-
+import axios from 'axios';
+import { backendHost as API_URL } from '../../config/config';
 
 const ApiService = {
   get: (url, payload, headers, callback) => {
@@ -11,8 +10,8 @@ const ApiService = {
           headers === null
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         if (responseData) {
@@ -22,7 +21,7 @@ const ApiService = {
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            window.location.replace("/");
+            window.location.replace('/');
             return;
           }
           // if (error.response.data.detail !== "Not found.") {
@@ -30,10 +29,10 @@ const ApiService = {
           //   global.navigate("/");
           // }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
           //  window.location.replace("/error");
-            return;
+          return;
         }
       });
   },
@@ -42,11 +41,11 @@ const ApiService = {
     axios
       .post(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null, data);
@@ -54,46 +53,49 @@ const ApiService = {
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            window.location.replace("/");
+            window.location.replace('/');
             return;
           }
-          if (error.response.data.detail === "Not found.") {
+          if (error.response.data.detail === 'Not found.') {
             alert(error.response.data.detail);
-            global.navigate("/");
+            global.navigate('/');
           }
           callback && callback(null, error.response.data, data);
-        }else{
+        } else {
           callback && callback(null, error);
           //  window.location.replace("/error");
-            return;
+          return;
         }
       });
   },
   del: (url, payload, headers, callback) => {
     axios
-      .delete(API_URL.getAPIUrl() + url, {
-        params: payload,
-        headers:
-          (headers === null || Object.keys(headers).length === 0)
-            ? {}
-            : {
-              Authorization: `${headers.Token}`,
-            },
-      })
+      .delete(
+        API_URL.getAPIUrl() + url,
+        {
+          headers:
+            headers === null || Object.keys(headers).length === 0
+              ? {}
+              : {
+                  Authorization: `${headers.Token}`,
+                },
+        },
+        payload
+      )
       .then((responseData) => {
         callback && callback(responseData.data, null);
       })
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            window.location.replace("/");
+            window.location.replace('/');
             return;
           }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace('/error');
+          return;
         }
       });
   },
@@ -101,11 +103,11 @@ const ApiService = {
     axios
       .patch(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null, data);
@@ -113,14 +115,14 @@ const ApiService = {
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            window.location.replace("/");
+            window.location.replace('/');
             return;
           }
           callback && callback(null, error.response.data, data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace('/error');
+          return;
         }
       });
   },
@@ -129,27 +131,27 @@ const ApiService = {
     axios
       .put(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null);
       })
       .catch((error) => {
-        console.log(error.response)
+        console.log(error.response);
         if (error.response) {
           if (error.response.data.detail) {
             alert(error.response.data.detail);
-            global.navigate("/");
+            global.navigate('/');
           }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace('/error');
+          return;
         }
       });
   },
@@ -157,11 +159,11 @@ const ApiService = {
     axios
       .patch(API_URL.getAPIUrl() + url, data, {
         headers:
-          (headers === null || Object.keys(headers).length === 0)
+          headers === null || Object.keys(headers).length === 0
             ? {}
             : {
-              Authorization: `${headers.Token}`,
-            },
+                Authorization: `${headers.Token}`,
+              },
       })
       .then((responseData) => {
         callback && callback(responseData.data, null);
@@ -169,18 +171,18 @@ const ApiService = {
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            window.location.replace("/");
+            window.location.replace('/');
             return;
           }
           if (error.response.data.detail) {
             alert(error.response.data.detail);
-            global.navigate("/");
+            global.navigate('/');
           }
           callback && callback(null, error.response.data);
-        }else{
+        } else {
           callback && callback(null, error);
-           window.location.replace("/error");
-            return;
+          window.location.replace('/error');
+          return;
         }
       });
   },

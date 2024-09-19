@@ -20,14 +20,12 @@ const GalleryComponent = ({ images }) => {
 
   const setIndexNext = () => {
     let totalLength = images.length - 1;
-    console.log(indexVal, "indexVal");
     if (indexVal === totalLength) {
       setIndexVal(0);
     } else setIndexVal(indexVal + 1);
   };
   const setIndexPrev = () => {
     let totalLength = images.length - 1;
-    console.log(indexVal, "indexVal");
     if (indexVal === totalLength) {
       setIndexVal(0);
     } else setIndexVal(indexVal + 1);

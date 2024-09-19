@@ -88,7 +88,7 @@ const WhatsAppTemplateCreator = (props) => {
   useEffect(() => {
     if (props.template) {
       let { template } = props;
-
+      console.log(template,"template")
       setTemplate((prevTemplate) => ({
         ...prevTemplate,
         name: template.name,
@@ -418,15 +418,15 @@ const WhatsAppTemplateCreator = (props) => {
         <div>
           {console.log(isTemplateModified, 'isTemplateModified')}
           {(template.status === 'CREATED' || template.status === 'UPDATED') && !isTemplateModified ? (
-            <Button variant="secondary" className="secondary mr-4 " onClick={handleSubmitReview}>
+            <Button  className="btn-primary mr-4 " onClick={handleSubmitReview}>
               Submit for review
             </Button>
           ) : (
-            <Button variant="secondary" className="secondary mr-4 " onClick={handleSubmit}>
+            <Button  className="btn-primary mr-4 " onClick={handleSubmit}>
               Save
             </Button>
           )}
-          <Button variant="secondary" className="secondary mr-4" onClick={deleteTemplate}>
+          <Button  className="btn-primary mr-4" onClick={deleteTemplate}>
             Delete Template
           </Button>
           <Button variant="secondary" className="mr-2" onClick={handleCancel}>

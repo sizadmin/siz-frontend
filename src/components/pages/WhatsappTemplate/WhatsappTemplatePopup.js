@@ -133,11 +133,7 @@ const WhatsappTemplatePopup = (props) => {
             </Button>
           )} */}
           <Button
-            variant="secondary"
-            style={{
-              background: 'rgb(175, 16, 16)',
-              borderColor: 'rgb(175, 16, 16)',
-            }}
+            className='btn-primary'
             onClick={createTemplate}
           >
             {props.isNew === true ? 'Save' : 'Update'}

@@ -75,6 +75,9 @@ input[type="submit"] {
 label {
     margin-top: 0.6rem;
     margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .link {
@@ -345,7 +348,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 .containerBackground{
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px; */
     padding: 1em;
     margin-bottom: 2rem;
     border-radius: 5px;
@@ -355,4 +358,7 @@ input[type=number] {
 /* Example CSS */
 td::before {
     content: none !important; /* Ensure no content is added before td elements */
+  }
+  .togglebtn .form-check-label{
+max-width: 200px;
   }

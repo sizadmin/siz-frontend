@@ -43,6 +43,7 @@ const UsersTable = (props) => {
           getUsers={props.getUsers}
           rolesData={props.rolesData}
           lendersData={props.lendersData}
+          permissionData={props.permissionData}
           isNew={false}
           deleteUser={(e) => {
             props.deleteUser(e);
@@ -53,7 +54,7 @@ const UsersTable = (props) => {
       <h6 className="mb-2">Showing {props.data.length} Records</h6>
       <Table className="w-100">
         <Thead>
-          <Tr style={{ background: '#af1010', color: 'white' }}>
+          <Tr style={{ background: '#d1d1d1' }}>
             <Th style={{ width: 40 }}>#</Th>
             <Th>First Name</Th>
             <Th>Last Name</Th>
@@ -61,6 +62,8 @@ const UsersTable = (props) => {
             <Th>Active</Th>
             <Th>Phone Number</Th>
             <Th>Role</Th>
+            <Th style={{ width: 60, textAlign: 'center' }}>Edit</Th>
+            {/* <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th> */}
           </Tr>
         </Thead>
         <Tbody>
@@ -77,15 +80,21 @@ const UsersTable = (props) => {
               {props.data.length > 0 &&
                 props.data.map((user, i) => (
                   <React.Fragment key={i}>
-                    <Tr className="cursor" onClick={() => handleShowDetails(user)}>
+                    <Tr className="cursor">
                       <Td>{i + 1}</Td>
-                      <Td >{user.first_name ? user.first_name : '-'}</Td>
-                      <Td >{user.last_name ? user.last_name : '-'}</Td>
+                      <Td>{user.first_name ? user.first_name : '-'}</Td>
+                      <Td>{user.last_name ? user.last_name : '-'}</Td>
                       <Td style={{ fontSize: 'small' }}>{user.email ? user.email : '-'}</Td>
                       <Td style={{ fontSize: 'small' }}>{user.isActive === true ? 'Active ' : 'In-active'}</Td>
 
                       <Td style={{ fontSize: 'small' }}>{user.phone_number ? user.phone_number : '-'}</Td>
                       <Td style={{ fontSize: 'small' }}>{Object.keys(user.role).length > 0 ? user.role.role_name : '-'}</Td>
+                      <Td style={{ fontSize: 'small', textAlign: 'center' }}>
+                        <i className="fa fa-pencil" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => handleShowDetails(user)}></i>
+                      </Td>
+                      {/* <Td style={{ fontSize: 'small', textAlign: 'center' }}>
+                            <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
+                          </Td> */}
                     </Tr>
                   </React.Fragment>
                 ))}

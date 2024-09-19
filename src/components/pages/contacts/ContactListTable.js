@@ -5,12 +5,14 @@ import ActivityLoader from '../../atom/ActivityLoader/ActivityLoader';
 import styles from './index.module.css';
 import { useSelector } from 'react-redux';
 import ContactListPopup from './ContactListPopup';
+import moment from 'moment';
+import CustomPopup from '../../organisms/CustomPopup/customPopup';
 
 const ContactLisTable = (props) => {
-  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  // const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [propsData, setPropsData] = useState();
-  const { userInfo } = useSelector((state) => state.user);
-
+  const [deleteUserData, setDeleteUserData] = useState();
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
 
   const handleShowDetails = (user) => {
@@ -27,6 +29,16 @@ const ContactLisTable = (props) => {
     setShowCreateUserPopup(true);
   };
 
+  const showDeletePopupFunc = (record) => {
+    setShowDeletePopup(true);
+    setDeleteUserData(record);
+  };
+
+  const onDeleteFunc = () => {
+    props.deleteContactList(deleteUserData);
+    setDeleteUserData();
+    setShowDeletePopup(false);
+  };
   return (
     <>
       {showCreateUserPopup && (
@@ -36,19 +48,33 @@ const ContactLisTable = (props) => {
           propsData={propsData}
           isNew={false}
           getContactLists={props.getContactLists}
-          deleteContactList={(e) => {
-            props.deleteContactList(e);
-            setShowCreateUserPopup(false);
-          }}
+          // deleteContactList={(e) => {
+          //   props.deleteContactList(e);
+          //   setShowCreateUserPopup(false);
+          // }}
         />
       )}
-      <h6 className='mb-2'>Showing {props?.data?.length} Records</h6>
-      <Table >
+      {showDeletePopup && (
+        <CustomPopup
+          show={showDeletePopup}
+          onDelete={() => onDeleteFunc()}
+          headerTitle={'Delete Contact List'}
+          bodyMessage={'Are you sure? Do you want to delete this contact list?'}
+          onClose={() => setShowDeletePopup(false)}
+        />
+      )}
+      <h6 className="mb-2">Showing {props?.data?.length} Records</h6>
+      <Table>
         <Thead>
-          <Tr style={{ background: '#af1010', color: 'white' }}>
+          <Tr style={{ background: '#d1d1d1' }}>
             <Th style={{ width: 40 }}>#</Th>
             <Th>Name</Th>
+            <Th>Contacts</Th>
             <Th>Status</Th>
+            <Th>Created On</Th>
+            <Th>Updated On</Th>
+            <Th style={{ width: 60, textAlign: 'center' }}>Edit</Th>
+            <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -63,11 +89,19 @@ const ContactLisTable = (props) => {
               {props?.data?.length > 0 &&
                 props?.data?.map((user, i) => (
                   <React.Fragment key={i}>
-                    <Tr style={{ borderBottom: '1px solid #e7d9d9' }} onClick={() => handleShowDetails(user)}>
+                    <Tr style={{ borderBottom: '1px solid #e7d9d9' }}>
                       <Td>{i + 1}</Td>
                       <Td style={{ whiteSpace: 'nowrap', fontSize: 'small' }}>{user.name ? user.name : '-'}</Td>
-
+                      <Td style={{ fontSize: 'small' }}>{user.phone_number.length}</Td>
                       <Td style={{ fontSize: 'small' }}>{user.isActive === true ? 'Active ' : 'In-active'}</Td>
+                      <Td style={{ fontSize: 'small' }}>{moment(user.createdAt).format('DD MMM YYYY hh:mm a')}</Td>
+                      <Td style={{ fontSize: 'small' }}>{moment(user.updatedAt).format('DD MMM YYYY hh:mm a')}</Td>
+                      <Td style={{ fontSize: 'small', textAlign: 'center' }}>
+                        <i className="fa fa-pencil" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => handleShowDetails(user)}></i>
+                      </Td>
+                      <Td style={{ fontSize: 'small', textAlign: 'center' }}>
+                        <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
+                      </Td>
                     </Tr>
                   </React.Fragment>
                 ))}

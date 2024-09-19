@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css'; // import styles
 import "./index.css"
 // Custom handler for phone button click
 const handlePhoneClick = () => {
-  console.log('Phone icon clicked!');
+  // console.log('Phone icon clicked!');
 };
 
 // Editor component

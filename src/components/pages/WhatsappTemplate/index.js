@@ -93,7 +93,7 @@ const WhatsappTemplatePage = () => {
         <div className="d-flex justify-content-between containerBackground">
           <h2 className="mb-0">Templates</h2>
           <div style={{ margin: 5 }}>
-            <button className={[styles.applyBtn].join(' ')} onClick={handleUserPopup}>
+            <button className={[styles.applyBtn,"btn-primary"].join(' ')} onClick={handleUserPopup}>
               Create New Template
             </button>
           </div>

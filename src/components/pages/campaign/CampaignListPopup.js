@@ -275,7 +275,6 @@ const CampaignListPopup = (props) => {
                     onChange={onChangeTemplate}
                     defaultOptions
                     loadOptions={async (inputValue, callback) => {
-                      console.log(inputValue, 'inputValue');
                       if (inputValue === '') {
                         let options = await getTemplates(inputValue);
                         setTimeout(() => {

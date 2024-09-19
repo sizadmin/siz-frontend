@@ -1,22 +1,26 @@
-import React from "react";
-import { Route, Redirect, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { setUser } from "../../utils/redux/actions";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetUser } from '../../utils/redux/actions';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isLoggedIn = rest?.user?.userInfo.token;
-  return (
-    // Show the component only when the user is logged in
-    // Otherwise, redirect the user to /signin page
-    <Route
-      {...rest}
-      render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to="/" />
-      }
-    />
+const ProtectedRoute = ({ component: Component, allowedRoles, ...rest }) => {
+  const userPermissions = useSelector((state) => state.user.userInfo?.loggedUser?.permission) || [];
+  const userRole = useSelector((state) => state.user?.userInfo?.loggedUser.role.role_name);
+  const isSystemAdmin = userRole === 'Admin';
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const hasPermission = userPermissions.some((permission) => allowedRoles.includes(permission.name));
+
+  if (isSystemAdmin || hasPermission) {
+    return <Component {...rest} />;
+  }
+
+  dispatch(
+    resetUser({})
   );
+  return history.push('/');
+  // return history.push('/unauthorized');
 };
 
-export default connect((state) => ({ user: state.user }), {
-  setUser,
-})(withRouter(PrivateRoute));
+export default ProtectedRoute;

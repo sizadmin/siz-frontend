@@ -632,7 +632,7 @@ tr {
 
 .modal-content,
 .modal-dialog {
-  max-width: 70vw !important;
+  max-width: 60vw !important;
 }
 
 .MuiInputBase-input {
@@ -678,7 +678,7 @@ a:hover {
 }
 
 .containerBackground {
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+  /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px; */
   padding: 1em;
   margin-bottom: 2rem;
   border-radius: 5px;
@@ -710,4 +710,94 @@ tr:hover {
   padding: 10px 30px;
   border-radius: 6px;
   font-weight: 700;
+}
+
+.toggle-gradient .form-check-input {
+  width: 3em !important;
+  /* Adjust width to match the design */
+  height: 24px;
+  /* Adjust height to match the design */
+  background-color: #94a3b8;
+  /* Default background color when off */
+  border: none;
+  /* Remove default border */
+  border-radius: 15px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease-in-out;
+  /* Smooth transition for background */
+  position: relative;
+  cursor: pointer;
+  appearance: none;
+  /* Remove default checkbox appearance */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Subtle shadow for depth */
+}
+
+/* Apply gradient background when the switch is checked */
+.toggle-gradient .form-check-input:checked {
+  /* background-image: linear-gradient(to right, #931e41, #500027); */
+  color: #441c1c;
+  /* Gradient colors */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Same shadow for consistency */
+}
+
+/* Style for the toggle thumb (circle) */
+.toggle-gradient .form-check-input::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 17px;
+  height: 17px;
+  background-color: #ffffff;
+  /* Thumb color */
+  border-radius: 50%;
+  /* Circular thumb */
+  transition: transform 0.3s ease-in-out;
+  /* Smooth transition for thumb movement */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  /* Shadow for the thumb */
+}
+
+/* Move the thumb (circle) when the switch is checked */
+.toggle-gradient .form-check-input:checked::before {
+  transform: translateX(23px);
+  /* Moves the thumb to the right */
+}
+
+/* 
+.form-switch .form-check-input {
+  width: 3em !important;
+} */
+
+.toggle-gradient .form-check-label {
+  margin-left: 0.5em;
+  max-width: 200px;
+}
+
+button:disabled {
+  opacity: 0.7;
+}
+
+#DeletePopup .modal-content,
+#DeletePopup .modal-dialog {
+  max-width: 30vw !important;
+  margin: auto;
+}
+
+.btn-secondary {
+  padding: 10px 30px;
+  border-radius: 6px;
+  font-weight: 700;
+  background-color: #333;
+  border-color: #333;
+}
+
+.btn-primary:hover {
+  background-color: #a54747 !important;
+}
+
+.btn-primary:focus {
+  outline: none !important;
 }

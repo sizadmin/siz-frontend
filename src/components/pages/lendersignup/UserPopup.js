@@ -11,6 +11,8 @@ import { CustomSelect } from '../../atom/CustomSelect/CustomSelect';
 import { emailRegx, handleCustomErrorMsg, handleIsRequiredError, phoneNumberRegx } from '../../../utils/Helper';
 import Notification from '../../organisms/Notification/notification';
 import closeIcon from '../../../assets/imgs/cross.png';
+import Form from 'react-bootstrap/Form';
+
 function UserPopup(props) {
   const handleClose = () => props.hide();
   const [showLoader, setShowLoader] = useState(false);
@@ -24,6 +26,8 @@ function UserPopup(props) {
   const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [SuccessMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [showPopup, setShowPopup] = useState(props.show);
+
   useEffect(() => {
     let findRole = props.rolesData.find((role) => role.value === formData.role?._id);
     if (findRole && findRole.label === 'Lender') {
@@ -44,6 +48,29 @@ function UserPopup(props) {
       setIsPhoneValid(true);
     } else {
       setIsPhoneValid(false);
+    }
+    if (formData.permission && formData.permission.length > 0) {
+      let newPermissions = formData.permission.map((itm) => {
+        let el = props.permissionData.find((element) => element.value === itm._id);
+        el.checked = true;
+        return el;
+      });
+
+      setFormData((prevData) => {
+        return {
+          ...prevData,
+          permission: newPermissions,
+          role: formData.role?._id,
+        };
+      });
+    } else {
+      setFormData((prevData) => {
+        return {
+          ...prevData,
+          permission: [],
+          role: formData.role?._id,
+        };
+      });
     }
   }, []);
 
@@ -101,10 +128,9 @@ function UserPopup(props) {
 
   const createNewUser = () => {
     setIsRequiredError(false);
-
     formData.first_name = formData.first_name.trimEnd();
     formData.last_name = formData.last_name.trimEnd();
-
+    formData.permission = formData.permission.map((element) => element?.value || element);
     if (props.isNew === true) {
       if (
         formData.first_name === '' ||
@@ -124,9 +150,9 @@ function UserPopup(props) {
         if (res !== null) {
           setSuccessMsg('User created successfully');
           setShowSuccessMsg(true);
-          //   handleClose();
+          setShowPopup(false);
+          setShowLoader(false);
           setTimeout(() => {
-            setShowLoader(false);
             handleClose();
           }, 3000);
           props.getUsers();
@@ -151,15 +177,15 @@ function UserPopup(props) {
       setShowLoader(true);
       let payload = _.cloneDeep(formData);
       payload.lender_info = payload.lender_info !== null && payload.lender_info.length > 0 ? payload.lender_info[0]._id : null;
-      payload.role = payload.role !== null && Object.keys(payload.role).length > 0 ? payload.role._id : null;
+      payload.role = payload.role !== null ? payload.role : null;
       delete payload.lender_id;
-
       ApiService.put('/v1/user/' + payload._id, payload, {}, (res, err) => {
         if (res !== null) {
           setSuccessMsg('User updated successfully');
           setShowSuccessMsg(true);
+          setShowPopup(false);
+          setShowLoader(false);
           setTimeout(() => {
-            setShowLoader(false);
             handleClose();
           }, 3000);
           props.getUsers();
@@ -169,6 +195,16 @@ function UserPopup(props) {
         }
       });
     }
+  };
+  const handleToggle = (index) => {
+    const updatedItems = [...props.permissionData];
+    updatedItems[index].checked = !updatedItems[index].checked;
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        permission: updatedItems.filter((item) => item.checked).map((item) => item.value),
+      };
+    });
   };
   return (
     <>
@@ -252,7 +288,7 @@ function UserPopup(props) {
                     <CustomSelect
                       options={props.rolesData}
                       onChange={(e) => onChangeSelect(e, 'role')}
-                      value={props.isNew === true ? null : formData.role !== null && Object.keys(formData.role).length > 0 ? formData.role._id : formData.role}
+                      value={props.isNew === true ? null : formData.role !== null && Object.keys(formData.role).length > 0 ? formData.role : formData.role}
                     />
                     {(formData.role === null || formData.role === '') && isRequiredError === true && <div>{handleIsRequiredError()}</div>}
                   </div>
@@ -284,6 +320,37 @@ function UserPopup(props) {
                       rows={4}
                       cols={40}
                     />
+                  </div>
+                </div>
+
+                <div className={['col-md-12', styles.modalElementStyle].join(' ')}>
+                  <h6 className={styles.third_titile}>Permission:</h6>
+                </div>
+                <div className={['col-md-12', styles.modalElementStyle].join(' ')}>
+                  <div className="d-flex flex-wrap justify-content-start">
+                    {props.permissionData.map((item, index) => (
+                      <div className="col-md-4 col-sm-6 mb-3 p-0" key={item.id} style={{ minWidth: '280px', flex: '1 1 auto' }}>
+                        <Form.Check
+                          type="switch"
+                          id={item.value}
+                          label={item.label}
+                          checked={item.checked || false}
+                          onChange={() => handleToggle(index)}
+                          title={item.label}
+                          className={['toggle-gradient', styles.togglebtn].join(' ')}
+                          style={{ minWidth: '300px', flex: '1 1 auto', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        />
+                      </div>
+                    ))}
+
+                    {/* Dynamic Dummy Divs to Align Elements */}
+                    {Array.from({ length: (4 - (props.permissionData.length % 4)) % 4 }).map((_, i) => (
+                      <div
+                        key={`dummy-${i}`}
+                        className="col-md-4 col-sm-6 mb-3 p-0"
+                        style={{ minWidth: '300px', flex: '1 1 auto', visibility: 'hidden' }} // Make the dummy div invisible
+                      />
+                    ))}
                   </div>
                 </div>
               </div>

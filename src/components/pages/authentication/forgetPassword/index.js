@@ -58,7 +58,7 @@ const ForgetPassword = (props) => {
               </label>
               <div className={styles.inputGroup}>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required />
-                <span className={styles.icon}>...</span>
+                {/* <span className={styles.icon}>...</span> */}
               </div>
               {errorMessages?.message !== '' && <div className={styles.inputContainer}> {renderErrorMessage()} </div>}
               {showSucessMsg && <div className={styles.inputContainer}>{renderSuccessMessage()}</div>}
@@ -67,7 +67,7 @@ const ForgetPassword = (props) => {
               </button>
             </form>
             <div className={styles.footerLinks}>
-              <a href="#">Create an account</a>
+              {/* <a href="#">Create an account</a> */}
               <a href="/">Return to login</a>
             </div>
           </div>

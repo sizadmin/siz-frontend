@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import styles from './index.module.css';
@@ -13,6 +13,8 @@ import axios from 'axios';
 import { backendHost as API_URL } from '../../../config/config';
 import closeIcon from './../../../assets/imgs/cross.png';
 import { useSelector } from 'react-redux';
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+
 const ContactListPopup = (props) => {
   const handleClose = () => props.hide();
   const [showLoader, setShowLoader] = useState(false);
@@ -21,6 +23,7 @@ const ContactListPopup = (props) => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [isRequiredError, setIsRequiredError] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
+  const [showPopup, setShowPopup] = useState(props.show);
 
   useEffect(() => {}, []);
 
@@ -71,7 +74,6 @@ const ContactListPopup = (props) => {
     if (!selectedOptions) {
       selectedOptions = [];
     }
-    console.log(selectedOptions, 'selectedOptions');
     setFormData((prevData) => ({
       ...prevData,
       phone_number: selectedOptions.map((permission) => permission),
@@ -117,8 +119,10 @@ const ContactListPopup = (props) => {
         if (res !== null) {
           setSuccessMsg('Contact List created successfully');
           setShowSuccessMsg(true);
+          setShowPopup(false);
+          setShowLoader(false);
+
           setTimeout(() => {
-            setShowLoader(false);
             handleClose();
           }, 3000);
           props.getContactLists();
@@ -140,8 +144,9 @@ const ContactListPopup = (props) => {
         if (res !== null) {
           setSuccessMsg('Contact List updated successfully');
           setShowSuccessMsg(true);
+          setShowPopup(false);
+          setShowLoader(false);
           setTimeout(() => {
-            setShowLoader(false);
             handleClose();
           }, 3000);
           props.getContactLists();
@@ -192,7 +197,7 @@ const ContactListPopup = (props) => {
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
       {showSuccessMsg && <Notification show={showSuccessMsg} msg={successMsg} type="success" />}
-      <Modal show={props.show} onHide={handleClose} dialogClassName="modal-90w" className="my-modal modal-90w">
+      <Modal show={showPopup} onHide={handleClose} dialogClassName="modal-90w" className="my-modal modal-90w">
         <Modal.Header>
           <Modal.Title className={[styles.third_titile, 'd-flex justify-content-between w-100'].join(' ')}>
             {props.isNew === true ? 'Create New Contact List' : 'Edit Contact List'}
@@ -204,14 +209,14 @@ const ContactListPopup = (props) => {
         <Modal.Body>
           <div>
             <div className="row col-md-12 p-4">
-              <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
+              <div className={['col-md-10 m-auto', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Contact List Name:</h6>
                 <div className={styles.modalElementDivStyle}>
                   <input type="text" className={styles.customInputStyle} value={formData.name} onChange={(e) => onChangeVal(e, 'name')} />
                   {(formData.name === null || formData.name === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
                 </div>
               </div>
-              <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
+              <div className={['col-md-10 m-auto', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Phone Numbers:</h6>
                 <div className={styles.modalElementDivStyle}>
                   <AsyncSelect
@@ -224,7 +229,7 @@ const ContactListPopup = (props) => {
                     value={formData?.phone_number?.map((first_name) => ({
                       label: first_name?.info?.phone_number ?? first_name.label,
                       value: first_name?.info?.phone_number ?? first_name.label,
-                      ...first_name
+                      ...first_name,
                     }))}
                     isMulti
                     isDisabled={formData?.select_all === true ? true : false}
@@ -235,7 +240,7 @@ const ContactListPopup = (props) => {
                   </span>
                 </div>
               </div>
-              <div className={['col-md-10', styles.modalElementStyle].join(' ')}>
+              <div className={['col-md-10 m-auto', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Status :</h6>
                 <div className={styles.modalElementDivStyle}>
                   <CustomSelect
@@ -248,16 +253,48 @@ const ContactListPopup = (props) => {
                   />
                 </div>
               </div>
+
+              <div className={['col-md-10  m-auto justify-content-center', styles.modalElementStyle].join(' ')}>
+                <div style={{ maxHeight: 200, overflowY: 'auto', width: '100%' }}>
+                  <Table>
+                    <Thead>
+                      <Tr style={{ background: '#d1d1d1' }}>
+                        <Th style={{ width: 40 }}>#</Th>
+                        <Th>Name</Th>
+                        <Th>Phone Number</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {props?.data?.length === 0 ? (
+                        <Tr>
+                          <Td colSpan="10">
+                            <div className="w-100 text-center">No Contact Found</div>
+                          </Td>
+                        </Tr>
+                      ) : (
+                        <>
+                          {formData?.phone_number?.length > 0 &&
+                            formData?.phone_number?.map((user, i) => (
+                              <React.Fragment key={i}>
+                                <Tr style={{ borderBottom: '1px solid #e7d9d9' }}>
+                                  <Td>{i + 1}</Td>
+                                  <Td style={{ whiteSpace: 'nowrap', fontSize: 'small' }}>{user.label ? user.label : '-'}</Td>
+                                  <Td style={{ fontSize: 'small' }}>{user.value}</Td>
+                                  {/* <Td style={{ fontSize: 'small' }}>{user.isActive === true ? 'Active ' : 'In-active'}</Td> */}
+                                </Tr>
+                              </React.Fragment>
+                            ))}
+                        </>
+                      )}
+                    </Tbody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          {props.isNew === false && (
-            <Button variant="secondary" onClick={() => props.deleteContactList(formData)} className="secondary">
-              Delete Contact List
-            </Button>
-          )}
-          <Button variant="secondary" className="secondary" onClick={createContactList}>
+          <Button  className="btn-primary" onClick={createContactList}>
             {props.isNew === true ? 'Save' : 'Update'}
           </Button>
           <Button variant="secondary" onClick={handleClose}>

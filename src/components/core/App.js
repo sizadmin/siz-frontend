@@ -15,6 +15,7 @@ import { Button } from 'react-bootstrap';
 import ActivityLoader from '../atom/ActivityLoader/ActivityLoader';
 import BaseLayout from '../organisms/baseLayout/baseLayout';
 import Profile from '../pages/Profile/Profile';
+import ProtectedRoute from './PrivateRoute';
 
 global.navigate = null;
 
@@ -70,32 +71,31 @@ const App = () => {
                 <Route exact path="/" component={Login} />
                 <Route exact path="/forgetPassword" component={ForgetPassword} />
                 <Route exact path="/resetpassword" component={ResetPassword} />
-                <Route exact path="/create-template" component={CreateTemplate} />
-                <Route exact path="/edit-template/:templateId" component={CreateTemplate} />
+                <Route exact path="/create-template" component={CreateTemplate} allowedRoles={['Whatsapp Template Management']} />
+                <Route exact path="/edit-template/:templateId" component={CreateTemplate} allowedRoles={['Whatsapp Template Management']} />
+                <Route exact path="/returnpickup/:productId" component={ReturnPickup} />
+                <Route exact path="/delivery/:productId" component={Delivery} />
+                <Route exact path="/pickup/:productId" component={Pickup} />
+                <Route exact path="/error" component={ServerError} />
+             
                 {/* BaseLayout routes */}
                 <Route path="/">
                   <BaseLayout>
                     <Switch>
-                      <Route exact path="/error" component={ServerError} />
-                      <Route exact path="/delivery/:productId" component={Delivery} />
-                      <Route exact path="/pickup/:productId" component={Pickup} />
-                      <Route exact path="/dashboard" component={Dashboard} />
-                      <Route exact path="/returnpickup/:productId" component={ReturnPickup} />
-                      <Route exact path="/users" component={LenderSignup} />
-                      <Route exact path="/contacts" component={Contact} />
-                      <Route exact path="/campaigns" component={Campaign} />
-                      <Route exact path="/templates" component={WhatsappTemplatePage} />
+                      <ProtectedRoute exact path="/dashboard" component={Dashboard} allowedRoles={['Order Management']} />
+                      <ProtectedRoute exact path="/users" component={LenderSignup} allowedRoles={['User Management']} />
+                      <ProtectedRoute exact path="/contacts" component={Contact} allowedRoles={['Contact Management']} />
+                      <ProtectedRoute exact path="/campaigns" component={Campaign} allowedRoles={['Campaign Management']} />
+                      <ProtectedRoute exact path="/templates" component={WhatsappTemplatePage} allowedRoles={['Whatsapp Template Management']} />
                       <Route exact path="/profile" component={Profile} />
-
-                      
-                      <Route component={NoMatchPage} /> {/* Fallback inside BaseLayout */}
+                      <Route component={NoMatchPage} />
                     </Switch>
                   </BaseLayout>
                 </Route>
-
                 {/* Catch-all for unmatched routes */}
-                <Route path="/*" component={NoMatchPage} />
               </Switch>
+              
+              {/* <Route path="/*" component={NoMatchPage} /> */}
             </Suspense>
           </Router>
         </PersistGate>

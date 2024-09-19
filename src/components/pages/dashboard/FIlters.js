@@ -36,12 +36,13 @@ const Filters = ({
   const tomorrow = dayjs("2023-10-31").add(1, "day");
 
   const handleToggle = () => {
+    console.log("hi")
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <div className={[styles.filterBlock, "expand-collapse cursor"].join(" ")} onClick={handleToggle}>
-      <div className="expand-collapse-header cursor d-flex justify-content-between align-items-center" >
+    <div className={[styles.filterBlock, "expand-collapse cursor"].join(" ")} >
+      <div className="expand-collapse-header cursor d-flex justify-content-between align-items-center" onClick={handleToggle}>
         <h6>Add Filters</h6>
         {/* <img src={isExpanded ? downArrow : upArrow} alt="expandedIcon" /> */}
       </div>
@@ -178,7 +179,7 @@ const Filters = ({
           </div>
           <div className="col-md-12 d-flex justify-content-center mt-4 mb-2">
             <div className="col-md-2">
-              <button className={styles.applyBtn} onClick={applyFilter}>
+              <button className={[styles.applyBtn,"btn-primary"].join(" ")} onClick={applyFilter}>
                 Apply
               </button>
             </div>
