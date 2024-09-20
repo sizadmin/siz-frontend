@@ -24,6 +24,7 @@ const ContactListPopup = (props) => {
   const [isRequiredError, setIsRequiredError] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const [showPopup, setShowPopup] = useState(props.show);
+  const [CSVFile, setCSVFile] = useState(null);
 
   useEffect(() => {}, []);
 
@@ -83,10 +84,14 @@ const ContactListPopup = (props) => {
   const getContactNumbers = async (val) => {
     let options = [];
     let url = `/v1/marketing_users?value=`;
+    let header = {
+      Token: userInfo.token,
+    };
     try {
       const response = await axios.get(API_URL.getAPIUrl() + url + val, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `${header.Token}`,
         },
       });
 
@@ -107,6 +112,12 @@ const ContactListPopup = (props) => {
       Token: userInfo.token,
     };
     setIsRequiredError(false);
+
+    if (CSVFile) {
+      handleCSVUpload();
+      return;
+    }
+
 
     if (props.isNew === true) {
       if (formData.name === '') {
@@ -132,7 +143,7 @@ const ContactListPopup = (props) => {
         }
       });
     } else {
-      if (formData.first_name === '') {
+      if (formData.name === '') {
         setIsRequiredError(true);
         return;
       }
@@ -193,6 +204,47 @@ const ContactListPopup = (props) => {
     });
   };
 
+  const handleCSVFileOnChange = (e) => {
+    const csvFile = e.target.files[0];
+    setCSVFile(csvFile);
+  };
+
+  const handleCSVUpload = (e) => {
+    const formData1 = new FormData();
+    formData1.append('file', CSVFile);
+    formData1.append('contact_list_name', formData.name);
+    formData1.append('isActive', formData.isActive);
+    if(formData._id)     formData1.append('_id', formData._id);
+
+  
+    let header = {
+      Token: userInfo.token,
+      'Content-Type': 'multipart/form-data',
+    };
+
+    setShowLoader(true);
+
+    ApiService.post('/v1/marketing_users/uploadCSV', formData1, header, (res, err) => {
+      if (res !== null) {
+        setSuccessMsg('CSV File Uploaded successfully');
+        setShowSuccessMsg(true);
+        // setTimeout(() => {
+        setShowLoader(false);
+        handleClose();
+        props.getContactLists();
+        // }, 3000);
+      } else {
+        setShowLoader(false);
+        // setErrorMsg(err.message);
+        // setShowErrorMsg(true);
+
+        // setTimeout(() => {
+        // setErrorMsg('');
+        // setShowErrorMsg(false);
+        // }, 3000);
+      }
+    });
+  };
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
@@ -240,6 +292,18 @@ const ContactListPopup = (props) => {
                   </span>
                 </div>
               </div>
+
+              <hr style={{ borderTop: '1px solid grey' }} className={['col-md-10', styles.modalElementStyle, styles.third_titile].join(' ')} />
+              <div className={['col-md-10 m-auto', styles.modalElementStyle].join(' ')}>
+                <h6 className={styles.third_titile}>Upload CSV:</h6>
+                <div className={styles.modalElementDivStyle}>
+                  <form encType="multipart/form-data">
+                    <input type="file" id="fileUpload" name="file" onChange={(e) => handleCSVFileOnChange(e)} />
+                  </form>
+                </div>
+              </div>
+              <hr style={{ borderTop: '1px solid grey' }} className={['col-md-10', styles.modalElementStyle, styles.third_titile].join(' ')} />
+
               <div className={['col-md-10 m-auto', styles.modalElementStyle].join(' ')}>
                 <h6 className={styles.third_titile}>Status :</h6>
                 <div className={styles.modalElementDivStyle}>
@@ -294,7 +358,7 @@ const ContactListPopup = (props) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button  className="btn-primary" onClick={createContactList}>
+          <Button className="btn-primary" onClick={createContactList}>
             {props.isNew === true ? 'Save' : 'Update'}
           </Button>
           <Button variant="secondary" onClick={handleClose}>

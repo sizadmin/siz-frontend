@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
 import ApiService from '../../../utils/middleware/ApiService';
 
-import Header from './../../organisms/Navbar';
+// import Header from './../../organisms/Navbar';
 import { useSelector } from 'react-redux';
 import ActivityLoader from '../../atom/ActivityLoader/ActivityLoader';
 import { ContactLisTable } from './ContactListTable';
@@ -11,7 +11,8 @@ import ContactListPopup from './ContactListPopup';
 import Notification from '../../organisms/Notification/notification';
 import CreateContactPopup from './CreateContactPopup';
 import { ContactTable } from './ContactTable';
-import { Digital } from 'react-activity';
+// import { Digital } from 'react-activity';
+import CustomPopup from '../../organisms/CustomPopup/customPopup';
 
 const Contacts = () => {
   const [contactListData, setContactListData] = useState([]);
@@ -42,6 +43,7 @@ const Contacts = () => {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [SuccessMsg, setSuccessMsg] = useState('');
   const [contactSearchText, setContactSearchText] = useState('');
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   useEffect(() => {
     async function data() {
@@ -57,7 +59,7 @@ const Contacts = () => {
       Token: userInfo.token,
     };
     // ApiService.del('/v1/contact_list/' + formData._id, header, {}, (res, err) => {
-      ApiService.del('/v1/contact_list/' + formData._id,{}, header, (res, err) => {
+    ApiService.del('/v1/contact_list/' + formData._id, {}, header, (res, err) => {
       if (res !== null) {
         setShowLoader(false);
         setSuccessMsg('Contact List Deleted successfully');
@@ -170,7 +172,7 @@ const Contacts = () => {
     let header = {
       Token: userInfo.token,
     };
-    ApiService.del('/v1/marketing_users/' + formData._id, {},header, (res, err) => {
+    ApiService.del('/v1/marketing_users/' + formData._id, {}, header, (res, err) => {
       if (res !== null) {
         setShowLoaderTable(false);
         setContactSearchText('');
@@ -183,6 +185,10 @@ const Contacts = () => {
       }
     });
   };
+
+  const handleSync = ()=>{
+    setShowDeletePopup(true);
+  }
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
@@ -196,7 +202,7 @@ const Contacts = () => {
               Create New Contact
             </button>
 
-            <button className={[styles.applyBtn,"btn-primary"].join(" ")} onClick={syncContacts}>
+            <button className={[styles.applyBtn, 'btn-primary'].join(' ')} onClick={handleSync}>
               Sync Contacts
             </button>
 
@@ -228,7 +234,15 @@ const Contacts = () => {
             setShowSuccessMsg={setShowSuccessMsg}
           />
         )}
-
+        {showDeletePopup && (
+          <CustomPopup
+            show={showDeletePopup}
+            onDelete={() => syncContacts()}
+            headerTitle={'Sync Contacts'}
+            bodyMessage={'Are you sure? Do you want to sync the contacts?'}
+            onClose={() => setShowDeletePopup(false)}
+          />
+        )}
         <div className="containerBackground">
           <ContactLisTable data={contactListData} getContactLists={getContactLists} deleteContactList={deleteContactList} />
         </div>

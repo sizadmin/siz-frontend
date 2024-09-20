@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 import CampaignListPopup from './CampaignListPopup';
 import moment from 'moment';
+import CustomPopup from '../../organisms/CustomPopup/customPopup';
 
 const CampaignListTable = (props) => {
   const [propsData, setPropsData] = useState();
 
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
-
+  const [deleteUserData, setDeleteUserData] = useState();
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const handleShowDetails = (user) => {
     setPropsData({
       ...user,
@@ -17,6 +19,18 @@ const CampaignListTable = (props) => {
     });
     setShowCreateUserPopup(true);
   };
+
+  const showDeletePopupFunc = (record) => {
+    setShowDeletePopup(true);
+    setDeleteUserData(record);
+  };
+
+  const onDeleteFunc = ()=>{
+    props.onDelete(deleteUserData);
+    setDeleteUserData();
+    setShowDeletePopup(false);
+  }
+
 
   return (
     <>
@@ -44,7 +58,7 @@ const CampaignListTable = (props) => {
             <Th>Created On</Th>
             <Th>Updated On</Th>
             <Th style={{ width: 60, textAlign: 'center' }}>Edit</Th>
-                {/* <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th> */}
+            <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -70,9 +84,9 @@ const CampaignListTable = (props) => {
                       <Td style={{ fontSize: 'small', textAlign: 'center' }}>
                         <i className="fa fa-pencil" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => handleShowDetails(user)}></i>
                       </Td>
-                      {/* <Td style={{ fontSize: 'small', textAlign: 'center' }}>
-                            <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
-                          </Td> */}
+                      <Td style={{ fontSize: 'small', textAlign: 'center' }}>
+                        <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
+                      </Td>
                     </Tr>
                   </React.Fragment>
                 ))}
@@ -80,6 +94,15 @@ const CampaignListTable = (props) => {
           )}
         </Tbody>
       </Table>
+      {showDeletePopup && (
+        <CustomPopup
+          show={showDeletePopup}
+          onDelete={() => onDeleteFunc()}
+          headerTitle={'Delete Campaign'}
+          bodyMessage={'Are you sure? Do you want to delete this campaign?'}
+          onClose={() => setShowDeletePopup(false)}
+        />
+      )}
     </>
   );
 };

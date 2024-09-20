@@ -83,9 +83,9 @@ const Campaign = () => {
 
       <div className="container-fluid cont-padd base-container">
         <div className="d-flex justify-content-between containerBackground">
-          <h2 className='mb-0'>Campaigns</h2>
-          <div style={{margin:5}}>
-            <button className={[styles.applyBtn,"btn-primary"].join(' ')} onClick={handleUserPopup}>
+          <h2 className="mb-0">Campaigns</h2>
+          <div style={{ margin: 5 }}>
+            <button className={[styles.applyBtn, 'btn-primary'].join(' ')} onClick={handleUserPopup}>
               Create New Campaign
             </button>
           </div>
@@ -99,12 +99,18 @@ const Campaign = () => {
             isNew={true}
             setSuccessMsg={setSuccessMsg}
             setShowSuccessMsg={setShowSuccessMsg}
-            deleteCampaign={(e) => deleteCampaign(e)}
+            // deleteCampaign={(e) => deleteCampaign(e)}
           />
         )}
 
-        <div className='containerBackground'>
-          <CampaignListTable data={campaignData} getCampaignLists={getCampaignLists} deleteCampaign={(e) => deleteCampaign(e)} />
+        <div className="containerBackground">
+          <CampaignListTable
+            data={campaignData}
+            getCampaignLists={getCampaignLists}
+            onDelete={(e) => deleteCampaign(e)}
+            setSuccessMsg={setSuccessMsg}
+            setShowSuccessMsg={setShowSuccessMsg}
+          />
         </div>
       </div>
     </>

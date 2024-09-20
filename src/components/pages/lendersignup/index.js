@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./index.module.css";
 import ApiService from "../../../utils/middleware/ApiService";
 
-import Header from "./../../organisms/Navbar";
+// import Header from "./../../organisms/Navbar";
 import { useSelector } from "react-redux";
 import ActivityLoader from "../../atom/ActivityLoader/ActivityLoader";
 import { UsersTable } from "./UsersTable";

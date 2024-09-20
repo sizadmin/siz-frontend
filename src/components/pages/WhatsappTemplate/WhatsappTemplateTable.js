@@ -1,7 +1,7 @@
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import React, { useState } from 'react';
-import styles from './index.module.css';
-import { useSelector } from 'react-redux';
+// import styles from './index.module.css';
+// import { useSelector } from 'react-redux';
 import WhatsappTemplatePopup from './WhatsappTemplatePopup';
 import { useHistory } from 'react-router';
 import moment from 'moment';

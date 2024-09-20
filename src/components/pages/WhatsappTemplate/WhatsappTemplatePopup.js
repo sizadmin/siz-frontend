@@ -9,7 +9,7 @@ import Notification from '../../organisms/Notification/notification';
 import axios from 'axios';
 import { backendHost as API_URL } from '../../../config/config';
 import { useSelector } from 'react-redux';
-import { SAMPLE_DATA_WHATSAPP_TEMPLATES } from '../../../utils/helper/helperData';
+// import { SAMPLE_DATA_WHATSAPP_TEMPLATES } from '../../../utils/helper/helperData';
 import closeIcon from './../../../assets/imgs/cross.png';
 import WhatsAppTemplateCreator from './testFile';
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 import closeIcon from './../../../assets/imgs/cross.png';
 
@@ -14,7 +14,7 @@ const CustomPopup = (props) => {
       <Modal.Body>
         <div className="text-center mt-2">
           <h5>{props.bodyMessage}</h5>
-          <div className="d-flex justify-content-center mt-5">
+          <div className="d-flex justify-content-center mt-4 mb-3">
             <button className="btn btn-primary" onClick={props.onDelete}>
               Delete
             </button>

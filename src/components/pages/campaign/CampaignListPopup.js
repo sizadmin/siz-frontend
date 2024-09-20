@@ -170,11 +170,12 @@ const CampaignListPopup = (props) => {
       payload.contact_list = payload.contact_list.value;
       ApiService.post('/v1/campaign', payload, header, (res, err) => {
         if (res !== null) {
-          setSuccessMsg('Campaign created successfully');
-          setShowSuccessMsg(true);
+          props.setSuccessMsg('Campaign created successfully');
+          props.setShowSuccessMsg(true);
+          setShowLoader(false);
+          handleClose();
           setTimeout(() => {
-            setShowLoader(false);
-            handleClose();
+            props.setShowSuccessMsg(false);
           }, 3000);
           props.getCampaignLists();
         } else {
@@ -188,11 +189,12 @@ const CampaignListPopup = (props) => {
       payload.contact_list = payload.contact_list.value;
       ApiService.put('/v1/campaign/' + payload._id, payload, header, (res, err) => {
         if (res !== null) {
-          setSuccessMsg('Campaign updated successfully');
-          setShowSuccessMsg(true);
+          props.setSuccessMsg('Campaign updated successfully');
+          props.setShowSuccessMsg(true);
+          handleClose();
+          setShowLoader(false);
           setTimeout(() => {
-            setShowLoader(false);
-            handleClose();
+            props.setShowSuccessMsg(false);
           }, 3000);
           props.getCampaignLists();
         } else {

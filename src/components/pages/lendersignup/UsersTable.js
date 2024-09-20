@@ -1,23 +1,23 @@
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import React, { useEffect, useState } from 'react';
-import ApiService from '../../../utils/middleware/ApiService';
+import React, {  useState } from 'react';
+// import ApiService from '../../../utils/middleware/ApiService';
 // import ModalPopup from "./modalPopup";
-import ActivityLoader from '../../atom/ActivityLoader/ActivityLoader';
-import moment from 'moment';
-import styles from './index.module.css';
-import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
+// import ActivityLoader from '../../atom/ActivityLoader/ActivityLoader';
+// import moment from 'moment';
+// import styles from './index.module.css';
+// import dayjs from 'dayjs';
+// import { useSelector } from 'react-redux';
 import UserPopup from './UserPopup';
-import deleteIcon from './../../../assets/imgs/deleteIcon.jpeg';
+// import deleteIcon from './../../../assets/imgs/deleteIcon.jpeg';
 const UsersTable = (props) => {
-  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  // const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [propsData, setPropsData] = useState();
-  const [orderDetailsStatus, setorderDetailsStatus] = useState({});
-  const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
-  const { userInfo } = useSelector((state) => state.user);
+  // const [orderDetailsStatus, setorderDetailsStatus] = useState({});
+  // const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
+  // const { userInfo } = useSelector((state) => state.user);
 
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
-  const [userRole, setUserRole] = useState(userInfo?.loggedUser?.role?.role_name);
+  // const [userRole, setUserRole] = useState(userInfo?.loggedUser?.role?.role_name);
 
   const handleShowDetails = (user) => {
     setPropsData({
