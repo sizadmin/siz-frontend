@@ -41,6 +41,8 @@ const CampaignListPopup = (props) => {
   const [successMsg, setSuccessMsg] = useState('');
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [isRequiredError, setIsRequiredError] = useState(false);
+  const [sendNow, setSendNow] = useState(false);
+
   const { userInfo } = useSelector((state) => state.user);
   useEffect(() => {
     async function fetchData() {
@@ -91,6 +93,7 @@ const CampaignListPopup = (props) => {
     });
   };
   const onChangeDateTime = (datetime) => {
+    console.log(datetime, 'datetime');
     setFormData((prevData) => ({
       ...prevData,
       schedule_date: datetime,
@@ -161,6 +164,13 @@ const CampaignListPopup = (props) => {
       setIsRequiredError(true);
       return;
     }
+
+    // Get today's date and time
+    const now = dayjs();
+
+    // Format the date and time (optional)
+    const formattedDateTime = now.format('YYYY-MM-DD HH:mm:ss');
+
     let header = {
       Token: userInfo.token,
     };
@@ -168,6 +178,8 @@ const CampaignListPopup = (props) => {
       setShowLoader(true);
       let payload = _.cloneDeep(formData);
       payload.contact_list = payload.contact_list.value;
+      payload.sendNow = sendNow;
+      payload.schedule_date = formattedDateTime;
       ApiService.post('/v1/campaign', payload, header, (res, err) => {
         if (res !== null) {
           props.setSuccessMsg('Campaign created successfully');
@@ -187,6 +199,9 @@ const CampaignListPopup = (props) => {
       setShowLoader(true);
       let payload = _.cloneDeep(formData);
       payload.contact_list = payload.contact_list.value;
+      payload.sendNow = sendNow;
+
+      payload.schedule_date = formattedDateTime;
       ApiService.put('/v1/campaign/' + payload._id, payload, header, (res, err) => {
         if (res !== null) {
           props.setSuccessMsg('Campaign updated successfully');
@@ -213,6 +228,13 @@ const CampaignListPopup = (props) => {
     });
   };
 
+  const onSendNow = () => {
+    setSendNow(!sendNow);
+    setFormData((prevData) => ({
+      ...prevData,
+      schedule_date: null,
+    }));
+  };
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
@@ -309,10 +331,15 @@ const CampaignListPopup = (props) => {
                         value={formData.schedule_date !== null ? dayjs(formData.schedule_date) : ''}
                         onChange={onChangeDateTime}
                         renderInput={(params) => <StyledTextField {...params} />}
+                        disabled={sendNow}
                       />
                     </Box>
                   </LocalizationProvider>
-                  {(formData.schedule_date === null || formData.schedule_date === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
+                  {!sendNow && (formData.schedule_date === null || formData.schedule_date === '') && isRequiredError && <div>{handleIsRequiredError()}</div>}
+                  <span className="mt-1 d-flex ">
+                    Send Now
+                    <input type="checkbox" checked={sendNow} className="ml-2 cursor" onChange={async (e) => onSendNow(e)} />
+                  </span>
                 </div>
               </div>
               <div className={['col-md-10', styles.modalElementStyle].join(' ')}>

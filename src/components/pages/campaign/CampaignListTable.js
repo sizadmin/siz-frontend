@@ -25,12 +25,11 @@ const CampaignListTable = (props) => {
     setDeleteUserData(record);
   };
 
-  const onDeleteFunc = ()=>{
+  const onDeleteFunc = () => {
     props.onDelete(deleteUserData);
     setDeleteUserData();
     setShowDeletePopup(false);
-  }
-
+  };
 
   return (
     <>
@@ -45,6 +44,8 @@ const CampaignListTable = (props) => {
             props.deleteCampaign(e);
             setShowCreateUserPopup(false);
           }}
+          setSuccessMsg={props.setSuccessMsg}
+          setShowSuccessMsg={props.setShowSuccessMsg}
         />
       )}
       <h6 className="mb-2">Showing {props?.data?.length} Records</h6>
@@ -101,6 +102,7 @@ const CampaignListTable = (props) => {
           headerTitle={'Delete Campaign'}
           bodyMessage={'Are you sure? Do you want to delete this campaign?'}
           onClose={() => setShowDeletePopup(false)}
+          buttonTitle={'Delete'}
         />
       )}
     </>
