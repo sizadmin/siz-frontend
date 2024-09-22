@@ -16,7 +16,7 @@ const CustomPopup = (props) => {
           <h5>{props.bodyMessage}</h5>
           <div className="d-flex justify-content-center mt-4 mb-3">
             <button className="btn btn-primary" onClick={props.onDelete}>
-              {props.buttonTitle}
+              Delete
             </button>
             <button className="btn btn-secondary ml-3" onClick={props.onClose}>
               Cancel

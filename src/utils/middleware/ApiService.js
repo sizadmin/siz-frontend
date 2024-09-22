@@ -150,8 +150,7 @@ const ApiService = {
           callback && callback(null, error.response.data);
         } else {
           callback && callback(null, error);
-          console.log(error)
-          // window.location.replace('/error');
+          window.location.replace('/error');
           return;
         }
       });
