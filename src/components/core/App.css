@@ -564,7 +564,7 @@ tr {
 }
 
 .form-check .form-check-input {
-  /* margin-top: 0.8em; */
+  margin-top: 0.8em;
 }
 
 .form-check-input:checked {
@@ -800,14 +800,4 @@ button:disabled {
 
 .btn-primary:focus {
   outline: none !important;
-}
-.pagination .active > .page-link{
-  background-color: #bfbfbf !important;
-  border-color: #bfbfbf !important;
-  color: #000 !important;
-}
-.pagination .page-link{
-  background-color: #ededed !important;
-  border-color: #ededed !important;
-  color: #000 !important;
 }

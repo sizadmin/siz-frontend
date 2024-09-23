@@ -1,20 +1,15 @@
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ContactListPopup from './ContactListPopup';
 import { Digital } from 'react-activity';
 import CustomPopup from '../../organisms/CustomPopup/customPopup';
 import CreateContactPopup from './CreateContactPopup';
-import moment from 'moment';
-import { Form } from 'react-bootstrap';
-import styles from './index.module.css';
-import PaginationComponent from '../../atom/Pagination/Pagination';
 
 const ContactTable = (props) => {
   const [propsData, setPropsData] = useState();
   const [deleteUserData, setDeleteUserData] = useState();
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
-  // const [totalItems, setTotalItems] = useState(props.data.length);
 
   const handleShowDetails = (user) => {
     setPropsData({
@@ -27,19 +22,12 @@ const ContactTable = (props) => {
     setDeleteUserData(record);
   };
 
-  const onDeleteFunc = () => {
+  const onDeleteFunc = ()=>{
     props.onDelete(deleteUserData);
     setDeleteUserData();
     setShowDeletePopup(false);
-  };
+  }
 
-  const handleToggle = (e) => {
-    props.updateCheckedList(e);
-  };
-
-  // useEffect(()=>{
-  //   setTotalItems(props.data.length)
-  // },[props.data])
   return (
     <>
       {props.loading && <Digital size={50} color="#af1010" />}
@@ -56,17 +44,14 @@ const ContactTable = (props) => {
       )}
       {!props.loading && (
         <>
-          {/* <h6 className="mb-2">Showing {props?.data?.length} Records</h6> */}
+          <h6 className="mb-2">Showing {props?.data?.length} Records</h6>
           <Table>
             <Thead>
               <Tr style={{ background: '#d1d1d1' }}>
-                <Th style={{ width: 40 }}></Th>
                 <Th style={{ width: 40 }}>#</Th>
                 <Th>Name</Th>
                 <Th>Contact Number</Th>
                 <Th>Status</Th>
-                <Th>Created On</Th>
-                <Th>Updated On</Th>
                 <Th style={{ width: 60, textAlign: 'center' }}>Edit</Th>
                 <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th>
               </Tr>
@@ -80,26 +65,16 @@ const ContactTable = (props) => {
                 </Tr>
               ) : (
                 <>
-                  {props?.data?.results.length > 0 &&
-                    props?.data?.results.map((user, i) => (
+                  {props?.data?.length > 0 &&
+                    props?.data?.map((user, i) => (
                       <React.Fragment key={i}>
                         <Tr style={{ borderBottom: '1px solid #e7d9d9' }}>
-                          <Td>
-                            <Form.Check
-                              label={''}
-                              checked={props.selectedRec.find((i) => i === user._id) ? true : false}
-                              onChange={() => handleToggle(user._id)}
-                              className={[styles.checkbtn].join(' ')}
-                            />
-                          </Td>
                           <Td>{i + 1}</Td>
                           <Td style={{ whiteSpace: 'nowrap', fontSize: 'small' }}>{user.first_name || user.last_name ? user.first_name + ' ' + user.last_name : 'Unknown'}</Td>
                           <Td style={{ fontSize: 'small' }}>{user.phone_number || '-'}</Td>
                           <Td style={{ fontSize: 'small' }}>{user.whatsapp_messaging === true ? 'Active ' : 'In-active'}</Td>
-                          <Td style={{ fontSize: 'small' }}>{moment(user.createdAt).format('DD MMM YYYY hh:mm a')}</Td>
-                          <Td style={{ fontSize: 'small' }}>{moment(user.updatedAt).format('DD MMM YYYY hh:mm a')}</Td>
                           <Td style={{ fontSize: 'small', textAlign: 'center' }}>
-                            <i className="fa fa-pencil" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => handleShowDetails(user)}></i>
+                            <i className="fa fa-pencil" aria-hidden="true" style={{ fontSize: 20 }} onClick={()=>handleShowDetails(user)}></i>
                           </Td>
                           <Td style={{ fontSize: 'small', textAlign: 'center' }}>
                             <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
@@ -111,14 +86,6 @@ const ContactTable = (props) => {
               )}
             </Tbody>
           </Table>
-          <div>
-            <PaginationComponent
-              currentPage={props?.currentPage}
-              totalItems={props?.data?.total ? props?.data?.total : 0}
-              itemsPerPage={20}
-              handlePageChange={props.handlePageChange}
-            />
-          </div>
           {showDeletePopup && (
             <CustomPopup
               show={showDeletePopup}
@@ -126,7 +93,6 @@ const ContactTable = (props) => {
               headerTitle={'Delete User'}
               bodyMessage={'Are you sure? Do you want to delete this user?'}
               onClose={() => setShowDeletePopup(false)}
-              buttonTitle={'Delete'}
             />
           )}
         </>

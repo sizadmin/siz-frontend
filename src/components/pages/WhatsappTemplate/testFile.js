@@ -16,7 +16,7 @@ import HeaderEditor from '../../organisms/TextEditor/headerEditor';
 // import ImageUpload from '../../organisms/ImageUpload/ImageUpload';
 import Tabs from './Tabs';
 import { FileUploader } from 'react-drag-drop-files';
-const fileTypes = ['JPG','JPEG', 'PNG'];
+const fileTypes = ['JPG', 'PNG'];
 
 const WhatsAppTemplateCreator = (props) => {
   const [template, setTemplate] = useState({
