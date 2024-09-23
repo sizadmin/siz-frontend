@@ -4,6 +4,7 @@ import 'rsuite/dist/rsuite.min.css';
 import 'react-activity/dist/library.css';
 import 'react-toggle/style.css'; // for ES6 modules
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import 'react-responsive-pagination/themes/classic.css';
 
 import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 import { Provider } from 'react-redux';

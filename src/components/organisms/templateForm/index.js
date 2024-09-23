@@ -133,7 +133,7 @@ const TemplateForm = () => {
               {component.type === 'HEADER' && (
                 <div>
                   <label>Upload Image:</label>
-                  <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, compIndex)} required />
+                  <input type="file"  onChange={(e) => handleImageUpload(e, compIndex)} required />
                   {component.parameters[0].imageUrl && <img src={component.parameters[0].imageUrl} alt="Selected" style={{ width: '100px', height: '100px', marginTop: '10px' }} />}
                 </div>
               )}

@@ -8,7 +8,7 @@ const handlePhoneClick = () => {
 };
 
 // Editor component
-const BodyFieldEditor = ({ text, onChange, addVariable, variables, removeVariable, maxCharacters = 950 }) => {
+const BodyFieldEditor = ({ text, onChange, addVariable, variables, removeVariable, maxCharacters = 1020 }) => {
   const [bodyContent, setBodyContent] = useState(text);
   const [charCount, setCharCount] = useState(text.length); // Initialize with the length of initial text
   const quillRef = useRef(null); // Reference to Quill instance
