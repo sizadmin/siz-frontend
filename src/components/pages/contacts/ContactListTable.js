@@ -61,6 +61,7 @@ const ContactLisTable = (props) => {
           headerTitle={'Delete Contact List'}
           bodyMessage={'Are you sure? Do you want to delete this contact list?'}
           onClose={() => setShowDeletePopup(false)}
+          buttonTitle={'Delete'}
         />
       )}
       <h6 className="mb-2">Showing {props?.data?.length} Records</h6>

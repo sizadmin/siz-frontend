@@ -39,16 +39,17 @@ const WhatsappTemplatePage = () => {
     data();
   }, []);
 
-  const deleteCampaign = (formData) => {
+  const deleteTemplate = (formData) => {
+    setShowLoader(true);
     let header = {
       Token: userInfo.token,
     };
-    ApiService.del('/v1/getMessageTemplates/' + formData._id, header, {}, (res, err) => {
+    ApiService.del('/v1/template/' + formData._id, header, {}, (res, err) => {
       if (res !== null) {
         setShowLoader(false);
-        setSuccessMsg('Campaign List Deleted successfully');
+        setSuccessMsg('Template Deleted successfully');
         setShowSuccessMsg(true);
-        setShowCreateUserPopup(false);
+        // setShowCreateUserPopup(false);
         getTemplateLists();
       } else {
         console.log(err);
@@ -79,6 +80,30 @@ const WhatsappTemplatePage = () => {
   const handleUserPopup = () => {
     history.push('create-template');
   };
+  const fetchTemplateStatus = () => {
+    // history.push('create-template');
+
+    setShowLoader(true);
+
+    let url = `/v1/fetchWTemplateStatus`;
+    let header = {
+      Token: userInfo.token,
+    };
+
+    ApiService.get(url, {}, header, (res, err) => {
+      if (res !== null) {
+        // setTemplateData(res.results);
+        setShowLoader(false);
+        setSuccessMsg('Templates status fetched successfully');
+        setShowSuccessMsg(true);
+      } else {
+        console.log(err);
+        setShowLoader(false);
+        setErrorMsg("Error in fetching templates status");
+        setShowErrorMsg(true);
+      }
+    });
+  };
 
   return (
     <>
@@ -93,6 +118,9 @@ const WhatsappTemplatePage = () => {
         <div className="d-flex justify-content-between containerBackground">
           <h2 className="mb-0">Templates</h2>
           <div style={{ margin: 5 }}>
+            <button className={[styles.applyBtn,"btn-primary mr-3"].join(' ')} onClick={fetchTemplateStatus}>
+              Fetch Templates Status
+            </button>
             <button className={[styles.applyBtn,"btn-primary"].join(' ')} onClick={handleUserPopup}>
               Create New Template
             </button>
@@ -107,12 +135,12 @@ const WhatsappTemplatePage = () => {
             isNew={true}
             setSuccessMsg={setSuccessMsg}
             setShowSuccessMsg={setShowSuccessMsg}
-            deleteCampaign={(e) => deleteCampaign(e)}
+            deleteTemplate={(e) => deleteTemplate(e)}
           />
         )}
 
         <div className="containerBackground">
-          <WhatsappTemplateTable data={templateData} getTemplateLists={getTemplateLists} deleteCampaign={(e) => deleteCampaign(e)} />
+          <WhatsappTemplateTable data={templateData} getTemplateLists={getTemplateLists} deleteTemplate={(e) => deleteTemplate(e)} />
         </div>
       </div>
     </>

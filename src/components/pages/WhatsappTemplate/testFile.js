@@ -16,7 +16,7 @@ import HeaderEditor from '../../organisms/TextEditor/headerEditor';
 // import ImageUpload from '../../organisms/ImageUpload/ImageUpload';
 import Tabs from './Tabs';
 import { FileUploader } from 'react-drag-drop-files';
-const fileTypes = ['JPG', 'PNG'];
+const fileTypes = ['JPG', 'JPEG', 'PNG'];
 
 const WhatsAppTemplateCreator = (props) => {
   const [template, setTemplate] = useState({
@@ -88,7 +88,7 @@ const WhatsAppTemplateCreator = (props) => {
   useEffect(() => {
     if (props.template) {
       let { template } = props;
-      console.log(template,"template")
+      console.log(template, 'template');
       setTemplate((prevTemplate) => ({
         ...prevTemplate,
         name: template.name,
@@ -360,8 +360,7 @@ const WhatsAppTemplateCreator = (props) => {
 
   const removeHeaderVariable = (text) => {
     let variablesData = template.headerVariables;
-    let cleanedText = text.replace(/{{|}}/g, '');
-
+    let cleanedText = text.toString();
     // Filter out the item that matches the label
     let x = variablesData.filter((itm) => itm.label.toString() !== cleanedText);
 
@@ -374,11 +373,10 @@ const WhatsAppTemplateCreator = (props) => {
 
   const removeVariable = (text) => {
     let variablesData = template.bodyVariables;
-    let cleanedText = text.replace(/{{|}}/g, '');
+    let cleanedText = text.toString();
 
     // Filter out the item that matches the label
     let x = variablesData.filter((itm) => itm.label.toString() !== cleanedText);
-
     setTemplate((prevTemplate) => ({
       ...prevTemplate,
       bodyVariables: x,
@@ -418,15 +416,15 @@ const WhatsAppTemplateCreator = (props) => {
         <div>
           {console.log(isTemplateModified, 'isTemplateModified')}
           {(template.status === 'CREATED' || template.status === 'UPDATED') && !isTemplateModified ? (
-            <Button  className="btn-primary mr-4 " onClick={handleSubmitReview}>
+            <Button className="btn-primary mr-4 " onClick={handleSubmitReview}>
               Submit for review
             </Button>
           ) : (
-            <Button  className="btn-primary mr-4 " onClick={handleSubmit}>
+            <Button className="btn-primary mr-4 " onClick={handleSubmit}>
               Save
             </Button>
           )}
-          <Button  className="btn-primary mr-4" onClick={deleteTemplate}>
+          <Button className="btn-primary mr-4" onClick={deleteTemplate}>
             Delete Template
           </Button>
           <Button variant="secondary" className="mr-2" onClick={handleCancel}>

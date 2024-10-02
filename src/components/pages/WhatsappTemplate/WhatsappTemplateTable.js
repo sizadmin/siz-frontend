@@ -5,12 +5,14 @@ import React, { useState } from 'react';
 import WhatsappTemplatePopup from './WhatsappTemplatePopup';
 import { useHistory } from 'react-router';
 import moment from 'moment';
+import CustomPopup from '../../organisms/CustomPopup/customPopup';
 
 const WhatsappTemplateTable = (props) => {
   // const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [propsData, setPropsData] = useState();
   // const { userInfo } = useSelector((state) => state.user);
-
+  const [deleteUserData, setDeleteUserData] = useState();
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
   let history = useHistory();
 
@@ -19,6 +21,16 @@ const WhatsappTemplateTable = (props) => {
       ...user,
     });
     history.push('/edit-template/' + user._id);
+  };
+
+  const showDeletePopupFunc = (record) => {
+    setShowDeletePopup(true);
+    setDeleteUserData(record);
+  };
+  const onDeleteFunc = () => {
+    props.deleteTemplate(deleteUserData);
+    setDeleteUserData();
+    setShowDeletePopup(false);
   };
 
   return (
@@ -36,6 +48,18 @@ const WhatsappTemplateTable = (props) => {
           }}
         />
       )}
+
+      {showDeletePopup && (
+        <CustomPopup
+          show={showDeletePopup}
+          onDelete={() => onDeleteFunc()}
+          headerTitle={'Delete User'}
+          bodyMessage={'Are you sure? Do you want to delete this template?'}
+          onClose={() => setShowDeletePopup(false)}
+          buttonTitle={'Delete'}
+        />
+      )}
+
       <h6 className="mb-2">Showing {props?.data?.length} Records</h6>
       <Table>
         <Thead>
@@ -46,7 +70,7 @@ const WhatsappTemplateTable = (props) => {
             <Th>Created On</Th>
             <Th>Updated On</Th>
             <Th style={{ width: 60, textAlign: 'center' }}>Edit</Th>
-            {/* <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th> */}
+            <Th style={{ width: 60, textAlign: 'center' }}>Delete</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -71,9 +95,9 @@ const WhatsappTemplateTable = (props) => {
                       <Td style={{ fontSize: 'small', textAlign: 'center' }}>
                         <i className="fa fa-pencil" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => handleShowDetails(user)}></i>
                       </Td>
-                      {/* <Td style={{ fontSize: 'small', textAlign: 'center' }}>
-                            <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
-                          </Td> */}
+                      <Td style={{ fontSize: 'small', textAlign: 'center' }}>
+                        <i className="fa fa-trash" aria-hidden="true" style={{ fontSize: 20 }} onClick={() => showDeletePopupFunc(user)}></i>
+                      </Td>
                     </Tr>
                   </React.Fragment>
                 ))}

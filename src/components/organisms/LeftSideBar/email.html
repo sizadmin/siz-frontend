@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Order Notification</title>
+    <link rel="stylesheet" href="email-style.css"> <!-- Link to external CSS -->
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .order-summary {
+            margin-top: 20px;
+        }
+
+        .order-header {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .view-order-btn {
+            background-color: #af1010;
+            color: white !important;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .summary-title {
+            font-weight: bold;
+            /* background-color: #ffeb3b; */
+            /* padding: 2px 5px; */
+        }
+
+        .order-details {
+            margin: 10px 0;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .container-div {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+        .bold-block{
+            font-weight: bold !important;
+        }
+        h4{
+            font-weight: 100 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div style="text-align: center;">
+            <img src="https://sizters.s3.ap-south-1.amazonaws.com/Copy+of+siz.png" alt="siz_logo"
+                style="height: 70px;width: 70px;" />
+        </div>
+        <div class="order-header">
+            <h2>${customerName} placed order #${orderId}</span> on ${orderDate}.</h2>
+            <a href="${redirect_url}" class="view-order-btn">View order</a>
+        </div>
+        <hr>
+        <div class="order-summary">
+            <p><span class="summary-title">Order Summary</span></p>
+            <div class="order-details">
+                <table>
+                    <th>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td> <img src="{{productImage}}" alt="siz_logo"
+                                    style="height: 70px;width: 70px;" /> </td>
+                            <td colspan="4">
+
+                                <p>
+                                    <span>${orderItem}</span>
+                                    </br>
+                                    <span> ${totalAmount} × 1 Item</span>
+                                </p>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <span style="text-align: end;"> AED ${totalAmount2} </span>
+                            </td>
+                        </tr>
+                    </th>
+
+                </table>
+                <div class="container-div" style="height: 30px;">
+                    <h4>Subtotal</h4>
+                    <h4><span> AED ${subtotal}</span>
+                    </h4>
+                </div>
+                <div class="container-div" style="height: 30px;">
+                    <h4>Discount</h4>
+                    <h4><span> AED ${discount}</span>
+                    </h4>
+                </div>
+                <div class="container-div" style="height: 30px;">
+                    <h4>Damage Protection</h4>
+                    <h4><span> AED ${damage}</span>
+                    </h4>
+                </div>
+
+                <div class="container-div bold-block" style="height: 30px;">
+                    <h4 class="bold-block">Total</h4>
+                    <h4><span class="bold-block"> AED ${total}</span>
+                    </h4>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -32,7 +32,7 @@ const WhatsAppTemplatePreview = ({ template = {} }) => {
           {template.headerImageUrl !== '' && <img src={template.headerImageUrl} alt="Header" className={styles.headerImage} />}
           {template.headerText !== '' && <p style={{ marginTop: 20, fontWeight: 800 }} dangerouslySetInnerHTML={{ __html: template.headerText }}></p>}
 
-          <p style={{ marginTop: 10 }} dangerouslySetInnerHTML={{ __html: template.body }}></p>
+          <div style={{ marginTop: 10 }} dangerouslySetInnerHTML={{ __html: template.body }} id="template_body"></div>
           <div className={[styles.messageFooter, 'w-100 mb-3'].join(' ')}>
             {template.buttonEnabled && (
               <>

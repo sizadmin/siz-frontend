@@ -4,6 +4,7 @@ import 'rsuite/dist/rsuite.min.css';
 import 'react-activity/dist/library.css';
 import 'react-toggle/style.css'; // for ES6 modules
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import 'react-responsive-pagination/themes/classic.css';
 
 import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -29,6 +30,7 @@ const Contact = lazy(() => import('../pages/contacts'));
 const Campaign = lazy(() => import('../pages/campaign'));
 const WhatsappTemplatePage = lazy(() => import('../pages/WhatsappTemplate'));
 const CreateTemplate = lazy(() => import('../pages/WhatsappTemplate/CreateTemplate'));
+const UserMessages = lazy(() => import('../pages/UserMessages/UserMessages'));
 
 const NoMatchPage = () => {
   document.body.style.height = '100%';
@@ -88,6 +90,8 @@ const App = () => {
                       <ProtectedRoute exact path="/campaigns" component={Campaign} allowedRoles={['Campaign Management']} />
                       <ProtectedRoute exact path="/templates" component={WhatsappTemplatePage} allowedRoles={['Whatsapp Template Management']} />
                       <Route exact path="/profile" component={Profile} />
+                      <Route exact path="/user-messages" component={UserMessages} />
+
                       <Route component={NoMatchPage} />
                     </Switch>
                   </BaseLayout>

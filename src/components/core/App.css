@@ -5,11 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f7f2e5;
+  background-color: var(--bg-color);
 }
 
 .base-container {
-  background-color: #f7f2e5;
+  background-color: var(--bg-color);
   height: calc(100vh - 70px);
   overflow-y: auto;
 }
@@ -564,7 +564,7 @@ tr {
 }
 
 .form-check .form-check-input {
-  margin-top: 0.8em;
+  /* margin-top: 0.8em; */
 }
 
 .form-check-input:checked {
@@ -692,7 +692,6 @@ tr:hover {
 }
 
 .modal-body {
-  /* background-color: #f7f2e5 !important; */
   max-height: 700px;
   overflow-y: auto;
 
@@ -800,4 +799,14 @@ button:disabled {
 
 .btn-primary:focus {
   outline: none !important;
+}
+.pagination .active > .page-link{
+  background-color: #bfbfbf !important;
+  border-color: #bfbfbf !important;
+  color: #000 !important;
+}
+.pagination .page-link{
+  background-color: #ededed !important;
+  border-color: #ededed !important;
+  color: #000 !important;
 }

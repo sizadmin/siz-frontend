@@ -59,6 +59,10 @@ const SideNavbar = () => {
                     <img className={styles.vectorIcon} src={require('../../../assets/imgs/templates.png')} alt="Documents Icon" />
                     Templates
                   </Nav.Link>
+                  <Nav.Link href="user-messages" className={`${styles.navLink} ${isActive('/user-messages') ? styles.activeNavLink : ''}`}>
+                    <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />
+                    User Messages
+                  </Nav.Link>
                   {/* <div className={styles.divider} /> */}
                 </Nav>
               </Offcanvas.Body>
@@ -97,6 +101,10 @@ const SideNavbar = () => {
                 <Nav.Link href="templates" className={`${styles.navLink} ${isActive('/templates') ? styles.activeNavLink : ''}`}>
                   <img className={styles.vectorIcon} src={require('../../../assets/imgs/templates.png')} alt="Documents Icon" />
                   Templates
+                </Nav.Link>
+                <Nav.Link href="user-messages" className={`${styles.navLink} ${isActive('/user-messages') ? styles.activeNavLink : ''}`}>
+                  <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />
+                  User Messages
                 </Nav.Link>
               </>
             ) : (

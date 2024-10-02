@@ -22,7 +22,8 @@ const Contacts = () => {
 
   const [showLoader, setShowLoader] = useState(false);
   const [showLoaderTable, setShowLoaderTable] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [propsData, setPropsData] = useState({
     name: '',
     isActive: false,
@@ -44,11 +45,24 @@ const Contacts = () => {
   const [SuccessMsg, setSuccessMsg] = useState('');
   const [contactSearchText, setContactSearchText] = useState('');
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [selectedRec, setSelectedRec] = useState([]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    async function data() {
+      // getContactLists();
+      getContacts();
+    }
+    data();
+  }, [currentPage]);
 
   useEffect(() => {
     async function data() {
       getContactLists();
-      getContacts();
+      // getContacts();
     }
     data();
   }, []);
@@ -94,14 +108,14 @@ const Contacts = () => {
   const getContacts = () => {
     setShowLoaderTable(true);
 
-    let url = `/v1/marketing_users`;
+    let url = `/v1/marketing_users?size=20&page=` + currentPage;
     let header = {
       Token: userInfo.token,
     };
 
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
-        setContactData(res.results);
+        setContactData(res);
         setShowLoaderTable(false);
       } else {
         console.log(err);
@@ -153,7 +167,7 @@ const Contacts = () => {
 
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
-        setContactData(res.results);
+        setContactData(res);
         setShowLoaderTable(false);
       } else {
         console.log(err);
@@ -168,7 +182,6 @@ const Contacts = () => {
   };
 
   const deleteContact = (formData) => {
-    console.log(formData, 'formData');
     let header = {
       Token: userInfo.token,
     };
@@ -186,9 +199,41 @@ const Contacts = () => {
     });
   };
 
-  const handleSync = ()=>{
+  const handleSync = () => {
     setShowDeletePopup(true);
-  }
+  };
+
+  const updateCheckedList = (e) => {
+    let newList = [...selectedRec];
+
+    // Find the index of the element you want to remove
+    const index = newList.findIndex((el) => e === el);
+
+    // If the element exists, remove it from the array
+    if (index !== -1) {
+      newList.splice(index, 1); // Splice removes the element at the given index
+    } else newList.push(e);
+    // Update the state
+    setSelectedRec([...newList]);
+  };
+
+  const bulkDelete = () => {
+    let header = {
+      Token: userInfo.token,
+    };
+    ApiService.post('/v1/marketing_users/bulk_delete', selectedRec, header, (res, err) => {
+      if (res !== null) {
+        setShowLoaderTable(false);
+        setContactSearchText('');
+        setSuccessMsg('Contact Deleted successfully');
+        setShowSuccessMsg(true);
+        getContacts();
+      } else {
+        console.log(err);
+        setShowLoaderTable(false);
+      }
+    });
+  };
   return (
     <>
       {showLoader && <ActivityLoader show={showLoader} />}
@@ -241,6 +286,7 @@ const Contacts = () => {
             headerTitle={'Sync Contacts'}
             bodyMessage={'Are you sure? Do you want to sync the contacts?'}
             onClose={() => setShowDeletePopup(false)}
+            buttonTitle={'Sync'}
           />
         )}
         <div className="containerBackground">
@@ -248,7 +294,7 @@ const Contacts = () => {
         </div>
 
         <div className="containerBackground">
-          <div className={['col-md-4', 'p-0 mb-3'].join(' ')}>
+          <div className={['col-md-6', 'p-0 mb-3'].join(' ')}>
             <h6 className={styles.third_titile}>Search:</h6>
             <div className={styles.searchContainer}>
               <input type="text" className={styles.searchBar} value={contactSearchText} onChange={(e) => onChangeSearch(e)} onKeyDown={onEnterPress} />
@@ -257,7 +303,20 @@ const Contacts = () => {
               </button>
             </div>
           </div>
-          <ContactTable data={contactData} loading={showLoaderTable} onDelete={deleteContact} />
+          {selectedRec.length > 0 && (
+            <button className={[styles.applyBtn].join(' ')} onClick={bulkDelete}>
+              Bulk Delete
+            </button>
+          )}
+          <ContactTable
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            data={contactData}
+            loading={showLoaderTable}
+            onDelete={deleteContact}
+            updateCheckedList={updateCheckedList}
+            selectedRec={selectedRec}
+          />
         </div>
       </div>
     </>
