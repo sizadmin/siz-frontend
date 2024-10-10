@@ -8,12 +8,15 @@ import moment from 'moment';
 import { Form } from 'react-bootstrap';
 import styles from './index.module.css';
 import PaginationComponent from '../../atom/Pagination/Pagination';
+import TaggingPopup from '../../organisms/TaggingPopup/TaggingPopup';
 
 const ContactTable = (props) => {
   const [propsData, setPropsData] = useState();
   const [deleteUserData, setDeleteUserData] = useState();
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
+  const [showTaggingPopup, setShowTaggingPopup] = useState(false);
+
   // const [totalItems, setTotalItems] = useState(props.data.length);
 
   const handleShowDetails = (user) => {
@@ -37,6 +40,9 @@ const ContactTable = (props) => {
     props.updateCheckedList(e);
   };
 
+  const handleTags = (user) => {
+    setShowTaggingPopup(true);
+  };
   // useEffect(()=>{
   //   setTotalItems(props.data.length)
   // },[props.data])
@@ -54,6 +60,7 @@ const ContactTable = (props) => {
           // setShowSuccessMsg={setShowSuccessMsg}
         />
       )}
+      {showTaggingPopup && (<TaggingPopup show={showTaggingPopup} onDelete={() => onDeleteFunc()} headerTitle={'Add Tagging'} onClose={() => setShowTaggingPopup(false)} />)}
       {!props.loading && (
         <>
           {/* <h6 className="mb-2">Showing {props?.data?.length} Records</h6> */}
@@ -93,7 +100,12 @@ const ContactTable = (props) => {
                             />
                           </Td>
                           <Td>{i + 1}</Td>
-                          <Td style={{ whiteSpace: 'nowrap', fontSize: 'small' }}>{user.first_name || user.last_name ? user.first_name + ' ' + user.last_name : 'Unknown'}</Td>
+                          <Td style={{ whiteSpace: 'nowrap', fontSize: 'small' }}>
+                            <div className="d-flex justify-content-between">
+                              <span>{user.first_name || user.last_name ? user.first_name + ' ' + user.last_name : 'Unknown'}</span>
+                              {/* <i className="fa fa-tag" aria-hidden="true" onClick={()=>handleTags(user)}></i> */}
+                            </div>
+                          </Td>
                           <Td style={{ fontSize: 'small' }}>{user.phone_number || '-'}</Td>
                           <Td style={{ fontSize: 'small' }}>{user.whatsapp_messaging === true ? 'Active ' : 'In-active'}</Td>
                           <Td style={{ fontSize: 'small' }}>{moment(user.createdAt).format('DD MMM YYYY hh:mm a')}</Td>

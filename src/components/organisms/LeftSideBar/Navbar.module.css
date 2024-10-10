@@ -150,6 +150,12 @@
   color: #be4544 !important;
   font-weight: 600 !important;
 }
+.activeNavLinkText {
+  /* background-color: #fbecec; */
+  border-radius: 5px;
+  color: #be4544 !important;
+  font-weight: 600 !important;
+}
 
 .smallNavbarContainer {
   min-height: 40px;
@@ -160,4 +166,28 @@
   font-weight: bold;
   color: #af1010;
   margin-bottom: 0px !important;
+}
+.vectorMenuIcon {
+  width: 32px;
+  height: 32px;
+}
+.navLinkContainer {
+  /* margin: 10px 0px 10px 10px; */
+  font-size: 16px;
+  /* color: #605d54; */
+  /* font-weight: 600; */
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  width: 100%;
+  height: 46px;
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+.dropdownItems {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 1rem;
+  width: -webkit-fill-available;
 }

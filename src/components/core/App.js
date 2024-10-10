@@ -31,6 +31,8 @@ const Campaign = lazy(() => import('../pages/campaign'));
 const WhatsappTemplatePage = lazy(() => import('../pages/WhatsappTemplate'));
 const CreateTemplate = lazy(() => import('../pages/WhatsappTemplate/CreateTemplate'));
 const UserMessages = lazy(() => import('../pages/UserMessages/UserMessages'));
+const Products = lazy(() => import('../pages/Products/Products'));
+
 
 const NoMatchPage = () => {
   document.body.style.height = '100%';
@@ -91,6 +93,7 @@ const App = () => {
                       <ProtectedRoute exact path="/templates" component={WhatsappTemplatePage} allowedRoles={['Whatsapp Template Management']} />
                       <Route exact path="/profile" component={Profile} />
                       <Route exact path="/user-messages" component={UserMessages} />
+                      <Route exact path="/products" component={Products} />
 
                       <Route component={NoMatchPage} />
                     </Switch>

@@ -101,6 +101,7 @@ const WhatsAppTemplateCreator = (props) => {
         bodyVariables: template.bodyVariables ?? [],
         headerVariables: template.headerVariables ?? [],
         headerText: template.headerText,
+        footerText: template.footerText,
         ...template,
       }));
     }
@@ -631,6 +632,28 @@ const WhatsAppTemplateCreator = (props) => {
                 </div>
               </div>
             )}
+
+            <div className={[Styles.formGroup, 'd-flex flex-column'].join(' ')}>
+              <label>Footer Text:</label>
+              <div className={[Styles.inputField, 'd-flex flex-column p-0 w-100 mt-2'].join(' ')}>
+                {/* <BodyFieldEditor
+                  text={template.body}
+                  className={Styles.textareaField}
+                  onChange={handleInputChange}
+                  addVariable={addVariable}
+                  variables={template.bodyVariables}
+                  removeVariable={removeVariable}
+                  name="body"
+                /> */}
+                <input type="text" name="footerText" value={template.footerText} onChange={handleInputChange} className={Styles.inputField} />
+
+                {/* {validationErrors.body && <span className={Styles.errorMessage}>{validationErrors.body}</span>} */}
+              </div>
+            </div>
+
+            {/* <div className={Styles.formGroup}>
+              <label></label>
+            </div> */}
             <div className={Styles.formGroup}>
               <label>Enable Button:</label>
               <Toggle checked={template.buttonEnabled} onChange={() => handleToggleChange('buttonEnabled')} className={Styles.toggleSwitch} />
@@ -741,10 +764,6 @@ const WhatsAppTemplateCreator = (props) => {
 
                           {button.action_type === 'marketingOptOut' && (
                             <>
-                              <div className={Styles.formGroup}>
-                                <label>Footer Text:</label>
-                                <input type="text" name="footerText" value={button.footerText} onChange={(e) => handleOnChangeButtons(index, e)} className={Styles.inputField} />
-                              </div>
                               <div className={Styles.formGroup}>
                                 <label>Button Text:</label>
                                 <input type="text" name="text" value={button.text} onChange={(e) => handleOnChangeButtons(index, e)} className={Styles.inputField} />

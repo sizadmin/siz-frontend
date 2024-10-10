@@ -94,6 +94,7 @@ const WhatsappTemplatePage = () => {
       if (res !== null) {
         // setTemplateData(res.results);
         setShowLoader(false);
+        getTemplateLists();
         setSuccessMsg('Templates status fetched successfully');
         setShowSuccessMsg(true);
       } else {

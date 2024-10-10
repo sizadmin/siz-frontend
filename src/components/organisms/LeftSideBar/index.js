@@ -11,6 +11,7 @@ const SideNavbar = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 767);
   const { userInfo } = useSelector((state) => state.user);
   const location = useLocation(); // Get the current location
+  const [isAuctionDropdownOpen, setIsAuctionDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -94,17 +95,40 @@ const SideNavbar = () => {
                   <img className={styles.vectorIcon} src={require('../../../assets/imgs/contacts.png')} alt="Settings Icon" />
                   Contacts
                 </Nav.Link>
-                <Nav.Link href="campaigns" className={`${styles.navLink} ${isActive('/campaigns') ? styles.activeNavLink : ''}`}>
+                {/* <Nav.Link href="campaigns" className={`${styles.navLink} ${isActive('/campaigns') ? styles.activeNavLink : ''}`}>
                   <img className={styles.vectorIcon} src={require('../../../assets/imgs/campaigns.png')} alt="On-Site Icon" />
                   Campaigns
-                </Nav.Link>
-                <Nav.Link href="templates" className={`${styles.navLink} ${isActive('/templates') ? styles.activeNavLink : ''}`}>
-                  <img className={styles.vectorIcon} src={require('../../../assets/imgs/templates.png')} alt="Documents Icon" />
-                  Templates
-                </Nav.Link>
+                </Nav.Link> */}
+                <div
+                  className={`${styles.navLinkContainer} cursor ${location.pathname === '/campaigns' || location.pathname === '/templates' ? styles.activeNavLink : ''}`}
+                  onClick={() => setIsAuctionDropdownOpen(!isAuctionDropdownOpen)}
+                >
+                  <img className={styles.vectorIcon} src={require('../../../assets/imgs/campaigns.png')} alt="On-Site Icon" />
+                  <span> Campaigns</span>
+                  <i className={`ml-auto ${isAuctionDropdownOpen ? `fa fa-chevron-up` : `fa fa-chevron-down`} `} />
+                </div>
+
+                {isAuctionDropdownOpen && (
+                  <div className={styles.dropdownItems}>
+                    <Nav.Link href="campaigns" className={`${styles.navLink} ${isActive('/campaigns') ? styles.activeNavLinkText : ''}`}>
+                      <img className={styles.vectorIcon} src={require('../../../assets/imgs/campaigns.png')} alt="On-Site Icon" />
+                      Campaigns
+                    </Nav.Link>
+
+                    <Nav.Link href="templates" className={`${styles.navLink} ${isActive('/templates') ? styles.activeNavLinkText : ''}`}>
+                      <img className={styles.vectorIcon} src={require('../../../assets/imgs/templates.png')} alt="Documents Icon" />
+                      Templates
+                    </Nav.Link>
+                  </div>
+                )}
+
                 <Nav.Link href="user-messages" className={`${styles.navLink} ${isActive('/user-messages') ? styles.activeNavLink : ''}`}>
                   <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />
                   User Messages
+                </Nav.Link>
+                <Nav.Link href="products" className={`${styles.navLink} ${isActive('/products') ? styles.activeNavLink : ''}`}>
+                  <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />
+                  Products
                 </Nav.Link>
               </>
             ) : (
