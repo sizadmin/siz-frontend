@@ -21,6 +21,7 @@ const Products = () => {
   const [ErrorMsg, setErrorMsg] = useState('');
 
   const uploadProducts = (user) => {
+    setShowLoader(true);
     let header = {
       Token: userInfo.token,
     };
@@ -37,7 +38,7 @@ const Products = () => {
       } else {
         console.log(err);
         setShowLoader(false);
-        setErrorMsg(err.message);
+        setErrorMsg('Failed to Upload Product on website');
         setShowErrorMsg(true);
 
         setTimeout(() => {
