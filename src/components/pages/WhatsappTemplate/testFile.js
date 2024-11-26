@@ -620,11 +620,15 @@ const WhatsAppTemplateCreator = (props) => {
                           onChange={(e) => handleInputChangeVariables(e, i)}
                           className={[Styles.selectField, Styles.variablesInputWidth].join(' ')}
                         >
-                          <option value="first_name">FIRSTNAME</option>
-                          <option value="last_name">LASTNAME</option>
-                          <option value="PHONENUMBER">PHONENUMBER</option>
-                          <option value="EMAIL">EMAIL</option>
-                          <option value="TEXT">TEXT</option>
+                         <option value="first_name">USER FIRSTNAME</option>
+                              <option value="last_name">USER LASTNAME</option>
+                              <option value="PHONENUMBER">USER PHONENUMBER</option>
+                              <option value="EMAIL">USER EMAIL</option>
+                              <option value="item_name">ITEM NAME</option>
+                              <option value="order_number">ORDER NUMBER</option>
+                              <option value="order_start_date">ORDER START DATE</option>
+                              <option value="order_end_date">ORDER END DATE</option>
+                              <option value="order_deliver_address">ORDER DELIVERY ADDRESS</option>
                         </select>
                       </div>
                     );
