@@ -99,7 +99,7 @@ const UserMessages = () => {
     setMessage("");
     ApiService.post(url, payload, header, (res, err) => {
       if (res !== null) {
-        let url = "/v1/getChatByUser/" + selectedUser._id;
+        let url = "/v1/getChatByUser/" + selectedUser.phone_number;
         ApiService.get(url, {}, header, (res, err) => {
           if (res !== null) {
             setFormData(res.messages);
