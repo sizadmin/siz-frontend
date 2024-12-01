@@ -62,7 +62,7 @@ const SideNavbar = () => {
                   </Nav.Link>
                   <Nav.Link href="user-messages" className={`${styles.navLink} ${isActive('/user-messages') ? styles.activeNavLink : ''}`}>
                     <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />
-                    User Messages
+                    Inbox
                   </Nav.Link>
                   {/* <div className={styles.divider} /> */}
                 </Nav>
@@ -124,7 +124,7 @@ const SideNavbar = () => {
 
                 <Nav.Link href="user-messages" className={`${styles.navLink} ${isActive('/user-messages') ? styles.activeNavLink : ''}`}>
                   <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />
-                  User Messages
+                  Inbox
                 </Nav.Link>
                 <Nav.Link href="products" className={`${styles.navLink} ${isActive('/products') ? styles.activeNavLink : ''}`}>
                   <img className={styles.vectorIcon} src={require('../../../assets/imgs/messsage.png')} alt="Documents Icon" />

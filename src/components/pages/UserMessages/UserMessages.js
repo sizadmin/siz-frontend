@@ -66,6 +66,7 @@ const UserMessages = () => {
     setSearchText(e.target.value);
   };
   const onSelectUser = (user) => {
+    setShowLoader(true)
     setSelectedUser(user);
     let header = {
       Token: userInfo.token,
@@ -132,15 +133,18 @@ const UserMessages = () => {
       {showErrorMsg && <Notification show={showErrorMsg} msg={ErrorMsg} type="error" />} */}
 
       <div className="container-fluid cont-padd base-container">
+      <div className="text-center mb-3"> <i>****** Please note these are the messages received on whatsapp broadcast number from here we can't initiate message.
+        <br/> Messages can be sent through using the templates only and should be responded within 24 hrs of message received Otherwise meta won't deliver the reply to user.******</i></div>
+
         <div className="d-flex">
           <div className={styles.leftContainer}>
             <div className="w-100">
-              <input className="w-100" placeholder="Search User" value={searchText} onChange={handleUserChange} />
+              <input className="w-100 mb-2" style={{border:'0.3px solid grey'}} placeholder="Search User" value={searchText} onChange={handleUserChange} />
             </div>
             {userList.map((user) => {
               return (
                 <div className={styles.userContainer} onClick={() => onSelectUser(user)}>
-                  <img src={require("../../../assets/imgs/profile_thumb.jpg")} className={styles.logoDefault} />
+                  {/* <img src={require("../../../assets/imgs/profile_thumb.jpg")} className={styles.logoDefault} /> */}
                   <span className="ml-2">
                     {user.name} 
                   </span>
@@ -216,6 +220,7 @@ const UserMessages = () => {
                   value={message}
                   onChange={handleMessageChange}
                   onKeyDown={onEnterPress}
+                  style={{border:'0.3px solid grey'}}
                 />
                 <img
                   src={require("../../../assets/imgs/send.png")}
