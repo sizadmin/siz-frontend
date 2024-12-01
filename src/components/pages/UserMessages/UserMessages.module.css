@@ -80,7 +80,7 @@
 }
 
 .whatsappMessage {
-  /* background-color: white; */
+  background-color: white;
   border-radius: 10px;
   padding: 10px;
   position: relative;
@@ -103,16 +103,17 @@
 }
 
 .messageContent {
-  background-color: #e1ffc7;
+  background-color: #fff;
   padding: 10px;
   border-radius: 10px;
   font-size: 14px;
   color: #333;
   display: flex;
   flex-direction: column;
-  margin: 20px 0px;
-  width: 70%;
-}
+  margin: 0px 0px 10px 45px;
+  max-width: 70%;
+  width: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;}
 
 .messageContent h4 {
   margin-top: 0;
@@ -142,9 +143,6 @@
 .headerTitle{
   font-weight: 600;
 }
-.headerContent{
-  margin-top: 10px;
-}
 .headerFooter{
   text-align: end;
   margin-top: 25px;
@@ -161,10 +159,13 @@
 .userContainer{
   width: 100%;
   background-color: #fff;
-  margin:10px 0px;
+  /* margin:10px 0px; */
   font-size: 16px;
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  
 }
 .sendMsgContainer{
   background-color: #e9e9e9;
@@ -180,4 +181,8 @@
 .sendIcon{
   height: 40px;
   background-color: transparent;
+}
+.logoDefault{
+height: 40px;
+border-radius: 50%;
 }

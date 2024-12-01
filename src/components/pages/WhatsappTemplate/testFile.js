@@ -629,6 +629,10 @@ const WhatsAppTemplateCreator = (props) => {
                               <option value="order_start_date">ORDER START DATE</option>
                               <option value="order_end_date">ORDER END DATE</option>
                               <option value="order_deliver_address">ORDER DELIVERY ADDRESS</option>
+                              <option value="order_deliver_timeslot">ORDER DELIVERY TIMESLOT</option>
+                              <option value="order_pickup_timeslot">ORDER PICK-UP TIMESLOT</option>
+
+
                         </select>
                       </div>
                     );
