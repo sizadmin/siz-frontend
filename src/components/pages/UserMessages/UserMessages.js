@@ -70,7 +70,7 @@ const UserMessages = () => {
     let header = {
       Token: userInfo.token,
     };
-    let url = "/v1/getChatByUser/" + user._id;
+    let url = "/v1/getChatByUser/" + user.phone_number;
     ApiService.get(url, {}, header, (res, err) => {
       if (res !== null) {
         setFormData(res.messages);
@@ -142,7 +142,7 @@ const UserMessages = () => {
                 <div className={styles.userContainer} onClick={() => onSelectUser(user)}>
                   <img src={require("../../../assets/imgs/profile_thumb.jpg")} className={styles.logoDefault} />
                   <span className="ml-2">
-                    {user.first_name} {user.last_name}
+                    {user.name} 
                   </span>
                   {/* <br /> */}
                   {/* <i style={{fontSize:12}}> {user.phone_number}</i>
@@ -157,7 +157,7 @@ const UserMessages = () => {
                 <img src={require("../../../assets/imgs/LOGO.jpeg")} alt="Profile" className={styles.profileImage} />
                 <div className={styles.profileInfo}>
                   <h4 style={{ lineHeight: 1 }}>
-                    {Object.keys(selectedUser).length === 0 && "SIZ"} {selectedUser?.first_name} {selectedUser?.last_name}{" "}
+                    {Object.keys(selectedUser).length === 0 && "SIZ"} {selectedUser?.name}{" "}
                     <img src={require("../../../assets/imgs/verified.png")} alt="verified" className={styles.verifiedIcon} />
                   </h4>
                   {/* <span className={styles.status}>Online</span> */}
