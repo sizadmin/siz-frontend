@@ -96,7 +96,7 @@ const ContactListPopup = (props) => {
       });
 
       options = response.data.results.map((res) => ({
-        label: res.first_name, // Adjust according to your API response structure
+        label: `${res.first_name} ${res.last_name} (${res.phone_number})`, // Adjust according to your API response structure
         value: res.phone_number, // Adjust according to your API response structure
         info: res,
       }));
