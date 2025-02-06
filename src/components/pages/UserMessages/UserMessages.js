@@ -203,7 +203,7 @@ const UserMessages = () => {
                         style={msg.name === "SIZ" ? { marginLeft: "auto", background: "#ae0f0f", color: "white" } : { marginRight: "auto" }}
                       >
                         {msg.imageUrl ? (
-                          <img src={msg.imageUrl} style={{ height: 500 }} />
+                          <img src={msg.imageUrl} style={{ height: 500,maxWidth:"150%" }} />
                         ) : (
                           <span className={styles.headerContent}>{msg.message}</span>
                         )}
