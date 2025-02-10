@@ -51,7 +51,7 @@ const OrderTable = (props) => {
   };
 
   const getOrderDetailsStatus = (productId) => {
-    console.log("Get order id : ", productId);
+    // console.log("Get order id : ", productId);
     ApiService.get("/v1/order-status/" + productId, {}, {}, (res, err) => {
       // console.log(res);
       if (res !== null) {

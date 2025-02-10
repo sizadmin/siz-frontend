@@ -72,13 +72,13 @@ const TaggingPopup = (props) => {
     if (!selectedOptions) {
       selectedOptions = [];
     }
-    console.log(selectedOptions, 'selectedOptions');
+    // console.log(selectedOptions, 'selectedOptions');
     setFormData((prevData) => ({
       ...prevData,
       tags: selectedOptions,
     }));
   };
-  console.log(formData)
+  // console.log(formData)
 
   return (
     <Modal show={props.show} dialogClassName="modal-90w" className="my-modal" id="DeletePopup">

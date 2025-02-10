@@ -88,7 +88,7 @@ const UserMessages = () => {
   const sendMessage = () => {
     setShowLoader(true);
 
-    console.log(selectedUser);
+    // console.log(selectedUser);
     let header = {
       Token: userInfo.token,
     };

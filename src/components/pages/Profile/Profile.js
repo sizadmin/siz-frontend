@@ -24,7 +24,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value, 'kkk');
+    // console.log(e.target.name, e.target.value, 'kkk');
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 

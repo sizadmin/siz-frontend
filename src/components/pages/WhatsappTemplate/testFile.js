@@ -88,7 +88,7 @@ const WhatsAppTemplateCreator = (props) => {
   useEffect(() => {
     if (props.template) {
       let { template } = props;
-      console.log(template, 'template');
+      // console.log(template, 'template');
       setTemplate((prevTemplate) => ({
         ...prevTemplate,
         name: template.name,
@@ -111,7 +111,7 @@ const WhatsAppTemplateCreator = (props) => {
     const { name, value } = e.target;
     let fieldValue = props?.originalData?.[name];
     let templateValue = template?.[name];
-    console.log(fieldValue, '-----', templateValue);
+    // console.log(fieldValue, '-----', templateValue);
     if (fieldValue !== templateValue) setITemplateModified(true);
 
     // setTemplate({ ...template, [name]: value });
@@ -415,7 +415,6 @@ const WhatsAppTemplateCreator = (props) => {
           </div>
         )}
         <div>
-          {console.log(isTemplateModified, 'isTemplateModified')}
           {(template.status === 'CREATED' || template.status === 'UPDATED') && !isTemplateModified ? (
             <Button className="btn-primary mr-4 " onClick={handleSubmitReview}>
               Submit for review

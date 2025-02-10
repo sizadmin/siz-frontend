@@ -93,7 +93,7 @@ const CampaignListPopup = (props) => {
     });
   };
   const onChangeDateTime = (datetime) => {
-    console.log(datetime, 'datetime');
+    // console.log(datetime, 'datetime');
     setFormData((prevData) => ({
       ...prevData,
       schedule_date: datetime,

@@ -22,9 +22,9 @@ const CreateContactPopup = (props) => {
   const [CSVFile, setCSVFile] = useState(null);
   const [showPopup, setShowPopup] = useState(props.show);
 
-  useEffect(() => {
-    console.log(props, 'props');
-  }, []);
+  // useEffect(() => {
+  //   console.log(props, 'props');
+  // }, []);
 
   const onChangeVal = (e, field) => {
     setFormData((prevData) => {

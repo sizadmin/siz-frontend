@@ -149,7 +149,7 @@ const ContactListPopup = (props) => {
       }
       setShowLoader(true);
       let payload = _.cloneDeep(formData);
-      console.log(payload);
+      // console.log(payload);
 
       ApiService.put('/v1/contact_list/' + payload._id, payload, header, (res, err) => {
         if (res !== null) {
@@ -194,7 +194,7 @@ const ContactListPopup = (props) => {
   };
   const onSelectAll = (e) => {
     // setSelectAllContacts(!selectAllContacts);
-    console.log(e, 'e');
+    // console.log(e, 'e');
     setFormData((prevData) => {
       return {
         ...prevData,
