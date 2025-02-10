@@ -36,7 +36,6 @@ const Filters = ({
   const tomorrow = dayjs("2023-10-31").add(1, "day");
 
   const handleToggle = () => {
-    console.log("hi")
     setIsExpanded(!isExpanded);
   };
 

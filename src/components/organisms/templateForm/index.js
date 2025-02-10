@@ -79,7 +79,7 @@ const TemplateForm = () => {
       }),
     };
 
-    console.log(templateData, 'temp');
+    // console.log(templateData, 'temp');
     return;
     try {
       const response = await fetch('http://localhost:5000/api/templates', {
