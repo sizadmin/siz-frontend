@@ -39,7 +39,7 @@ const UserMessages = () => {
       element.scrollTop = element.scrollHeight;
       setShowLoader(false);
     }, 2000);
-  }, [selectedUser]);
+  }, []);
 
   useEffect(() => {
     async function fetchChatUsers() {
@@ -77,7 +77,11 @@ const UserMessages = () => {
       if (res !== null) {
         setFormData(res.messages);
 
-        setShowLoader(false);
+        setTimeout(() => {
+          const element = document.getElementById("myDiv");
+          element.scrollTop = element.scrollHeight;
+          setShowLoader(false);
+        }, 2000);
       } else {
         console.log(err);
         setShowLoader(false);
@@ -203,7 +207,7 @@ const UserMessages = () => {
                         style={msg.name === "SIZ" ? { marginLeft: "auto", background: "#ae0f0f", color: "white" } : { marginRight: "auto" }}
                       >
                         {msg.imageUrl ? (
-                          <img src={msg.imageUrl} style={{ height: 500,maxWidth:"150%" }} />
+                          <img src={msg.imageUrl} style={{ height: '100%',width:"100%" }} />
                         ) : (
                           <span className={styles.headerContent}>{msg.message}</span>
                         )}

@@ -113,7 +113,9 @@
   margin: 0px 0px 10px 45px;
   max-width: 70%;
   width: fit-content;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;}
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  max-width: 70%;
+}
 
 .messageContent h4 {
   margin-top: 0;
