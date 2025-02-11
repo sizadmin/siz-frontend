@@ -39,7 +39,7 @@ const UserMessages = () => {
       element.scrollTop = element.scrollHeight;
       setShowLoader(false);
     }, 2000);
-  }, [selectedUser]);
+  }, []);
 
   useEffect(() => {
     async function fetchChatUsers() {
@@ -77,7 +77,11 @@ const UserMessages = () => {
       if (res !== null) {
         setFormData(res.messages);
 
-        setShowLoader(false);
+        setTimeout(() => {
+          const element = document.getElementById("myDiv");
+          element.scrollTop = element.scrollHeight;
+          setShowLoader(false);
+        }, 2000);
       } else {
         console.log(err);
         setShowLoader(false);
